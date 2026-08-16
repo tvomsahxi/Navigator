@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>セキュリティ規格ナビゲータ</title>
+<meta name="description" content="日本・米国・EU・国際規格のサイバーセキュリティ文書を、章レベル・事業ドメイン・業務カテゴリで横断できる CIRT 向けポータル。">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+
+<header class="topbar">
+  <button class="iconbtn railtoggle" id="railToggle" aria-label="絞り込みを開閉">☰</button>
+  <div class="brand">
+    <span class="brand__mark">Navigator</span>
+    <span class="brand__sub">CIRT 文書ポータル / 日本・米国・EU・国際規格</span>
+  </div>
+  <nav class="viewtabs" data-mobile="true" role="tablist" aria-label="表示の切替">
+    <button class="viewtab" role="tab" data-view="docs" aria-selected="true">文書一覧</button>
+    <button class="viewtab" role="tab" data-view="cats" aria-selected="false">業務カテゴリ</button>
+    <button class="viewtab" role="tab" data-view="matrix" aria-selected="false">ドメイン別</button>
+    <button class="viewtab" role="tab" data-view="rels" aria-selected="false">文書間の関係</button>
+  </nav>
+  <span class="topbar__spacer"></span>
+  <div class="search">
+    <label class="sr-only" for="q">文書・章を検索</label>
+    <input id="q" type="search" placeholder="文書名・章・発行主体で検索  （ / ）" autocomplete="off">
+    <button class="search__clear" id="clearQ" aria-label="検索条件を消す">✕</button>
+  </div>
+  <button class="iconbtn" id="themeToggle" aria-label="配色を切り替える">◐</button>
+</header>
+
+<div class="shell">
+  <aside class="rail" id="rail" data-open="false" aria-label="絞り込み"></aside>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="scrim" id="scrim" data-open="false"></div>
+<aside class="drawer" id="drawer" data-open="false" aria-label="文書の詳細">
+  <div class="drawer__bar" id="drawerBar"></div>
+  <div class="drawer__body" id="drawerBody"></div>
+</aside>
+
+<script src="data/taxonomy.js"></script>
+<script src="data/documents-int.js"></script>
+<script src="data/documents-us.js"></script>
+<script src="data/documents-eu.js"></script>
+<script src="data/documents-jp.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

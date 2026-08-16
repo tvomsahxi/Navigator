@@ -1,0 +1,3955 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>セキュリティ規格ナビゲータ</title>
+<meta name="description" content="日本・米国・EU・国際規格のサイバーセキュリティ文書を、章レベル・事業ドメイン・業務カテゴリで横断できる CIRT 向けポータル。">
+<style>
+/* ==========================================================================
+   Navigator — サイバーセキュリティ規格・政府文書ポータル
+   Palette: cool slate neutrals + viridian accent + flag-derived region hues
+   ========================================================================== */
+
+/* ---- Tokens: light is the base definition ------------------------------ */
+:root {
+  --bg:          #F4F6F8;
+  --surface:     #FFFFFF;
+  --surface-2:   #FAFBFC;
+  --surface-3:   #EDF0F3;
+  --ink:         #141A22;
+  --ink-2:       #46525F;
+  --ink-3:       #6E7C8A;
+  --line:        #DCE2E8;
+  --line-2:      #C4CDD6;
+  --accent:      #0D7A6B;
+  --accent-ink:  #FFFFFF;
+  --accent-soft: #E1F0ED;
+  --accent-line: #9CCEC5;
+  --warn:        #8A5A00;
+  --warn-soft:   #FBF1DC;
+  --warn-line:   #E0C68A;
+
+  --r-int:    #4F5B69;  --r-int-soft: #E9ECEF;
+  --r-jp:     #A32334;  --r-jp-soft:  #F8E7E9;
+  --r-us:     #33489B;  --r-us-soft:  #E7EAF6;
+  --r-eu:     #7C6008;  --r-eu-soft:  #F7EFDC;
+
+  --shadow-1: 0 1px 2px rgba(20, 26, 34, .06), 0 1px 1px rgba(20, 26, 34, .04);
+  --shadow-2: 0 10px 30px rgba(20, 26, 34, .13), 0 2px 8px rgba(20, 26, 34, .07);
+
+  --font-sans: system-ui, -apple-system, "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+               "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans JP", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+               "Liberation Mono", "Noto Sans Mono", monospace;
+
+  --rail-w: 268px;
+  --drawer-w: 560px;
+  --topbar-h: 58px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:          #10151B;
+    --surface:     #171E26;
+    --surface-2:   #1C242D;
+    --surface-3:   #222C36;
+    --ink:         #E4EAF1;
+    --ink-2:       #AAB7C4;
+    --ink-3:       #7D8C9A;
+    --line:        #2A343F;
+    --line-2:      #3B4753;
+    --accent:      #45C3B1;
+    --accent-ink:  #04241F;
+    --accent-soft: #133430;
+    --accent-line: #2A6A61;
+    --warn:        #D9AE5C;
+    --warn-soft:   #2E2716;
+    --warn-line:   #5A4A22;
+
+    --r-int:    #9EAAB8;  --r-int-soft: #242C35;
+    --r-jp:     #EA8494;  --r-jp-soft:  #331F23;
+    --r-us:     #93A2EC;  --r-us-soft:  #1F2540;
+    --r-eu:     #D9B65A;  --r-eu-soft:  #2E2716;
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+    --shadow-2: 0 12px 34px rgba(0, 0, 0, .55), 0 2px 8px rgba(0, 0, 0, .4);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg:          #10151B;
+  --surface:     #171E26;
+  --surface-2:   #1C242D;
+  --surface-3:   #222C36;
+  --ink:         #E4EAF1;
+  --ink-2:       #AAB7C4;
+  --ink-3:       #7D8C9A;
+  --line:        #2A343F;
+  --line-2:      #3B4753;
+  --accent:      #45C3B1;
+  --accent-ink:  #04241F;
+  --accent-soft: #133430;
+  --accent-line: #2A6A61;
+  --warn:        #D9AE5C;
+  --warn-soft:   #2E2716;
+  --warn-line:   #5A4A22;
+
+  --r-int:    #9EAAB8;  --r-int-soft: #242C35;
+  --r-jp:     #EA8494;  --r-jp-soft:  #331F23;
+  --r-us:     #93A2EC;  --r-us-soft:  #1F2540;
+  --r-eu:     #D9B65A;  --r-eu-soft:  #2E2716;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, .4);
+  --shadow-2: 0 12px 34px rgba(0, 0, 0, .55), 0 2px 8px rgba(0, 0, 0, .4);
+}
+
+/* ---- Base -------------------------------------------------------------- */
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* ---- Topbar ------------------------------------------------------------ */
+.topbar {
+  position: sticky; top: 0; z-index: 60;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 18px;
+  padding: 0 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { display: flex; align-items: baseline; gap: 10px; flex-shrink: 0; }
+.brand__mark {
+  font-family: var(--font-mono);
+  font-size: 15px; font-weight: 700; letter-spacing: -.02em;
+  color: var(--ink);
+}
+.brand__mark::before {
+  content: "";
+  display: inline-block;
+  width: 7px; height: 7px;
+  margin-right: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  vertical-align: 1px;
+}
+.brand__sub {
+  font-size: 11px; color: var(--ink-3); letter-spacing: .04em;
+  white-space: nowrap;
+}
+
+.viewtabs { display: flex; gap: 2px; margin-left: 4px; }
+.viewtab {
+  padding: 5px 12px;
+  font-size: 12.5px;
+  color: var(--ink-2);
+  border-radius: 5px;
+  white-space: nowrap;
+}
+.viewtab:hover { background: var(--surface-3); color: var(--ink); }
+.viewtab[aria-selected="true"] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.topbar__spacer { flex: 1; }
+
+.search {
+  position: relative; flex-shrink: 1; min-width: 140px; max-width: 330px; width: 330px;
+}
+.search input {
+  width: 100%;
+  padding: 7px 30px 7px 11px;
+  font: inherit; font-size: 13px;
+  color: var(--ink);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.search input::placeholder { color: var(--ink-3); }
+.search input:focus { border-color: var(--accent-line); background: var(--surface); }
+.search__clear {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; line-height: 18px; text-align: center;
+  color: var(--ink-3); border-radius: 4px; font-size: 15px;
+}
+.search__clear:hover { background: var(--surface-3); color: var(--ink); }
+
+.iconbtn {
+  width: 32px; height: 32px;
+  display: grid; place-items: center;
+  border-radius: 6px; color: var(--ink-2);
+  border: 1px solid var(--line);
+  flex-shrink: 0;
+}
+.iconbtn:hover { background: var(--surface-3); color: var(--ink); }
+
+.railtoggle { display: none; }
+
+/* ---- Shell ------------------------------------------------------------- */
+.shell { display: grid; grid-template-columns: var(--rail-w) minmax(0, 1fr); align-items: start; }
+
+/* ---- Filter rail ------------------------------------------------------- */
+.rail {
+  position: sticky; top: var(--topbar-h);
+  height: calc(100vh - var(--topbar-h));
+  overflow-y: auto;
+  padding: 16px 14px 40px;
+  background: var(--surface);
+  border-right: 1px solid var(--line);
+}
+
+.rail__head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 12px;
+}
+.rail__count { font-family: var(--font-mono); font-size: 12px; color: var(--ink-3); }
+.rail__count b { color: var(--ink); font-size: 15px; font-weight: 700; }
+.rail__reset {
+  font-size: 11.5px; color: var(--ink-3);
+  padding: 3px 8px; border-radius: 5px; border: 1px solid var(--line);
+}
+.rail__reset:hover { color: var(--ink); background: var(--surface-3); }
+
+.fgroup { border-top: 1px solid var(--line); padding: 12px 0 4px; }
+.fgroup__title {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .11em;
+  color: var(--ink-3); text-transform: uppercase;
+  margin: 0 0 9px;
+}
+.fgroup__list { display: flex; flex-direction: column; gap: 1px; }
+
+.fopt {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; text-align: left;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 12.5px; line-height: 1.45;
+  color: var(--ink-2);
+}
+.fopt:hover { background: var(--surface-3); color: var(--ink); }
+.fopt__box {
+  flex-shrink: 0;
+  width: 13px; height: 13px;
+  border: 1.5px solid var(--line-2);
+  border-radius: 3px;
+  display: grid; place-items: center;
+}
+.fopt__label { flex: 1; min-width: 0; }
+.fopt__n {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 10.5px; color: var(--ink-3);
+}
+.fopt[aria-pressed="true"] { color: var(--ink); font-weight: 600; }
+.fopt[aria-pressed="true"] .fopt__box {
+  background: var(--accent); border-color: var(--accent);
+}
+.fopt[aria-pressed="true"] .fopt__box::after {
+  content: ""; width: 6px; height: 3px;
+  border-left: 1.7px solid var(--accent-ink);
+  border-bottom: 1.7px solid var(--accent-ink);
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+.fopt--dim { opacity: .38; }
+
+.fcode {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  color: var(--ink-3); letter-spacing: .02em;
+}
+.fopt[aria-pressed="true"] .fcode { color: var(--accent); }
+
+/* ---- Main -------------------------------------------------------------- */
+.main { min-width: 0; padding: 20px 22px 72px; }
+
+.viewhead { max-width: 74ch; margin-bottom: 20px; }
+.viewhead h1 {
+  margin: 0 0 6px;
+  font-size: 22px; font-weight: 800; letter-spacing: -.025em;
+  text-wrap: balance;
+}
+.viewhead p { margin: 0; color: var(--ink-2); font-size: 13px; }
+
+.activefilters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.afchip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 3px 8px;
+  font-size: 11.5px;
+  background: var(--accent-soft); color: var(--accent);
+  border: 1px solid var(--accent-line);
+  border-radius: 20px;
+}
+.afchip b { font-weight: 700; }
+.afchip::after { content: "×"; font-size: 13px; opacity: .7; }
+.afchip:hover::after { opacity: 1; }
+
+/* ---- Table ------------------------------------------------------------- */
+.tablewrap {
+  overflow: auto;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-1);
+}
+
+/* 一覧は自前の縦スクロール面にして、見出し行を常時見えるようにする。
+   （overflow を持つ要素が sticky の基準になるため、top は 0 で正しく効く） */
+@media (min-width: 1021px) {
+  .tablewrap--pane { max-height: calc(100vh - var(--topbar-h) - 172px); min-height: 340px; }
+}
+
+table.docs { width: 100%; border-collapse: collapse; min-width: 940px; }
+
+table.docs thead th {
+  position: sticky; top: 0;
+  z-index: 5;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--line);
+  padding: 9px 12px;
+  text-align: left;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+  color: var(--ink-3); text-transform: uppercase;
+  white-space: nowrap;
+}
+table.docs thead th button {
+  display: inline-flex; align-items: center; gap: 4px;
+  font: inherit; color: inherit; letter-spacing: inherit;
+}
+table.docs thead th button:hover { color: var(--ink); }
+table.docs thead th .arrow { font-size: 9px; color: var(--accent); }
+
+table.docs tbody tr {
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+}
+table.docs tbody tr:last-child { border-bottom: none; }
+table.docs tbody tr:hover { background: var(--surface-2); }
+table.docs tbody tr[aria-selected="true"] { background: var(--accent-soft); }
+table.docs td { padding: 10px 12px; vertical-align: top; }
+
+.c-doc { min-width: 300px; }
+.c-doc__short {
+  font-family: var(--font-mono); font-size: 12.5px; font-weight: 700;
+  color: var(--ink); letter-spacing: -.01em;
+  display: flex; align-items: center; gap: 6px;
+}
+.c-doc__title {
+  font-size: 12px; color: var(--ink-2); line-height: 1.5;
+  margin-top: 2px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  line-clamp: 2;
+  overflow: hidden;
+}
+.c-issuer { font-size: 12px; color: var(--ink-2); max-width: 190px; }
+.c-year { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink-2); }
+.c-chapn { font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 12px; color: var(--ink-3); text-align: right; }
+
+/* ---- Chips ------------------------------------------------------------- */
+.chips { display: flex; flex-wrap: wrap; gap: 3px; max-width: 230px; }
+
+.chip {
+  display: inline-block;
+  padding: 1px 6px;
+  font-size: 10.5px; line-height: 1.6;
+  border-radius: 4px;
+  white-space: nowrap;
+  background: var(--surface-3); color: var(--ink-2);
+  border: 1px solid transparent;
+}
+.chip--code {
+  font-family: var(--font-mono); font-weight: 700; letter-spacing: .01em;
+}
+.chip--sec { opacity: .55; }
+
+.chip--region {
+  font-weight: 700;
+  border-left-width: 3px; border-left-style: solid; border-radius: 3px;
+  padding-left: 6px;
+}
+.rg-INT { background: var(--r-int-soft); color: var(--r-int); border-left-color: var(--r-int); }
+.rg-JP  { background: var(--r-jp-soft);  color: var(--r-jp);  border-left-color: var(--r-jp); }
+.rg-US  { background: var(--r-us-soft);  color: var(--r-us);  border-left-color: var(--r-us); }
+.rg-EU  { background: var(--r-eu-soft);  color: var(--r-eu);  border-left-color: var(--r-eu); }
+
+.chip--type { border: 1px solid var(--line-2); background: transparent; color: var(--ink-2); }
+.chip--type[data-t="LAW"], .chip--type[data-t="REG"] { border-color: var(--ink-3); color: var(--ink); font-weight: 700; }
+
+.chip--cat { background: var(--accent-soft); color: var(--accent); }
+
+.flag-verify {
+  display: inline-grid; place-items: center;
+  width: 14px; height: 14px;
+  font-size: 9px; font-weight: 700;
+  color: var(--warn); background: var(--warn-soft);
+  border: 1px solid var(--warn-line);
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.empty {
+  padding: 60px 20px; text-align: center; color: var(--ink-3); font-size: 13px;
+}
+
+/* ---- Drawer ------------------------------------------------------------ */
+.scrim {
+  position: fixed; inset: 0; z-index: 70;
+  background: rgba(12, 17, 23, .38);
+  opacity: 0; pointer-events: none;
+  transition: opacity .18s ease;
+}
+.scrim[data-open="true"] { opacity: 1; pointer-events: auto; }
+
+.drawer {
+  position: fixed; top: 0; right: 0; z-index: 80;
+  width: min(var(--drawer-w), 100vw);
+  height: 100vh;
+  display: flex; flex-direction: column;
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  box-shadow: var(--shadow-2);
+  transform: translateX(100%);
+  transition: transform .2s cubic-bezier(.4, 0, .2, 1);
+}
+.drawer[data-open="true"] { transform: translateX(0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .drawer, .scrim { transition: none; }
+}
+
+.drawer__bar {
+  flex-shrink: 0;
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.drawer__bar .chips { max-width: none; flex: 1; }
+.drawer__body { overflow-y: auto; padding: 20px 24px 60px; }
+
+.d-title {
+  font-family: var(--font-mono);
+  font-size: 18px; font-weight: 700; letter-spacing: -.02em;
+  margin: 0 0 6px; text-wrap: balance;
+}
+.d-fulltitle { font-size: 14px; font-weight: 600; line-height: 1.6; margin: 0 0 4px; color: var(--ink); }
+.d-orig { font-size: 11.5px; color: var(--ink-3); line-height: 1.55; margin: 0 0 18px; font-style: italic; }
+
+.d-meta {
+  display: grid; grid-template-columns: max-content 1fr; gap: 5px 16px;
+  padding: 13px 0; margin-bottom: 18px;
+  border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+}
+.d-meta dt { color: var(--ink-3); font-size: 11px; letter-spacing: .03em; padding-top: 1px; }
+.d-meta dd { margin: 0; color: var(--ink); min-width: 0; overflow-wrap: anywhere; }
+
+.d-sec { margin-bottom: 24px; }
+.d-sec__h {
+  display: flex; align-items: baseline; gap: 8px;
+  margin: 0 0 9px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .11em;
+  color: var(--ink-3); text-transform: uppercase;
+}
+.d-sec__h .n { font-family: var(--font-mono); color: var(--accent); letter-spacing: 0; }
+.d-sec p { margin: 0 0 8px; font-size: 13px; line-height: 1.85; }
+
+.d-note {
+  padding: 10px 12px;
+  background: var(--warn-soft);
+  border: 1px solid var(--warn-line);
+  border-radius: 6px;
+  font-size: 12px; line-height: 1.7; color: var(--ink);
+  margin-bottom: 20px;
+}
+.d-note b { color: var(--warn); }
+
+/* chapters */
+.chap { border-top: 1px solid var(--line); padding: 10px 0; }
+.chap:last-child { border-bottom: 1px solid var(--line); }
+.chap__head { display: flex; gap: 10px; align-items: baseline; }
+.chap__no {
+  flex-shrink: 0;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--accent);
+  min-width: 76px;
+}
+.chap__title { font-size: 13px; font-weight: 600; line-height: 1.6; flex: 1; }
+.chap__note {
+  margin: 5px 0 0 86px;
+  font-size: 12px; line-height: 1.75; color: var(--ink-2);
+}
+.chap__cats { margin: 6px 0 0 86px; display: flex; flex-wrap: wrap; gap: 3px; }
+
+@media (max-width: 560px) {
+  .chap__head { flex-direction: column; gap: 2px; }
+  .chap__note, .chap__cats { margin-left: 0; }
+}
+
+/* relations */
+.relgroup { margin-bottom: 12px; }
+.relgroup__h {
+  font-size: 11px; font-weight: 700; color: var(--ink-2);
+  margin-bottom: 5px;
+  display: flex; align-items: center; gap: 7px;
+}
+.relgroup__h .kindbadge {
+  font-family: var(--font-mono); font-size: 9.5px; font-weight: 700;
+  padding: 1px 6px; border-radius: 3px;
+  background: var(--surface-3); color: var(--ink-3);
+  letter-spacing: .04em;
+}
+.rellink {
+  display: block; width: 100%; text-align: left;
+  padding: 7px 10px; margin-bottom: 3px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.rellink:hover { border-color: var(--accent-line); background: var(--accent-soft); }
+.rellink__top { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.rellink__name { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--ink); }
+.rellink__note { font-size: 11.5px; color: var(--ink-2); line-height: 1.6; margin-top: 2px; }
+
+/* ---- Category view ----------------------------------------------------- */
+.prose { max-width: 74ch; }
+.prose p { font-size: 13px; line-height: 1.9; color: var(--ink-2); margin: 0 0 10px; }
+.prose strong { color: var(--ink); font-weight: 700; }
+
+.mecebox {
+  display: grid; gap: 12px;
+  padding: 16px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  margin-bottom: 28px;
+  max-width: 82ch;
+}
+.mecebox__row { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: start; }
+.mecebox__k {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em;
+  color: var(--accent); text-transform: uppercase; padding-top: 3px;
+}
+.mecebox__v { font-size: 12.5px; line-height: 1.8; color: var(--ink-2); }
+.mecebox__v b { color: var(--ink); }
+
+@media (max-width: 620px) {
+  .mecebox__row { grid-template-columns: 1fr; gap: 2px; }
+}
+
+.cluster { margin-bottom: 30px; }
+.cluster__head {
+  display: flex; align-items: baseline; gap: 12px;
+  padding-bottom: 8px; margin-bottom: 14px;
+  border-bottom: 2px solid var(--ink);
+}
+.cluster__name { font-size: 16px; font-weight: 800; letter-spacing: -.02em; }
+.cluster__code {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  letter-spacing: .1em; color: var(--ink-3);
+}
+.cluster__desc { font-size: 12px; color: var(--ink-2); flex: 1; text-align: right; }
+
+@media (max-width: 700px) {
+  .cluster__head { flex-wrap: wrap; }
+  .cluster__desc { text-align: left; width: 100%; }
+}
+
+.catgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 12px; }
+
+.catcard {
+  display: flex; flex-direction: column;
+  padding: 15px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  text-align: left;
+  box-shadow: var(--shadow-1);
+}
+.catcard:hover { border-color: var(--accent-line); }
+.catcard__head { display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.catcard__code {
+  font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+  padding: 2px 7px; border-radius: 4px;
+  background: var(--accent); color: var(--accent-ink);
+  letter-spacing: .04em;
+}
+.catcard__name { font-size: 13.5px; font-weight: 700; flex: 1; line-height: 1.4; }
+.catcard__n {
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 11px; color: var(--ink-3); white-space: nowrap;
+}
+.catcard__def { font-size: 12.5px; line-height: 1.8; color: var(--ink-2); margin: 0 0 12px; }
+
+.catcard__sub {
+  font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  color: var(--ink-3); text-transform: uppercase; margin-bottom: 4px;
+}
+.catcard__list { margin: 0 0 12px; padding: 0; list-style: none; display: grid; gap: 2px; }
+.catcard__list li {
+  font-size: 12px; line-height: 1.65; color: var(--ink-2);
+  padding-left: 13px; position: relative;
+}
+.catcard__list li::before {
+  content: ""; position: absolute; left: 3px; top: .72em;
+  width: 4px; height: 1px; background: var(--line-2);
+}
+.catcard__roles { font-size: 11.5px; color: var(--ink-3); margin-bottom: 12px; }
+
+.catcard__tb {
+  margin-top: auto;
+  padding: 9px 11px;
+  background: var(--surface-2);
+  border: 1px dashed var(--line-2);
+  border-radius: 6px;
+  font-size: 11.5px; line-height: 1.7; color: var(--ink-2);
+}
+.catcard__tb b {
+  display: block;
+  font-size: 9.5px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--ink-3); margin-bottom: 2px;
+}
+
+/* ---- Matrix ------------------------------------------------------------ */
+table.matrix { border-collapse: collapse; font-size: 12px; min-width: 780px; width: 100%; }
+table.matrix th, table.matrix td { border: 1px solid var(--line); }
+table.matrix thead th {
+  padding: 7px 5px; background: var(--surface-2);
+  font-size: 10px; font-weight: 700; letter-spacing: .04em; color: var(--ink-2);
+  vertical-align: bottom;
+}
+table.matrix th:first-child { width: 24%; }
+table.matrix thead th.mx-cat { font-family: var(--font-mono); text-align: center; }
+table.matrix tbody th {
+  padding: 7px 11px; text-align: left; background: var(--surface-2);
+  font-size: 12px; font-weight: 600; white-space: nowrap;
+}
+table.matrix tbody th .seg {
+  display: block; font-size: 9.5px; font-weight: 400; color: var(--ink-3); letter-spacing: .03em;
+}
+table.matrix td { padding: 0; text-align: center; }
+.mxcell {
+  display: block; width: 100%; padding: 11px 4px;
+  font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+  font-size: 12px; color: var(--ink);
+}
+.mxcell:hover { outline: 2px solid var(--accent); outline-offset: -2px; }
+.mxcell[data-zero="true"] { color: var(--ink-3); opacity: .4; }
+.mxtot { background: var(--surface-3); font-weight: 700; }
+
+.legend {
+  display: flex; align-items: center; gap: 8px;
+  margin-top: 12px; font-size: 11.5px; color: var(--ink-3);
+}
+.legend__scale { display: flex; }
+.legend__sw { width: 26px; height: 12px; border: 1px solid var(--line); border-right: none; }
+.legend__sw:last-child { border-right: 1px solid var(--line); }
+
+/* ---- Relations view ---------------------------------------------------- */
+.reledges { display: grid; gap: 8px; }
+.reledge {
+  display: grid;
+  grid-template-columns: minmax(150px, 1.1fr) minmax(96px, max-content) minmax(150px, 1.1fr);
+  gap: 12px; align-items: center;
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+}
+.reledge__side { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.reledge__name {
+  font-family: var(--font-mono); font-size: 12px; font-weight: 700;
+  color: var(--ink); text-align: left;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.reledge__name:hover { color: var(--accent); }
+.reledge__mid { text-align: center; }
+.reledge__arrow {
+  font-size: 10px; font-weight: 700; letter-spacing: .04em;
+  color: var(--accent); font-family: var(--font-mono);
+  white-space: nowrap;
+}
+.reledge__note {
+  grid-column: 1 / -1;
+  font-size: 11.5px; color: var(--ink-3); line-height: 1.6;
+  padding-left: 2px;
+}
+
+@media (max-width: 720px) {
+  .reledge { grid-template-columns: 1fr; gap: 4px; }
+  .reledge__mid { text-align: left; }
+}
+
+/* ---- Responsive -------------------------------------------------------- */
+@media (max-width: 1020px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail {
+    display: none;
+    position: fixed; top: var(--topbar-h); left: 0; z-index: 65;
+    width: min(300px, 86vw);
+    box-shadow: var(--shadow-2);
+    border-right: 1px solid var(--line);
+  }
+  .rail[data-open="true"] { display: block; }
+  .railtoggle { display: grid; }
+  .brand__sub { display: none; }
+}
+
+@media (max-width: 720px) {
+  .topbar { gap: 10px; padding: 0 12px; }
+  .viewtabs { display: none; }
+  .viewtabs[data-mobile="true"] {
+    display: flex;
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 55;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding: 5px 8px; gap: 4px;
+    overflow-x: auto;
+  }
+  .main { padding: 16px 12px 84px; }
+  .search { width: auto; }
+
+  /* 狭い画面では文書・地域・種別・業務カテゴリだけ残し、横スクロールを避ける。
+     省いた項目は行を開けば詳細パネルに全て出る。 */
+  table.docs { min-width: 0; }
+  table.docs thead th:nth-child(4), table.docs tbody td:nth-child(4),
+  table.docs thead th:nth-child(5), table.docs tbody td:nth-child(5),
+  table.docs thead th:nth-child(6), table.docs tbody td:nth-child(6),
+  table.docs thead th:nth-child(7), table.docs tbody td:nth-child(7) { display: none; }
+  .chips { max-width: 96px; }
+  .c-doc { min-width: 0; }
+  table.docs td { padding: 9px 7px; }
+}
+
+@media (max-width: 560px) {
+  /* さらに狭い画面では業務カテゴリ列も畳み、文書名を読める幅に戻す。
+     カテゴリは絞り込みと詳細パネルから辿れる。 */
+  table.docs thead th:nth-child(8), table.docs tbody td:nth-child(8) { display: none; }
+  .c-doc__title { -webkit-line-clamp: 3; line-clamp: 3; }
+}
+
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <button class="iconbtn railtoggle" id="railToggle" aria-label="絞り込みを開閉">☰</button>
+  <div class="brand">
+    <span class="brand__mark">Navigator</span>
+    <span class="brand__sub">CIRT 文書ポータル / 日本・米国・EU・国際規格</span>
+  </div>
+  <nav class="viewtabs" data-mobile="true" role="tablist" aria-label="表示の切替">
+    <button class="viewtab" role="tab" data-view="docs" aria-selected="true">文書一覧</button>
+    <button class="viewtab" role="tab" data-view="cats" aria-selected="false">業務カテゴリ</button>
+    <button class="viewtab" role="tab" data-view="matrix" aria-selected="false">ドメイン別</button>
+    <button class="viewtab" role="tab" data-view="rels" aria-selected="false">文書間の関係</button>
+  </nav>
+  <span class="topbar__spacer"></span>
+  <div class="search">
+    <label class="sr-only" for="q">文書・章を検索</label>
+    <input id="q" type="search" placeholder="文書名・章・発行主体で検索  （ / ）" autocomplete="off">
+    <button class="search__clear" id="clearQ" aria-label="検索条件を消す">✕</button>
+  </div>
+  <button class="iconbtn" id="themeToggle" aria-label="配色を切り替える">◐</button>
+</header>
+
+<div class="shell">
+  <aside class="rail" id="rail" data-open="false" aria-label="絞り込み"></aside>
+  <main class="main" id="main"></main>
+</div>
+
+<div class="scrim" id="scrim" data-open="false"></div>
+<aside class="drawer" id="drawer" data-open="false" aria-label="文書の詳細">
+  <div class="drawer__bar" id="drawerBar"></div>
+  <div class="drawer__body" id="drawerBody"></div>
+</aside>
+
+<script>
+/* Navigator — 分類体系（地域・文書種別・事業ドメイン・業務カテゴリ）
+ * すべて window.NAV 名前空間に載せる。file:// でも動くよう ES module にはしない。
+ */
+window.NAV = window.NAV || {};
+
+/* ------------------------------------------------------------------ *
+ * 地域 / 発行主体の法域
+ * ------------------------------------------------------------------ */
+window.NAV.regions = [
+  { code: "INT", name: "国際",  full: "国際標準化機関・国際機関", hue: "int" },
+  { code: "JP",  name: "日本",  full: "日本国政府・国内機関",     hue: "jp"  },
+  { code: "US",  name: "米国",  full: "米国連邦政府・規制機関",   hue: "us"  },
+  { code: "EU",  name: "EU",    full: "欧州連合・欧州機関",       hue: "eu"  }
+];
+
+/* ------------------------------------------------------------------ *
+ * 文書種別 — 拘束力の強さで並べる
+ * ------------------------------------------------------------------ */
+window.NAV.types = [
+  { code: "LAW",  name: "法令",           desc: "法律・規則。違反に法的制裁が伴う。" },
+  { code: "REG",  name: "規制・強制基準", desc: "所管官庁・規制機関が課す基準。対象事業者に義務。" },
+  { code: "STD",  name: "規格",           desc: "標準化機関の規格。任意だが認証・調達要件として実質的拘束力を持つ。" },
+  { code: "GL",   name: "ガイドライン",   desc: "官庁・業界団体の指針。推奨事項。" },
+  { code: "FW",   name: "フレームワーク", desc: "対策の全体像を与える枠組み。個別要求は下位文書へ委ねる。" },
+  { code: "TECH", name: "技術文書",       desc: "手引・分析手法・リスト等の実務資料。" }
+];
+
+/* ------------------------------------------------------------------ *
+ * 事業ドメイン — 三菱電機の事業セグメントに対応させた区分
+ * ------------------------------------------------------------------ */
+window.NAV.domains = [
+  { code: "PWR",  name: "電力システム・エネルギー", segment: "インフラ",
+    desc: "発電・送変電・系統制御、変電機器、系統安定化、再生可能エネルギー、スマートグリッド／スマートメーター。" },
+  { code: "RAIL", name: "交通システム（鉄道）", segment: "インフラ",
+    desc: "車両用電機品、運行管理・信号システム、駅設備、鉄道事業者向けソリューション。" },
+  { code: "DEF",  name: "防衛・宇宙", segment: "インフラ",
+    desc: "防衛電子システム、レーダ、人工衛星・地上局。調達側の基準が強制力を持つ領域。" },
+  { code: "FA",   name: "FA・産業オートメーション", segment: "インダストリー・モビリティ",
+    desc: "シーケンサ（PLC）、インバータ、サーボ、産業用ロボット、放電加工機、e-F@ctory 等の生産システム。" },
+  { code: "AUTO", name: "自動車機器・モビリティ", segment: "インダストリー・モビリティ",
+    desc: "車載電装品、電動化・自動運転関連コンポーネント、カーマルチメディア、EV充電。" },
+  { code: "BLD",  name: "ビルシステム", segment: "ライフ",
+    desc: "昇降機（エレベーター・エスカレーター）、ビル管理システム（BAS/BEMS）、入退室・監視設備。" },
+  { code: "LIFE", name: "空調冷熱・家電・住宅IoT", segment: "ライフ",
+    desc: "業務用・家庭用空調、冷熱システム、家電製品、住宅設備およびそれらのクラウド連携。" },
+  { code: "IT",   name: "ITソリューション・データセンター", segment: "ビジネスプラットフォーム",
+    desc: "システムインテグレーション、クラウドサービス、データセンター、通信・ネットワークサービス。" },
+  { code: "SEMI", name: "半導体・デバイス", segment: "半導体・デバイス",
+    desc: "パワーデバイス・高周波デバイス等の製造。半導体製造装置およびファブ運用のセキュリティを含む。" },
+  { code: "CORP", name: "全社共通・コーポレート", segment: "共通",
+    desc: "本社機能、情報システム、人事・法務、グループ会社統制、調達・サプライチェーン全体。" }
+];
+
+/* ------------------------------------------------------------------ *
+ * 業務カテゴリ — MECE な11分類
+ *
+ * 分割軸：「その活動が何を成果物として生み出すか」で一意に分類する。
+ * 同一の文書は複数カテゴリにまたがるが、個々の"業務活動"はいずれか1つに属する。
+ * 境界が曖昧になりやすい組み合わせには tiebreak（判定ルール）を明記した。
+ * ------------------------------------------------------------------ */
+window.NAV.clusters = [
+  { code: "GOVERN", name: "統制",   desc: "何を守り、どこまでやるかを決める。成果物は方針・判断・要求。" },
+  { code: "BUILD",  name: "構築",   desc: "決めたことをモノとシステムに実装する。成果物は製品・構成・契約。" },
+  { code: "RUN",    name: "運用",   desc: "動いているものを守り、壊れたら戻す。成果物は検知・対応・復旧。" },
+  { code: "ENABLE", name: "基盤",   desc: "上記すべてを成立させる。成果物は人の能力と、有効性の証拠。" }
+];
+
+window.NAV.categories = [
+  {
+    code: "GOV", name: "ガバナンス・組織体制", cluster: "GOVERN",
+    def: "経営としてサイバーセキュリティをどう位置づけ、誰が責任を負い、どれだけ資源を割くかを決定する活動。",
+    outputs: ["基本方針・規程体系", "CISO／CSIRT／PSIRT の設置規程と権限", "年度計画・予算・要員計画", "経営報告とKPI"],
+    roles: ["経営層", "CISO", "セキュリティ統括部門"],
+    tiebreak: "「組織として決める」ものは GOV。決めた内容が外部要求由来であっても、意思決定そのものは GOV に属する。"
+  },
+  {
+    code: "LEG", name: "法規制対応・適合性", cluster: "GOVERN",
+    def: "自社・自製品に適用される法令・規制・規格を特定し、適合義務を履行し、必要な届出・認証を得る活動。",
+    outputs: ["適用法規制一覧（レギュラトリ・マップ）", "適合性評価・技術文書", "認証／認定の取得・維持", "当局への届出・登録"],
+    roles: ["法務", "品質保証", "製品認証部門", "輸出管理"],
+    tiebreak: "「外部の誰かが要求しているか」を問うのが LEG。要求を満たすための内部リスク判断は RSK、実装は OPS/DEV に分ける。"
+  },
+  {
+    code: "RSK", name: "リスクマネジメント", cluster: "GOVERN",
+    def: "守るべき資産を同定し、脅威・脆弱性・影響を分析して、リスクの受容／低減／移転を判断する活動。",
+    outputs: ["資産台帳・重要度評価", "脅威分析（TARA／HAZOP系）", "リスク評価結果と受容判断記録", "リスク対応計画"],
+    roles: ["リスク管理部門", "セキュリティアーキテクト", "製品企画"],
+    tiebreak: "実装前の「どれだけ危ないか」の見積りが RSK。実装後の「効いているか」の検証は ASR。"
+  },
+  {
+    code: "SCM", name: "サプライチェーン・調達", cluster: "BUILD",
+    def: "供給者・委託先・購入部品／ソフトウェアに対してセキュリティ要求を課し、その充足を確認・維持する活動。",
+    outputs: ["調達仕様のセキュリティ要求条項", "供給者評価・監査結果", "SBOM と構成部品の脆弱性追跡", "委託先管理台帳"],
+    roles: ["調達", "品質保証", "製品セキュリティ", "情報システム"],
+    tiebreak: "「自社の外から入ってくるもの」への要求が SCM。自社が外へ出す製品の作り込みは DEV。"
+  },
+  {
+    code: "DEV", name: "セキュア開発・製品セキュリティ", cluster: "BUILD",
+    def: "自社が設計・製造する製品／システムに、セキュリティ要求を定義し設計・実装・検証して織り込む活動。",
+    outputs: ["製品セキュリティ要求仕様", "セキュリティ設計書・アーキテクチャ", "セキュリティテスト（ファジング・ペネトレーション）結果", "セキュリティ運用手引（顧客向け）"],
+    roles: ["開発設計", "製品セキュリティ推進", "検証部門"],
+    tiebreak: "出荷前の作り込みが DEV。出荷後に発見された欠陥の処理は IRS（脆弱性ハンドリングを含む）。"
+  },
+  {
+    code: "OPS", name: "システム運用・技術的対策", cluster: "BUILD",
+    def: "稼働中のIT／OT環境に対して、構成・アクセス・通信・暗号・更新といった技術的統制を実装し維持する活動。",
+    outputs: ["資産／構成管理データベース", "ネットワーク分離（ゾーン・コンジット）設計", "アカウント・権限設計と棚卸記録", "パッチ／セキュリティ更新の適用記録"],
+    roles: ["情報システム", "工場／プラント技術部門", "インフラ運用"],
+    tiebreak: "「守りを立てる」のが OPS、「異常を見る」のが MON。同じログでも、取得・保全の設計は OPS、分析と検知は MON。"
+  },
+  {
+    code: "MON", name: "監視・検知・脅威インテリジェンス", cluster: "RUN",
+    def: "ログ・通信・挙動を継続的に観測して異常を検知し、外部脅威情報を収集して自組織への影響を判断する活動。",
+    outputs: ["監視要件と検知ルール", "SOC 運用手順・アラート分析記録", "脅威情報（IoC／KEV等）の取込みと影響評価", "継続的モニタリング報告"],
+    roles: ["SOC", "CSIRT（監視機能）", "脅威インテリジェンス担当"],
+    tiebreak: "「インシデントと判定する前」までが MON。判定以降の対処は IRS。"
+  },
+  {
+    code: "IRS", name: "インシデント対応・脆弱性ハンドリング・報告", cluster: "RUN",
+    def: "インシデントまたは脆弱性の受付から、トリアージ・封じ込め・根絶・原因究明・関係者への報告までを実施する活動。",
+    outputs: ["インシデント対応計画・プレイブック", "トリアージ／対応記録・フォレンジック報告", "当局・顧客・取引先への報告（法定期限を含む）", "脆弱性アドバイザリの発行・調整"],
+    roles: ["CSIRT", "PSIRT", "広報", "法務"],
+    tiebreak: "対処の主目的が「被害の拡大を止める・原因を潰す」なら IRS。「業務を再開させる」なら BCP。両方を並行して行う場面でも成果物で分ける。"
+  },
+  {
+    code: "BCP", name: "事業継続・復旧", cluster: "RUN",
+    def: "サイバー起因の停止に対して、事業・生産・サービスの継続と復旧を計画し、手段を確保し、実効性を維持する活動。",
+    outputs: ["事業影響度分析（BIA）と復旧目標（RTO／RPO）", "バックアップ方式と隔離保管、復旧手順", "代替運用・縮退運転の手順", "復旧訓練の記録"],
+    roles: ["事業継続担当", "生産技術", "情報システム", "各事業部門"],
+    tiebreak: "攻撃者を排除する行為は IRS、業務を動かし続ける／戻す行為は BCP。"
+  },
+  {
+    code: "HRD", name: "人材育成・意識向上・演習", cluster: "ENABLE",
+    def: "セキュリティ業務に必要な要員のスキルを定義・獲得・維持し、組織全体の対応力を演習によって高める活動。",
+    outputs: ["役割別スキル要件と育成計画", "全社教育・標的型メール訓練の実施記録", "机上演習（TTX）・実機演習のシナリオと結果", "資格・認定の取得状況"],
+    roles: ["人事", "セキュリティ人材育成", "CSIRT（演習企画）"],
+    tiebreak: "「人の能力を作る」のが HRD。演習で見つかった制度・手順の不備を直す活動は ASR に渡す。"
+  },
+  {
+    code: "ASR", name: "保証・監査・継続的改善", cluster: "ENABLE",
+    def: "実装済みの対策が意図どおり機能しているかを独立した立場で検証し、是正と改善のサイクルを回す活動。",
+    outputs: ["内部監査・第三者監査の計画と報告", "有効性メトリクス・成熟度評価", "ペネトレーションテスト／レッドチーム結果", "是正処置計画とマネジメントレビュー記録"],
+    roles: ["内部監査", "品質保証", "セキュリティ評価担当"],
+    tiebreak: "「これから起きうることの見積り」は RSK、「すでに入れた対策が効いているかの確認」は ASR。認証の取得手続そのものは LEG。"
+  }
+];
+
+/* MECE 宣言 — 一覧画面の解説に表示する */
+window.NAV.meceNote = {
+  axis: "サイバーセキュリティ業務を「その活動が生み出す成果物」で分割する。",
+  exhaustive: "統制（決める）→ 構築（作る）→ 運用（守る・戻す）→ 基盤（能力と証拠）で、企画から廃棄までのライフサイクル全体を覆う。どの業務も必ずいずれか1つに落ちる。",
+  exclusive: "同一の成果物を2つのカテゴリが生むことはない。隣接カテゴリの境界には判定ルール（tiebreak）を定義し、迷った場合はそれで一意に決める。",
+  caveat: "文書は複数カテゴリにまたがるのが普通である。MECE なのは「業務」の分類であって、「文書」の分類ではない。"
+};
+
+/* 文書間の関係の種類 */
+window.NAV.relKinds = {
+  parent:    { label: "上位文書",     desc: "この文書が従う、より上位の要求元" },
+  detail:    { label: "詳細化",       desc: "上位要求を具体化・手引化した文書" },
+  impl:      { label: "実装手段",     desc: "要求を満たすために実務上用いられる規格・手法" },
+  ref:       { label: "参照",         desc: "本文中で引用・参照している文書" },
+  local:     { label: "国内適用",     desc: "国際文書を各法域で受け入れ・国内法化したもの" },
+  align:     { label: "整合・対応",   desc: "対応表が存在する、または要求が概ね対応する文書" },
+  supersede: { label: "改訂・前身",   desc: "版の更新関係" }
+};
+
+</script>
+<script>
+/* Navigator — 国際規格・国際機関文書 */
+window.NAV = window.NAV || {};
+window.NAV.documents = (window.NAV.documents || []).concat([
+
+/* ===================== ISO/IEC 27000 シリーズ ===================== */
+{
+  id: "iso27001",
+  short: "ISO/IEC 27001:2022",
+  title: "情報セキュリティ、サイバーセキュリティ及びプライバシー保護 — 情報セキュリティマネジメントシステム — 要求事項",
+  orig: "Information security, cybersecurity and privacy protection — Information security management systems — Requirements",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "第3版", year: 2022,
+  binding: "任意（第三者認証制度あり。顧客・入札要件として実質的な必須要件になる場面が多い）",
+  url: "https://www.iso.org/standard/27001",
+  summary: "情報セキュリティマネジメントシステム（ISMS）の確立・実施・維持・継続的改善に関する要求事項。本文4〜10章がマネジメントシステム要求、附属書Aが93の管理策を4テーマに再編して収載する。2022年改訂で管理策が114→93に整理され、脅威インテリジェンス・クラウド利用・データ漏えい防止など11の新規管理策が加わった。",
+  scope: "組織の規模・業種を問わず適用可能。認証範囲は組織が定義するため、全社／事業部単位／特定サービス単位のいずれでも取得できる。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "DEF", "FA", "AUTO", "BLD", "LIFE", "SEMI"],
+  cats: ["GOV", "RSK", "ASR", "LEG", "OPS"],
+  chapters: [
+    { no: "4", title: "組織の状況", cat: ["GOV", "RSK"], note: "外部・内部の課題、利害関係者のニーズ、ISMS適用範囲の決定。" },
+    { no: "5", title: "リーダーシップ", cat: ["GOV"], note: "トップマネジメントのコミットメント、方針、役割・責任・権限。" },
+    { no: "6", title: "計画", cat: ["RSK", "GOV"], note: "リスク及び機会への取組み、情報セキュリティリスクアセスメント／リスク対応、目的の設定。附属書Aとの照合（適用宣言書）を要求。" },
+    { no: "7", title: "支援", cat: ["HRD", "GOV"], note: "資源、力量、認識、コミュニケーション、文書化した情報。" },
+    { no: "8", title: "運用", cat: ["OPS", "RSK"], note: "運用の計画・管理、リスクアセスメントの実施、リスク対応の実施。" },
+    { no: "9", title: "パフォーマンス評価", cat: ["ASR"], note: "監視・測定・分析・評価、内部監査、マネジメントレビュー。" },
+    { no: "10", title: "改善", cat: ["ASR"], note: "継続的改善、不適合及び是正処置。" },
+    { no: "A.5", title: "附属書A — 組織的管理策（37項目）", cat: ["GOV", "SCM", "LEG"], note: "方針、役割分担、サプライヤ関係（A.5.19〜A.5.23）、インシデント管理、事業継続、法的要求事項の順守。" },
+    { no: "A.6", title: "附属書A — 人的管理策（8項目）", cat: ["HRD"], note: "選考、雇用条件、意識向上・教育・訓練、懲戒、リモートワーク、報告。" },
+    { no: "A.7", title: "附属書A — 物理的管理策（14項目）", cat: ["OPS"], note: "物理的セキュリティ境界、入退、装置の保護・廃棄、クリアデスク。" },
+    { no: "A.8", title: "附属書A — 技術的管理策（34項目）", cat: ["OPS", "DEV", "MON"], note: "アクセス制御、暗号、セキュア開発（A.8.25〜A.8.31）、ログ・監視活動（A.8.15〜A.8.16）、脆弱性管理。" }
+  ],
+  rel: [
+    { to: "iso27002", kind: "detail", note: "附属書Aの各管理策の実装手引" },
+    { to: "iso27005", kind: "detail", note: "6章のリスクアセスメント手順の具体化" },
+    { to: "iso27017", kind: "detail", note: "クラウドサービス向けの追加管理策" },
+    { to: "iso27019", kind: "detail", note: "エネルギー事業向けの追加管理策" },
+    { to: "nist-csf2", kind: "align", note: "機能・カテゴリ単位の対応表が公開されている" }
+  ]
+},
+{
+  id: "iso27002",
+  short: "ISO/IEC 27002:2022",
+  title: "情報セキュリティ管理策",
+  orig: "Information security, cybersecurity and privacy protection — Information security controls",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "第3版", year: 2022,
+  binding: "任意（実装手引。認証対象ではない）",
+  url: "https://www.iso.org/standard/75652.html",
+  summary: "ISO/IEC 27001 附属書Aに対応する93の管理策について、目的・実装の手引・その他の情報を解説する。各管理策には属性（管理策タイプ、情報セキュリティ特性、サイバーセキュリティ概念、運用能力、セキュリティドメイン）が付与され、NIST CSF の機能軸などとの読み替えが可能になっている。",
+  scope: "ISMS を構築するすべての組織。管理策の選択・実装時の参照文書。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "DEF", "FA", "AUTO", "BLD", "LIFE", "SEMI"],
+  cats: ["OPS", "GOV", "SCM", "DEV", "MON", "HRD"],
+  chapters: [
+    { no: "4", title: "管理策の構造", cat: ["GOV"], note: "管理策タイプ（予防／発見／是正）、情報セキュリティ特性、運用能力などの属性定義。" },
+    { no: "5", title: "組織的管理策（5.1〜5.37）", cat: ["GOV", "SCM", "LEG", "IRS"], note: "方針、責任分離、サプライヤ関係、情報セキュリティインシデント管理、法令・契約上の要求事項の識別。" },
+    { no: "6", title: "人的管理策（6.1〜6.8）", cat: ["HRD"], note: "雇用前・雇用中・雇用終了、意識向上教育、事象の報告。" },
+    { no: "7", title: "物理的管理策（7.1〜7.14）", cat: ["OPS"], note: "境界、入退管理、装置の設置・保守・セキュアな廃棄。" },
+    { no: "8", title: "技術的管理策（8.1〜8.34）", cat: ["OPS", "DEV", "MON"], note: "利用者端末、特権的アクセス権、暗号、変更管理、セキュア開発ライフサイクル、監視活動、ネットワークのセキュリティ。" }
+  ],
+  rel: [{ to: "iso27001", kind: "parent" }]
+},
+{
+  id: "iso27005",
+  short: "ISO/IEC 27005:2022",
+  title: "情報セキュリティリスクの管理に関する手引",
+  orig: "Guidance on managing information security risks",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "第4版", year: 2022,
+  binding: "任意",
+  url: "https://www.iso.org/standard/80585.html",
+  summary: "ISO/IEC 27001 が要求する情報セキュリティリスクアセスメント・リスク対応を、ISO 31000 のリスクマネジメントプロセスに沿って具体化する手引。2022年版では事象ベース（シナリオ起点）と資産ベースの両アプローチを明示的に扱う。",
+  scope: "ISMS の6章・8章を実施する組織のリスク管理部門・セキュリティ担当。",
+  domains: ["CORP", "IT", "PWR", "FA", "BLD"],
+  cats: ["RSK"],
+  chapters: [
+    { no: "5", title: "情報セキュリティリスクマネジメント", cat: ["RSK"], note: "ISO 31000 プロセスとの対応、ISMS 要求との関係。" },
+    { no: "6", title: "状況の確定", cat: ["RSK"], note: "リスク基準（受容基準・影響基準・発生可能性基準）の設定。" },
+    { no: "7", title: "情報セキュリティリスクアセスメントプロセス", cat: ["RSK"], note: "リスク特定（事象ベース／資産ベース）、リスク分析、リスク評価。" },
+    { no: "8", title: "情報セキュリティリスク対応プロセス", cat: ["RSK", "GOV"], note: "選択肢の選定、管理策の決定、適用宣言書、残留リスクの受容。" },
+    { no: "9", title: "運用", cat: ["RSK"], note: "リスクアセスメントの実施タイミングと維持。" },
+    { no: "10", title: "ISMS プロセスに関連するリスク活用", cat: ["RSK", "ASR"], note: "監視・レビュー、変更時の再評価。" }
+  ],
+  rel: [{ to: "iso27001", kind: "parent" }, { to: "nist-800-30", kind: "align", note: "リスクアセスメント手法として対応関係にある" }]
+},
+{
+  id: "iso27017",
+  short: "ISO/IEC 27017:2015",
+  title: "クラウドサービスのための情報セキュリティ管理策の実践規範",
+  orig: "Code of practice for information security controls based on ISO/IEC 27002 for cloud services",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "初版", year: 2015,
+  binding: "任意（ISMSクラウドセキュリティ認証として付加認証あり）",
+  url: "https://www.iso.org/standard/43757.html",
+  summary: "クラウドサービスプロバイダとクラウドサービスカスタマの双方に対し、ISO/IEC 27002 の管理策のクラウド固有の実装手引と、7つのクラウド固有管理策を規定する。責任分界、仮想環境の分離、管理者操作の監視などを扱う。",
+  scope: "クラウドサービスを提供する事業者、および利用する組織。",
+  domains: ["IT", "CORP", "LIFE", "BLD", "AUTO"],
+  cats: ["OPS", "SCM", "GOV"],
+  chapters: [
+    { no: "5-18", title: "ISO/IEC 27002 各章に対応するクラウド固有の実装手引", cat: ["OPS", "SCM"], note: "プロバイダ／カスタマそれぞれの視点で手引を併記。" },
+    { no: "CLD.6.3", title: "クラウドサービスカスタマとプロバイダの関係", cat: ["SCM", "GOV"], note: "役割・責任の共有と分界点の合意。" },
+    { no: "CLD.8.1", title: "資産の管理責任（クラウド資産の返却・除去）", cat: ["OPS", "SCM"] },
+    { no: "CLD.9.5", title: "仮想コンピューティング環境における分離", cat: ["OPS"] },
+    { no: "CLD.12.1", title: "運用手順及び責任（管理者の運用のセキュリティ）", cat: ["OPS", "MON"] },
+    { no: "CLD.12.4", title: "クラウドサービスの監視", cat: ["MON"] },
+    { no: "CLD.13.1", title: "仮想及び物理ネットワークのセキュリティ管理の整合", cat: ["OPS"] }
+  ],
+  rel: [{ to: "iso27002", kind: "parent" }, { to: "jp-ismap", kind: "align" }]
+},
+{
+  id: "iso27019",
+  short: "ISO/IEC 27019:2024",
+  title: "エネルギー事業のプロセス制御システムのための情報セキュリティ管理策",
+  orig: "Information security controls for the energy utility industry",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "第2版", year: 2024,
+  binding: "任意",
+  url: "https://www.iso.org/standard/68091.html",
+  summary: "発電・送電・配電・ガス・熱供給等のエネルギー事業者が用いるプロセス制御システムに対し、ISO/IEC 27002 をベースにエネルギー分野固有の管理策を追加・修正する。物理設備と一体のOT環境における安全性（safety）とセキュリティの両立を扱う点が特徴。",
+  scope: "エネルギー供給事業者の中央・分散プロセス制御、監視・自動化技術、これらを支える通信設備。設備を納入するベンダにも要求が波及する。",
+  domains: ["PWR", "FA"],
+  cats: ["OPS", "RSK", "SCM", "BCP"],
+  chapters: [
+    { no: "5", title: "組織的管理策（エネルギー分野の追加）", cat: ["GOV", "SCM"], note: "外部事業者・保守要員の管理、安全性との整合。" },
+    { no: "6", title: "人的管理策", cat: ["HRD"] },
+    { no: "7", title: "物理的管理策（エネルギー分野の追加）", cat: ["OPS"], note: "変電所・発電所等の無人設備、遠隔地設備の物理保護。" },
+    { no: "8", title: "技術的管理策（エネルギー分野の追加）", cat: ["OPS", "MON"], note: "レガシー機器の扱い、リアルタイム要件下でのマルウェア対策・ログ取得。" },
+    { no: "ENR", title: "エネルギー分野固有の追加管理策", cat: ["OPS", "BCP"], note: "安全機能への影響防止、非常時の運転継続、通信プロトコルの保護。" }
+  ],
+  rel: [{ to: "iso27002", kind: "parent" }, { to: "iec62443-2-1", kind: "align" }, { to: "iec62351", kind: "impl" }]
+},
+{
+  id: "iso27035",
+  short: "ISO/IEC 27035 シリーズ",
+  title: "情報セキュリティインシデント管理",
+  orig: "Information security incident management (Part 1–4)",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "Part 1/2: 2023, Part 3: 2020, Part 4: 2024", year: 2023,
+  binding: "任意",
+  url: "https://www.iso.org/standard/78973.html",
+  summary: "インシデント管理の原則（Part 1）、計画と準備の手引（Part 2）、ICT インシデント対応運用（Part 3）、そして調整（Part 4）を規定する。CSIRT の設計・運用の国際的な基準文書として位置づけられる。",
+  scope: "CSIRT／インシデント対応組織を設置・運用するすべての組織。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "FA", "BLD"],
+  cats: ["IRS", "MON", "GOV", "HRD"],
+  chapters: [
+    { no: "P1", title: "Part 1: 原則とプロセス", cat: ["IRS", "GOV"], note: "計画と準備 → 検知と報告 → 評価と決定 → 対応 → 教訓の5フェーズモデル。" },
+    { no: "P2", title: "Part 2: インシデント対応計画と準備の手引", cat: ["IRS", "GOV", "HRD"], note: "方針、体制、IRT の役割、外部関係者との連携、演習。" },
+    { no: "P3", title: "Part 3: ICT インシデント対応運用の手引", cat: ["MON", "IRS"], note: "検知・分析・封じ込め・根絶・復旧の実務、監視運用との接続。" },
+    { no: "P4", title: "Part 4: 調整（Coordination）", cat: ["IRS"], note: "組織横断・複数当事者間でのインシデント調整。" }
+  ],
+  rel: [{ to: "iso27001", kind: "parent" }, { to: "nist-800-61", kind: "align" }]
+},
+{
+  id: "iso27036",
+  short: "ISO/IEC 27036 シリーズ",
+  title: "供給者関係のための情報セキュリティ",
+  orig: "Cybersecurity — Supplier relationships (Part 1–4)",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "Part 1/2: 2021–2022, Part 3: 2023, Part 4: 2016", year: 2022,
+  binding: "任意",
+  url: "https://www.iso.org/standard/82905.html",
+  summary: "供給者関係に伴う情報セキュリティリスクの管理を、概要（Part 1）、要求事項（Part 2）、ICT サプライチェーンの手引（Part 3）、クラウドサービスの手引（Part 4）に分けて規定する。",
+  scope: "調達側・供給側の双方。契約のライフサイクル（計画・選定・合意・運用・終了）全体を対象とする。",
+  domains: ["CORP", "IT", "FA", "AUTO", "DEF", "SEMI"],
+  cats: ["SCM", "LEG", "RSK"],
+  chapters: [
+    { no: "P1", title: "Part 1: 概要と概念", cat: ["SCM"] },
+    { no: "P2", title: "Part 2: 要求事項", cat: ["SCM", "LEG"], note: "供給者関係のライフサイクル各段階における要求事項。契約条項の設計に用いる。" },
+    { no: "P3", title: "Part 3: ICT サプライチェーンセキュリティの手引", cat: ["SCM", "RSK"], note: "多階層サプライチェーンにおける可視性と真正性の確保。" },
+    { no: "P4", title: "Part 4: クラウドサービスの手引", cat: ["SCM", "OPS"] }
+  ],
+  rel: [{ to: "iso27002", kind: "parent", note: "A.5.19〜A.5.23 を詳細化した位置づけ" }, { to: "nist-800-161", kind: "align" }]
+},
+{
+  id: "iso29147",
+  short: "ISO/IEC 29147:2018",
+  title: "脆弱性開示",
+  orig: "Vulnerability disclosure",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "第2版", year: 2018,
+  binding: "任意（CRA・各国制度が事実上の実装を要求）",
+  url: "https://www.iso.org/standard/72311.html",
+  summary: "製品・サービスの提供者が、外部の発見者から脆弱性情報を受け付け、利用者へ助言（アドバイザリ）を公開するまでの手順を規定する。受付窓口の公開、応答方針、開示のタイミング、アドバイザリに含めるべき情報項目を定める。",
+  scope: "製品・サービスのベンダ、および脆弱性を報告する発見者・調整機関。PSIRT の外向きプロセスの基準。",
+  domains: ["FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI"],
+  cats: ["IRS", "DEV", "LEG"],
+  chapters: [
+    { no: "5", title: "概念", cat: ["IRS"], note: "脆弱性、開示、調整の定義と関係者の役割。" },
+    { no: "6", title: "脆弱性開示の方針", cat: ["GOV", "IRS"], note: "公開すべき方針の内容と、受付窓口（security.txt 等）の整備。" },
+    { no: "7", title: "受付（Receipt）", cat: ["IRS"], note: "報告の受領確認、追跡番号の付与、発見者とのコミュニケーション。" },
+    { no: "8", title: "検証と改善策の開発", cat: ["DEV", "IRS"], note: "ISO/IEC 30111 のプロセスへ接続。" },
+    { no: "9", title: "アドバイザリの公開", cat: ["IRS"], note: "識別子（CVE）、影響製品、深刻度（CVSS）、回避策、修正版の情報。" }
+  ],
+  rel: [{ to: "iso30111", kind: "ref", note: "内部処理プロセスを規定する対の規格" }, { to: "jp-partnership", kind: "local", note: "日本国内の受付・調整制度" }]
+},
+{
+  id: "iso30111",
+  short: "ISO/IEC 30111:2019",
+  title: "脆弱性取扱プロセス",
+  orig: "Vulnerability handling processes",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "第2版", year: 2019,
+  binding: "任意",
+  url: "https://www.iso.org/standard/69725.html",
+  summary: "受け付けた脆弱性情報を組織内部でどう処理するか — 検証、影響評価、修正の開発、リリース、事後レビュー — のプロセスを規定する。ISO/IEC 29147（外向き）と対になる内向きの規格。",
+  scope: "製品ベンダの PSIRT および開発部門。",
+  domains: ["FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI"],
+  cats: ["IRS", "DEV"],
+  chapters: [
+    { no: "6", title: "脆弱性取扱プロセス", cat: ["IRS", "DEV"], note: "準備 → 受付 → 検証 → 解決策の開発 → リリース → 事後分析の各フェーズ。" },
+    { no: "7", title: "サプライチェーンにおける脆弱性取扱い", cat: ["SCM", "IRS"], note: "上流部品の脆弱性が自社製品へ波及する場合の取扱い。" }
+  ],
+  rel: [{ to: "iso29147", kind: "ref" }, { to: "jp-partnership", kind: "local", note: "日本国内の受付・調整制度" }, { to: "iec62443-4-1", kind: "align", note: "DM（セキュリティ課題の管理）実践と対応" }]
+},
+{
+  id: "iso15408",
+  short: "ISO/IEC 15408 / Common Criteria",
+  title: "ITセキュリティの評価基準（コモンクライテリア）",
+  orig: "Evaluation criteria for IT security (Part 1–5)",
+  issuer: "ISO/IEC JTC 1/SC 27 / Common Criteria Recognition Arrangement",
+  region: "INT", type: "STD", version: "2022年版（CC:2022 に対応）", year: 2022,
+  binding: "任意（政府調達では必須となる場合がある）",
+  url: "https://www.commoncriteriaportal.org/",
+  summary: "IT製品のセキュリティ機能を第三者が評価・認証するための共通基準。保護プロファイル（PP）とセキュリティターゲット（ST）に基づき、機能要件（SFR）と保証要件（SAR）を評価し、EAL1〜7の保証レベルを与える。政府調達・重要インフラ調達での前提条件になることがある。",
+  scope: "IT製品・システムのベンダ、評価機関、調達者。ICカード、ネットワーク機器、複合機、制御機器などで利用実績がある。",
+  domains: ["IT", "DEF", "SEMI", "FA", "CORP"],
+  cats: ["LEG", "DEV", "ASR"],
+  chapters: [
+    { no: "P1", title: "Part 1: 概説と一般モデル", cat: ["DEV"], note: "TOE、PP、ST の概念と評価の枠組み。" },
+    { no: "P2", title: "Part 2: セキュリティ機能コンポーネント（SFR）", cat: ["DEV"], note: "クラス（FAU 監査、FCS 暗号、FDP 利用者データ保護、FIA 識別と認証 ほか）。" },
+    { no: "P3", title: "Part 3: セキュリティ保証コンポーネント（SAR）", cat: ["ASR"], note: "ADV 開発、ALC ライフサイクル、ATE テスト、AVA 脆弱性評定。EAL の構成要素。" },
+    { no: "P4", title: "Part 4: 評価手法・活動の仕様の枠組み", cat: ["ASR"] },
+    { no: "P5", title: "Part 5: 事前定義されたセキュリティ要件のパッケージ", cat: ["DEV", "ASR"] }
+  ],
+  rel: [{ to: "eu-eucc", kind: "local", note: "EU における認証スキームとして採用" }, { to: "iec62443-4-2", kind: "align", note: "制御機器では 62443-4-2 が代替・補完となる場面がある" }]
+},
+{
+  id: "iso22301",
+  short: "ISO 22301:2019",
+  title: "事業継続マネジメントシステム — 要求事項",
+  orig: "Security and resilience — Business continuity management systems — Requirements",
+  issuer: "ISO/TC 292",
+  region: "INT", type: "STD", version: "第2版", year: 2019,
+  binding: "任意（第三者認証制度あり）",
+  url: "https://www.iso.org/standard/75106.html",
+  summary: "事業中断に備えた事業継続マネジメントシステム（BCMS）の要求事項。事業影響度分析（BIA）とリスクアセスメントに基づき、復旧目標（RTO/RPO）を設定し、事業継続戦略・手順を確立して演習で検証することを求める。ランサムウェアによる生産停止への備えの基準文書として用いられる。",
+  scope: "全組織。サイバー起因の停止に限らないが、NIS2・重要インフラ行動計画などがサイバーレジリエンスの根拠として参照する。",
+  domains: ["CORP", "PWR", "RAIL", "FA", "BLD", "IT", "SEMI"],
+  cats: ["BCP", "GOV", "ASR"],
+  chapters: [
+    { no: "4", title: "組織の状況", cat: ["GOV"] },
+    { no: "5", title: "リーダーシップ", cat: ["GOV"] },
+    { no: "6", title: "計画", cat: ["BCP", "RSK"] },
+    { no: "7", title: "支援", cat: ["HRD"] },
+    { no: "8", title: "運用", cat: ["BCP"], note: "8.2 事業影響度分析及びリスクアセスメント、8.3 事業継続戦略、8.4 事業継続手順の確立と実施、8.5 演習プログラム、8.6 文書化した手順の評価。" },
+    { no: "9", title: "パフォーマンス評価", cat: ["ASR"] },
+    { no: "10", title: "改善", cat: ["ASR"] }
+  ],
+  rel: [{ to: "iso27001", kind: "align" }]
+},
+{
+  id: "iso27701",
+  short: "ISO/IEC 27701:2019",
+  title: "プライバシー情報マネジメントシステム — 要求事項及び指針",
+  orig: "Extension to ISO/IEC 27001 and ISO/IEC 27002 for privacy information management",
+  issuer: "ISO/IEC JTC 1/SC 27",
+  region: "INT", type: "STD", version: "初版", year: 2019,
+  binding: "任意（認証制度あり）",
+  url: "https://www.iso.org/standard/71670.html",
+  summary: "ISO/IEC 27001/27002 を拡張し、個人識別可能情報（PII）の管理者・処理者それぞれに対する要求事項と管理策を追加する。GDPR や個人情報保護法への対応を ISMS の枠組みで扱うために用いられる。",
+  scope: "PII を取り扱うすべての組織。家電・住宅IoT・車載など、利用者データを扱う製品事業で関連が強い。",
+  domains: ["CORP", "IT", "LIFE", "AUTO", "BLD"],
+  cats: ["LEG", "GOV", "OPS"],
+  chapters: [
+    { no: "5", title: "ISO/IEC 27001 に関するPIMS固有の要求事項", cat: ["GOV", "LEG"] },
+    { no: "6", title: "ISO/IEC 27002 に関するPIMS固有の手引", cat: ["OPS"] },
+    { no: "7", title: "PII管理者のための追加の手引", cat: ["LEG"], note: "同意、目的の特定、権利行使への対応、共同管理者。" },
+    { no: "8", title: "PII処理者のための追加の手引", cat: ["LEG", "SCM"], note: "顧客との契約、再委託、返却・消去。" }
+  ],
+  rel: [{ to: "iso27001", kind: "parent" }]
+},
+{
+  id: "iso42001",
+  short: "ISO/IEC 42001:2023",
+  title: "AIマネジメントシステム — 要求事項",
+  orig: "Information technology — Artificial intelligence — Management system",
+  issuer: "ISO/IEC JTC 1/SC 42",
+  region: "INT", type: "STD", version: "初版", year: 2023,
+  binding: "任意（認証制度あり）",
+  url: "https://www.iso.org/standard/81230.html",
+  summary: "AI システムの開発・提供・利用に関するマネジメントシステム要求事項。附属書A に管理目的と管理策、附属書B に実装手引、附属書C に AI 固有のリスク源を収載する。EU AI Act 対応の内部統制基盤として参照されつつある。",
+  scope: "AI を製品に組み込む、または業務に利用する組織。FA の外観検査、空調の需要予測、監視カメラ映像解析などが該当。",
+  domains: ["IT", "FA", "AUTO", "BLD", "LIFE", "CORP"],
+  cats: ["GOV", "RSK", "DEV", "LEG"],
+  chapters: [
+    { no: "4-10", title: "マネジメントシステム要求事項", cat: ["GOV", "RSK", "ASR"], note: "他のMSS規格と共通の高位構造。" },
+    { no: "A", title: "附属書A — 管理目的及び管理策", cat: ["DEV", "GOV"], note: "AI 方針、資源、影響評価、ライフサイクル、データ、第三者・顧客関係。" },
+    { no: "B", title: "附属書B — 管理策の実装手引", cat: ["DEV"] },
+    { no: "C", title: "附属書C — AI に関する組織目的及びリスク源", cat: ["RSK"] }
+  ],
+  rel: [{ to: "iso27001", kind: "align" }]
+},
+
+/* ===================== IEC 62443 シリーズ ===================== */
+{
+  id: "iec62443-1-1",
+  short: "IEC TS 62443-1-1",
+  title: "IACS セキュリティ — 用語、概念及びモデル",
+  orig: "Industrial communication networks — Network and system security — Part 1-1: Terminology, concepts and models",
+  issuer: "IEC TC 65/WG 10 & ISA99",
+  region: "INT", type: "STD", version: "Ed.1（Ed.2 準備中）", year: 2009,
+  binding: "任意",
+  url: "https://webstore.iec.ch/publication/7029",
+  summary: "62443 シリーズ全体の共通言語を定める。ゾーンとコンジット、セキュリティレベル（SL-T 目標／SL-A 達成／SL-C 能力）、成熟度レベル、参照モデル（Purdue モデル）を導入する。シリーズを読む前提となる文書。",
+  scope: "IACS（産業用オートメーション及び制御システム）に関わるアセットオーナ、システムインテグレータ、製品サプライヤの全員。",
+  domains: ["FA", "PWR", "SEMI", "BLD", "RAIL"],
+  cats: ["RSK", "DEV", "OPS"],
+  chapters: [
+    { no: "4", title: "IACS セキュリティの状況", cat: ["RSK"], note: "IT セキュリティとの相違（可用性・安全性の優先、長寿命、リアルタイム制約）。" },
+    { no: "5", title: "概念", cat: ["RSK", "OPS"], note: "多層防御、ゾーンとコンジット、セキュリティレベル、成熟度。" },
+    { no: "6", title: "モデル", cat: ["OPS", "DEV"], note: "参照モデル、資産モデル、ライフサイクルモデル。" }
+  ],
+  rel: [{ to: "iec62443-3-2", kind: "detail" }, { to: "iec62443-3-3", kind: "detail" }]
+},
+{
+  id: "iec62443-2-1",
+  short: "IEC 62443-2-1:2024",
+  title: "IACS セキュリティ — アセットオーナのセキュリティプログラム要求事項",
+  orig: "Security for industrial automation and control systems — Part 2-1: Security program requirements for IACS asset owners",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "STD", version: "Ed.2", year: 2024,
+  binding: "任意（発注者要求・認証制度 IECEE CB あり）",
+  url: "https://webstore.iec.ch/publication/67089",
+  summary: "IACS を保有・運用するアセットオーナ（工場、発電所、ビル等）が確立すべきセキュリティプログラムの要求事項。Ed.2 で構成が大きく改められ、セキュリティプログラム要素（SPE）ごとに要求事項と成熟度レベルを定める形式になった。工場・プラントのセキュリティ体制構築の基準文書。",
+  scope: "IACS を運用する組織。自社工場のセキュリティ構築と、顧客プラントへ納入する際の要求理解の双方で使う。",
+  domains: ["FA", "PWR", "SEMI", "BLD", "RAIL"],
+  cats: ["GOV", "OPS", "RSK", "SCM", "IRS"],
+  chapters: [
+    { no: "4", title: "セキュリティプログラムの構成", cat: ["GOV"], note: "セキュリティプログラム要素（SPE）と成熟度レベル（ML1〜ML4）の枠組み。" },
+    { no: "ORG", title: "組織的なセキュリティ対策（方針・体制・力量）", cat: ["GOV", "HRD"] },
+    { no: "CM", title: "構成管理", cat: ["OPS"], note: "資産インベントリ、変更管理、ベースライン。" },
+    { no: "NET", title: "ネットワーク及び通信のセキュリティ", cat: ["OPS"], note: "ゾーン分割、境界防護、リモートアクセス。" },
+    { no: "ACC", title: "利用者アクセス制御", cat: ["OPS"] },
+    { no: "DATA", title: "データの保護", cat: ["OPS"] },
+    { no: "EVT", title: "事象及びインシデントの管理", cat: ["MON", "IRS"] },
+    { no: "AVL", title: "システムの完全性及び可用性（バックアップ・復旧を含む）", cat: ["OPS", "BCP"] },
+    { no: "SUP", title: "サプライチェーン及びサービスプロバイダの管理", cat: ["SCM"] }
+  ],
+  verify: "Ed.2 のセキュリティプログラム要素の記号・章番号は原典で確認すること。ここでは要素の内容単位で整理している。",
+  rel: [
+    { to: "iec62443-1-1", kind: "parent" },
+    { to: "iec62443-2-4", kind: "ref", note: "サービスプロバイダに課す要求の参照先" },
+    { to: "iec62443-3-2", kind: "ref", note: "リスクアセスメント手順の参照先" },
+    { to: "jp-factory-gl", kind: "align", note: "経産省 工場システムガイドラインが参照" },
+    { to: "nist-800-82", kind: "align" }
+  ]
+},
+{
+  id: "iec62443-2-3",
+  short: "IEC TR 62443-2-3",
+  title: "IACS 環境におけるパッチ管理",
+  orig: "Patch management in the IACS environment",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "TECH", version: "Ed.1", year: 2015,
+  binding: "任意（技術報告書）",
+  url: "https://webstore.iec.ch/publication/22811",
+  summary: "アセットオーナと製品サプライヤの間でのパッチ情報の交換と、稼働を止められない制御環境でのパッチ適用手順を扱う技術報告書。パッチ互換性情報の交換フォーマット（VPI: Vendor Patch Information）を提案する。",
+  scope: "制御システムを運用する部門と、パッチを提供する製品ベンダ。",
+  domains: ["FA", "PWR", "SEMI", "BLD"],
+  cats: ["OPS", "SCM"],
+  chapters: [
+    { no: "4", title: "パッチ管理のライフサイクル", cat: ["OPS"] },
+    { no: "5", title: "アセットオーナのパッチ管理", cat: ["OPS"], note: "適用可否評価、検証環境でのテスト、計画停止との調整。" },
+    { no: "6", title: "製品サプライヤのパッチ管理", cat: ["DEV", "SCM"], note: "互換性検証と情報提供の責務。" },
+    { no: "A", title: "附属書 — VPI（ベンダパッチ情報）フォーマット", cat: ["SCM", "OPS"] }
+  ],
+  rel: [{ to: "iec62443-2-1", kind: "parent" }, { to: "iec62443-4-1", kind: "ref", note: "SUM（セキュリティ更新管理）実践に対応" }]
+},
+{
+  id: "iec62443-2-4",
+  short: "IEC 62443-2-4:2023",
+  title: "IACS サービスプロバイダに対するセキュリティプログラム要求事項",
+  orig: "Security program requirements for IACS service providers",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "STD", version: "Ed.1 + AMD1/AMD2", year: 2023,
+  binding: "任意（認証制度あり。発注者要求として使われる）",
+  url: "https://webstore.iec.ch/publication/61335",
+  summary: "システムインテグレータや保守サービス事業者が、統合・保守活動において満たすべき能力要求を規定する。要求はトピック別（アーキテクチャ、無線、セキュリティ更新、アカウント管理、マルウェア対策、バックアップ等）に整理されている。自社がプラント／ビル／工場にシステムを納入・保守する立場で直接適用される規格。",
+  scope: "IACS の統合・保守を請け負う事業者。エンジニアリング会社、SI 部門、フィールドサービス部門。",
+  domains: ["FA", "PWR", "BLD", "RAIL", "SEMI"],
+  cats: ["SCM", "DEV", "OPS", "GOV"],
+  chapters: [
+    { no: "4.1", title: "ソリューションのステージングとアーキテクチャ", cat: ["DEV", "OPS"] },
+    { no: "4.2", title: "無線技術のセキュリティ", cat: ["OPS"] },
+    { no: "4.3", title: "セキュリティ更新（パッチ）の管理", cat: ["OPS", "SCM"] },
+    { no: "4.4", title: "マルウェア対策", cat: ["OPS"] },
+    { no: "4.5", title: "ユーザアカウント及び認証情報の管理", cat: ["OPS"] },
+    { no: "4.6", title: "リモートアクセスの管理", cat: ["OPS"] },
+    { no: "4.7", title: "バックアップと復旧", cat: ["BCP"] },
+    { no: "4.8", title: "イベントログとモニタリング", cat: ["MON"] },
+    { no: "4.9", title: "エンジニアリング要員の力量と作業手順", cat: ["HRD", "GOV"] }
+  ],
+  verify: "章番号は要求トピックの整理であり、原典の細分番号とは一致しない場合がある。",
+  rel: [{ to: "iec62443-2-1", kind: "ref" }, { to: "iec62443-3-3", kind: "ref" }]
+},
+{
+  id: "iec62443-3-2",
+  short: "IEC 62443-3-2:2020",
+  title: "システム設計のためのセキュリティリスクアセスメント",
+  orig: "Security risk assessment for system design",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "STD", version: "Ed.1", year: 2020,
+  binding: "任意",
+  url: "https://webstore.iec.ch/publication/30727",
+  summary: "対象システムをゾーンとコンジットに分割し、各ゾーンの目標セキュリティレベル（SL-T）を決定するまでの手順（ZCR 1〜7）を規定する。62443 シリーズの中で「どこまでやるか」を決める中核の規格であり、3-3／4-2 の要求適用範囲はここで決まる。",
+  scope: "制御システムの設計者、アセットオーナ、インテグレータ。新設・改修プロジェクトの上流で実施する。",
+  domains: ["FA", "PWR", "SEMI", "BLD", "RAIL"],
+  cats: ["RSK", "DEV", "OPS"],
+  chapters: [
+    { no: "ZCR 1", title: "対象システム（SuC）の特定", cat: ["RSK"] },
+    { no: "ZCR 2", title: "初期リスクアセスメント（ハイレベル）", cat: ["RSK"], note: "最悪ケースの影響を評価し、詳細評価の要否を判断。" },
+    { no: "ZCR 3", title: "ゾーン及びコンジットへの分割", cat: ["RSK", "OPS"], note: "安全関連系・一時的に接続される機器・無線の扱いを含む。" },
+    { no: "ZCR 4", title: "詳細リスクアセスメントの要否判断", cat: ["RSK"] },
+    { no: "ZCR 5", title: "詳細リスクアセスメントの実施", cat: ["RSK"], note: "脅威・脆弱性の特定、非緩和リスクの算定、対策の検討、残留リスク評価。" },
+    { no: "ZCR 6", title: "サイバーセキュリティ要求仕様（CRS）の文書化", cat: ["DEV", "RSK"], note: "SL-T を含む要求仕様。調達・設計の入力になる。" },
+    { no: "ZCR 7", title: "承認とライフサイクルにおける維持", cat: ["GOV", "RSK"] }
+  ],
+  rel: [{ to: "iec62443-3-3", kind: "detail", note: "決定した SL-T に対応するシステム要求" }, { to: "iec62443-2-1", kind: "parent" }, { to: "jp-ipa-risk", kind: "align", note: "IPA リスク分析ガイドの手法と併用される" }]
+},
+{
+  id: "iec62443-3-3",
+  short: "IEC 62443-3-3:2013",
+  title: "システムセキュリティ要求事項及びセキュリティレベル",
+  orig: "System security requirements and security levels",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "STD", version: "Ed.1", year: 2013,
+  binding: "任意（認証制度あり）",
+  url: "https://webstore.iec.ch/publication/7033",
+  summary: "制御システム全体が満たすべき技術要求を、7つの基礎的要求（FR）とその下位のシステム要求（SR）・強化要求（RE）として規定し、SL 1〜4 の各レベルで適用される要求を定める。制御システム調達仕様書の技術要件欄はこの規格の SR 番号で書かれることが多い。",
+  scope: "制御システムのインテグレータ・アセットオーナ・システム製品ベンダ。",
+  domains: ["FA", "PWR", "SEMI", "BLD", "RAIL"],
+  cats: ["OPS", "DEV", "MON"],
+  chapters: [
+    { no: "FR 1", title: "識別及び認証制御（IAC）", cat: ["OPS"], note: "人・ソフトウェアプロセス・デバイスの識別と認証。無線・可搬媒体を含む。" },
+    { no: "FR 2", title: "使用制御（UC）", cat: ["OPS"], note: "権限の割当てと強制、可搬媒体の使用制限、監査可能な事象、セッションロック。" },
+    { no: "FR 3", title: "システム完全性（SI）", cat: ["OPS", "DEV"], note: "通信の完全性、悪意あるコードからの保護、セキュリティ機能の検証、入力検証。" },
+    { no: "FR 4", title: "データ機密性（DC）", cat: ["OPS"], note: "保存時・伝送時の機密性、暗号の利用、廃棄時の消去。" },
+    { no: "FR 5", title: "制限されたデータフロー（RDF）", cat: ["OPS"], note: "ネットワークのセグメント化、ゾーン境界の保護、汎用パーソン間通信の制限。" },
+    { no: "FR 6", title: "事象に対するタイムリーな応答（TRE）", cat: ["MON", "IRS"], note: "監査ログへのアクセス性、継続的監視。" },
+    { no: "FR 7", title: "リソースの可用性（RA）", cat: ["OPS", "BCP"], note: "DoS 耐性、リソース管理、バックアップ、緊急時電源、ネットワーク／セキュリティ設定の復元。" }
+  ],
+  rel: [{ to: "iec62443-3-2", kind: "parent" }, { to: "iec62443-4-2", kind: "detail", note: "システム要求をコンポーネント要求へ割り付ける" }]
+},
+{
+  id: "iec62443-4-1",
+  short: "IEC 62443-4-1:2018",
+  title: "セキュア製品開発ライフサイクル要求事項",
+  orig: "Secure product development lifecycle requirements",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "STD", version: "Ed.1", year: 2018,
+  binding: "任意（IECEE CB 等の認証制度あり。発注者要求として広く使われる）",
+  url: "https://webstore.iec.ch/publication/33615",
+  summary: "制御機器・制御ソフトウェアの開発組織が備えるべきプロセス要求を、8つの実践（Practice）と成熟度レベルで規定する。製品を作る側の「開発プロセス認証」の基準であり、CRA・工場ガイドライン等が求めるセキュア開発の実装手段として最も参照される規格。",
+  scope: "制御機器・産業用ソフトウェアの製品開発組織。PLC、インバータ、HMI、SCADA、ビル設備コントローラ等の開発部門が直接の対象。",
+  domains: ["FA", "PWR", "BLD", "SEMI", "RAIL", "LIFE"],
+  cats: ["DEV", "GOV", "IRS", "SCM"],
+  chapters: [
+    { no: "SM", title: "実践1: セキュリティ管理（Security Management）", cat: ["GOV", "DEV"], note: "開発プロセスの定義、責任者の指名、要員の力量、開発環境のセキュリティ、サードパーティ部品の管理。" },
+    { no: "SR", title: "実践2: セキュリティ要求の仕様化（Specification of Security Requirements）", cat: ["DEV"], note: "製品のセキュリティコンテキスト、脅威モデル、要求仕様のレビュー。" },
+    { no: "SD", title: "実践3: セキュアバイデザイン（Secure by Design）", cat: ["DEV"], note: "多層防御設計、設計のセキュリティレビュー、攻撃面の最小化。" },
+    { no: "SI", title: "実践4: セキュアな実装（Secure Implementation）", cat: ["DEV"], note: "セキュアコーディング標準、実装レビュー、静的解析。" },
+    { no: "SVV", title: "実践5: セキュリティ検証・妥当性確認テスト（Security Verification and Validation Testing）", cat: ["DEV", "ASR"], note: "要求に対するテスト、脅威緩和のテスト、脆弱性スキャン、ファジング、ペネトレーションテスト。" },
+    { no: "DM", title: "実践6: セキュリティ関連課題の管理（Management of Security-related Issues）", cat: ["IRS", "DEV"], note: "脆弱性の受付・調査・影響評価（CVSS）・是正の管理と、開示。" },
+    { no: "SUM", title: "実践7: セキュリティ更新の管理（Security Update Management）", cat: ["DEV", "OPS"], note: "更新の適格性確認、文書化、配信、依存部品の更新。" },
+    { no: "SG", title: "実践8: セキュリティガイドライン（Security Guidelines）", cat: ["DEV", "SCM"], note: "利用者向けの多層防御戦略、セキュアな設置・運用・廃棄の手引の提供。" }
+  ],
+  rel: [
+    { to: "iec62443-4-2", kind: "ref", note: "プロセス（4-1）と製品機能（4-2）の対" },
+    { to: "nist-800-218", kind: "align", note: "SSDF と実践レベルで対応" },
+    { to: "iso21434", kind: "align", note: "自動車分野の対応規格" }
+  ]
+},
+{
+  id: "iec62443-4-2",
+  short: "IEC 62443-4-2:2019",
+  title: "IACS コンポーネントに対する技術的セキュリティ要求事項",
+  orig: "Technical security requirements for IACS components",
+  issuer: "IEC TC 65/WG 10",
+  region: "INT", type: "STD", version: "Ed.1", year: 2019,
+  binding: "任意（製品認証制度あり）",
+  url: "https://webstore.iec.ch/publication/34421",
+  summary: "62443-3-3 のシステム要求を、個々のコンポーネント（組込みデバイス、ホストデバイス、ネットワークデバイス、アプリケーション）の技術要求（CR/EDR/HDR/NDR/SAR）へ展開する。PLC・リモートI/O・産業用スイッチ等の製品セキュリティ仕様の直接の根拠となる。",
+  scope: "制御機器の製品開発部門。製品カタログに「SL2 準拠」等を表示する際の根拠規格。",
+  domains: ["FA", "PWR", "BLD", "RAIL", "SEMI", "LIFE"],
+  cats: ["DEV", "OPS"],
+  chapters: [
+    { no: "CR 1", title: "識別及び認証制御 — コンポーネント要求", cat: ["DEV"], note: "人・プロセス・デバイスの認証、パスワード管理、公開鍵認証、認証情報の保護。" },
+    { no: "CR 2", title: "使用制御 — コンポーネント要求", cat: ["DEV"], note: "権限の強制、可搬媒体制御、監査事象の生成、監査記憶域。" },
+    { no: "CR 3", title: "システム完全性 — コンポーネント要求", cat: ["DEV"], note: "通信完全性、マルウェア対策、ソフトウェア・情報の完全性、入力検証、決定論的出力、エラー処理。" },
+    { no: "CR 4", title: "データ機密性 — コンポーネント要求", cat: ["DEV"], note: "情報の機密性、暗号アルゴリズムの使用、乱数生成、鍵管理。" },
+    { no: "CR 5", title: "制限されたデータフロー — コンポーネント要求", cat: ["DEV"] },
+    { no: "CR 6", title: "事象に対するタイムリーな応答 — コンポーネント要求", cat: ["DEV", "MON"] },
+    { no: "CR 7", title: "リソースの可用性 — コンポーネント要求", cat: ["DEV", "BCP"], note: "DoS 耐性、リソース管理、バックアップ、最小機能、インベントリ提供。" },
+    { no: "EDR/HDR/NDR/SAR", title: "デバイス種別ごとの追加要求", cat: ["DEV"], note: "組込みデバイス（EDR）、ホストデバイス（HDR）、ネットワークデバイス（NDR）、ソフトウェアアプリケーション（SAR）別の要求。物理的な改ざん検知、セキュアブート等を含む。" }
+  ],
+  rel: [{ to: "iec62443-3-3", kind: "parent" }, { to: "iec62443-4-1", kind: "ref" }]
+},
+
+/* ===================== 分野別の国際規格 ===================== */
+{
+  id: "iec62351",
+  short: "IEC 62351 シリーズ",
+  title: "電力系統の管理と関連する情報交換 — データ通信及びシステムのセキュリティ",
+  orig: "Power systems management and associated information exchange — Data and communications security",
+  issuer: "IEC TC 57/WG 15",
+  region: "INT", type: "STD", version: "Part 1–14（部により改訂年が異なる）", year: 2024,
+  binding: "任意（電力事業者の調達仕様で参照される）",
+  url: "https://webstore.iec.ch/publication/6912",
+  summary: "IEC 60870-5、IEC 61850、ICCP（TASE.2）、DNP3 といった電力用通信プロトコルに対して、認証・完全性・機密性を後付けするためのセキュリティ規格群。変電所自動化・給電システム・系統間連系の通信保護の基準。",
+  scope: "送変電・配電の制御通信を扱う事業者と機器ベンダ。変電所自動化システム、給電指令システム、系統保護装置。",
+  domains: ["PWR"],
+  cats: ["OPS", "DEV"],
+  chapters: [
+    { no: "-1", title: "概説とセキュリティ課題", cat: ["RSK"] },
+    { no: "-3", title: "TCP/IP プロファイルのセキュリティ（TLS）", cat: ["OPS", "DEV"] },
+    { no: "-4", title: "MMS 及び XML ベースプロトコルのセキュリティ", cat: ["OPS", "DEV"] },
+    { no: "-5", title: "IEC 60870-5 及び派生規格のセキュリティ", cat: ["OPS", "DEV"] },
+    { no: "-6", title: "IEC 61850 のセキュリティ（GOOSE / SV の認証）", cat: ["OPS", "DEV"] },
+    { no: "-7", title: "ネットワーク及びシステム管理（NSM）データオブジェクト", cat: ["MON"] },
+    { no: "-8", title: "ロールベースアクセス制御（RBAC）", cat: ["OPS"] },
+    { no: "-9", title: "鍵管理（証明書・鍵のライフサイクル）", cat: ["OPS", "DEV"] },
+    { no: "-10", title: "セキュリティアーキテクチャの手引", cat: ["RSK", "OPS"] },
+    { no: "-11", title: "XML 文書のセキュリティ", cat: ["OPS"] },
+    { no: "-12", title: "分散型エネルギー資源（DER）のレジリエンスと推奨事項", cat: ["OPS", "BCP"] },
+    { no: "-14", title: "セキュリティログとイベントの監視", cat: ["MON"] }
+  ],
+  rel: [{ to: "iso27019", kind: "parent", note: "エネルギー事業向け管理策のうち通信保護を担う" }]
+},
+{
+  id: "iec62645",
+  short: "IEC 62645:2019",
+  title: "原子力発電所 — 計装制御システム — コンピュータセキュリティプログラムの要求事項",
+  orig: "Nuclear power plants — Instrumentation, control and electrical power systems — Cybersecurity requirements",
+  issuer: "IEC SC 45A",
+  region: "INT", type: "STD", version: "Ed.2", year: 2019,
+  binding: "任意（原子力規制の枠組みで参照される）",
+  url: "https://webstore.iec.ch/publication/34645",
+  summary: "原子力発電所の計装制御（I&C）システムに対するコンピュータセキュリティプログラムの要求事項。安全上の重要度に応じた段階的（graded）アプローチを採り、安全機能への影響を最優先に置く点で一般のIACS規格と異なる。",
+  scope: "原子力発電所の I&C システムの設計・供給・運用に関わる者。",
+  domains: ["PWR"],
+  cats: ["GOV", "RSK", "DEV", "OPS"],
+  chapters: [
+    { no: "5", title: "コンピュータセキュリティプログラム", cat: ["GOV"], note: "方針、体制、安全部門との調整。" },
+    { no: "6", title: "段階的アプローチとセキュリティ度合い（Security Degrees）", cat: ["RSK"], note: "S1〜S3 の区分と割当て。" },
+    { no: "7", title: "ライフサイクル各段階の要求", cat: ["DEV", "OPS"], note: "要求定義、設計、実装、据付、運用、保守、廃止。" },
+    { no: "8", title: "セキュリティ管理策", cat: ["OPS"] }
+  ],
+  rel: [{ to: "iec62443-2-1", kind: "align" }, { to: "iso27019", kind: "align" }]
+},
+{
+  id: "en50701",
+  short: "EN 50701:2023 / IEC 63452",
+  title: "鉄道分野におけるサイバーセキュリティ",
+  orig: "Railway applications — Cybersecurity",
+  issuer: "CENELEC TC 9X / IEC TC 9",
+  region: "INT", type: "STD", version: "EN 50701:2023、IEC 63452 として国際規格化", year: 2023,
+  binding: "任意（欧州の鉄道調達で事実上の要件。日本でも参照が広がっている）",
+  url: "https://www.cenelec.eu/",
+  summary: "IEC 62443 を鉄道分野へ適合させた規格。信号・車両・駅設備・運行管理を含む鉄道システムに対し、ゾーン／コンジット分割、SL 決定、ライフサイクル要求を鉄道の安全規格（EN 5012x／EN 50126 の RAMS）と整合させて規定する。安全（Safety）認証プロセスとセキュリティ活動の接続方法を示す点が中核。",
+  scope: "鉄道事業者、車両メーカ、信号・運行管理システムのサプライヤ。欧州向け鉄道案件では入札要件になる。",
+  domains: ["RAIL"],
+  cats: ["RSK", "DEV", "OPS", "SCM"],
+  chapters: [
+    { no: "5", title: "鉄道システムのライフサイクルとセキュリティ活動の統合", cat: ["DEV", "GOV"], note: "EN 50126 のライフサイクルフェーズとの対応付け。" },
+    { no: "6", title: "システムの定義とゾーン・コンジットの識別", cat: ["RSK", "OPS"] },
+    { no: "7", title: "サイバーセキュリティリスクアセスメント", cat: ["RSK"], note: "資産の識別、脅威分析、影響評価、SL-T の割当て。" },
+    { no: "8", title: "セキュリティ要求仕様と設計", cat: ["DEV"], note: "システム／コンポーネント要求への展開。" },
+    { no: "9", title: "安全性とセキュリティの相互作用", cat: ["RSK", "DEV"], note: "セキュリティ対策が安全機能へ与える影響の評価。" },
+    { no: "10", title: "運用・保守フェーズのセキュリティ", cat: ["OPS", "MON", "IRS"], note: "脆弱性管理、パッチ、インシデント対応、廃止。" },
+    { no: "A-F", title: "附属書 — 手法とテンプレート", cat: ["RSK", "DEV"] }
+  ],
+  verify: "IEC 63452 は 2025 年前後に発行された最新版のため、版数・章立ては原典で確認すること。",
+  rel: [{ to: "iec62443-3-2", kind: "parent" }, { to: "iec62443-3-3", kind: "parent" }, { to: "jp-rail-gl", kind: "align" }]
+},
+{
+  id: "iso21434",
+  short: "ISO/SAE 21434:2021",
+  title: "道路車両 — サイバーセキュリティエンジニアリング",
+  orig: "Road vehicles — Cybersecurity engineering",
+  issuer: "ISO/TC 22/SC 32 & SAE",
+  region: "INT", type: "STD", version: "初版", year: 2021,
+  binding: "任意（UN R155 の CSMS 適合を示す事実上の標準手段）",
+  url: "https://www.iso.org/standard/70918.html",
+  summary: "車両およびその電子コンポーネントについて、コンセプトから開発・生産・運用・廃止までのサイバーセキュリティエンジニアリング要求を規定する。TARA（脅威分析とリスクアセスメント）の手法、サイバーセキュリティ保証レベルの考え方、サプライヤとの責任分担（Cybersecurity Interface Agreement）を含む。",
+  scope: "OEM および車載部品サプライヤ。ECU、車載通信、テレマティクス、充電関連機器の開発部門。",
+  domains: ["AUTO"],
+  cats: ["DEV", "RSK", "SCM", "GOV", "IRS"],
+  chapters: [
+    { no: "5", title: "組織のサイバーセキュリティ管理", cat: ["GOV", "HRD"], note: "方針、責任、力量、組織的な監査。" },
+    { no: "6", title: "プロジェクト依存のサイバーセキュリティ管理", cat: ["GOV", "DEV"], note: "サイバーセキュリティ計画、テーラリング、ケースとアセスメント、リリース判断。" },
+    { no: "7", title: "分散されたサイバーセキュリティ活動", cat: ["SCM"], note: "サプライヤ選定、Cybersecurity Interface Agreement（CIA）による責任分担。" },
+    { no: "8", title: "継続的なサイバーセキュリティ活動", cat: ["MON", "IRS"], note: "サイバーセキュリティモニタリング、イベント評価、脆弱性分析・管理。" },
+    { no: "9", title: "コンセプトフェーズ", cat: ["RSK", "DEV"], note: "アイテム定義、サイバーセキュリティゴール、コンセプトの決定。" },
+    { no: "10", title: "製品開発", cat: ["DEV"], note: "要求と設計、統合と検証。" },
+    { no: "11", title: "サイバーセキュリティ検証（Validation）", cat: ["DEV", "ASR"] },
+    { no: "12", title: "生産", cat: ["DEV", "OPS"], note: "生産工程での鍵書込み・設定の管理。" },
+    { no: "13", title: "運用及び保守", cat: ["IRS", "OPS"], note: "インシデント対応、アップデート。" },
+    { no: "14", title: "サイバーセキュリティ活動の終了と廃止", cat: ["OPS"] },
+    { no: "15", title: "TARA（脅威分析とリスクアセスメント）手法", cat: ["RSK"], note: "資産識別、脅威シナリオ、影響評価、攻撃経路分析、攻撃実現可能性、リスク値決定、リスク対応。" }
+  ],
+  rel: [
+    { to: "iso24089", kind: "ref", note: "ソフトウェア更新は 24089 が担当" },
+    { to: "iec62443-4-1", kind: "align" },
+    { to: "jp-jama-gl", kind: "ref", note: "国内サプライチェーンの会社単位の対策はこちらが担う" }
+  ]
+},
+{
+  id: "iso24089",
+  short: "ISO 24089:2023",
+  title: "道路車両 — ソフトウェア更新エンジニアリング",
+  orig: "Road vehicles — Software update engineering",
+  issuer: "ISO/TC 22/SC 32",
+  region: "INT", type: "STD", version: "初版", year: 2023,
+  binding: "任意（UN R156 適合の手段）",
+  url: "https://www.iso.org/standard/77796.html",
+  summary: "車両のソフトウェア更新（OTA を含む）に関する組織・プロジェクトレベルの要求を規定する。更新パッケージの完全性、車両側の適合性確認、更新失敗時の安全な状態、利用者への通知などを扱う。",
+  scope: "OEM、ECU サプライヤ、更新インフラ（バックエンド）の提供者。",
+  domains: ["AUTO"],
+  cats: ["DEV", "OPS", "SCM"],
+  chapters: [
+    { no: "5", title: "組織的な要求事項", cat: ["GOV"], note: "ソフトウェア更新管理システム（SUMS）の確立。" },
+    { no: "6", title: "プロジェクトレベルの要求事項", cat: ["DEV"] },
+    { no: "7", title: "インフラストラクチャの要求事項", cat: ["OPS", "DEV"], note: "配信バックエンドのセキュリティ。" },
+    { no: "8", title: "車両及びシステムの更新", cat: ["DEV", "OPS"], note: "適合性確認、実行、ロールバック、記録。" }
+  ],
+  rel: [{ to: "iso21434", kind: "ref" }]
+},
+{
+  id: "un-r155",
+  short: "UN R155",
+  title: "国連協定規則第155号 — サイバーセキュリティ及びサイバーセキュリティマネジメントシステムに係る車両の認可",
+  orig: "UN Regulation No. 155 — Cyber security and cyber security management system",
+  issuer: "UNECE WP.29 / GRVA",
+  region: "INT", type: "REG", version: "第00改訂版（改訂1を含む）", year: 2021,
+  binding: "強制（1958年協定加盟国。日本・EU では型式認証の要件）",
+  url: "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-155-cyber-security-and-cyber-security",
+  summary: "自動車メーカに CSMS（サイバーセキュリティマネジメントシステム）の認証取得を義務づけ、さらに車両型式ごとにサイバーセキュリティの認可を求める規則。附属書5に脅威（Threat）とその緩和策の一覧が示され、型式認証審査の実質的なチェックリストとして機能する。",
+  scope: "1958年協定に基づく型式認証を要する車両。日本では道路運送車両法の保安基準に取り込まれ、対象車種へ段階的に適用されている。",
+  domains: ["AUTO"],
+  cats: ["LEG", "GOV", "DEV", "RSK", "IRS"],
+  chapters: [
+    { no: "5", title: "認可（Approval）", cat: ["LEG"], note: "CSMS 適合証書と車両型式認可の二段構え。" },
+    { no: "7.2", title: "CSMS に関する要件", cat: ["GOV", "RSK", "IRS"], note: "組織プロセス、リスク評価、サプライヤ管理、監視とインシデント対応、報告。" },
+    { no: "7.3", title: "車両型式に関する要件", cat: ["DEV", "RSK"], note: "リスク評価の実施と、附属書5の脅威への対処の実証。" },
+    { no: "7.4", title: "報告に関する規定", cat: ["LEG", "IRS"], note: "認可当局へのサイバー攻撃・脅威・脆弱性の報告。" },
+    { no: "Annex 5 A", title: "附属書5 パートA — 脅威及び脆弱性の記述", cat: ["RSK"], note: "バックエンドサーバ、通信経路、更新手順、人的要因、外部接続、データ、車外接続に関する脅威の分類。" },
+    { no: "Annex 5 B", title: "附属書5 パートB — 車両外部の脅威に対する緩和策", cat: ["DEV", "OPS"] },
+    { no: "Annex 5 C", title: "附属書5 パートC — 車両外部の緩和策（バックエンド等）", cat: ["OPS", "SCM"] }
+  ],
+  rel: [{ to: "iso21434", kind: "impl" }, { to: "un-r156", kind: "ref" }, { to: "jp-vehicle-law", kind: "local" }]
+},
+{
+  id: "un-r156",
+  short: "UN R156",
+  title: "国連協定規則第156号 — ソフトウェアアップデート及びソフトウェアアップデートマネジメントシステムに係る車両の認可",
+  orig: "UN Regulation No. 156 — Software update and software update management system",
+  issuer: "UNECE WP.29 / GRVA",
+  region: "INT", type: "REG", version: "第00改訂版", year: 2021,
+  binding: "強制（1958年協定加盟国）",
+  url: "https://unece.org/transport/documents/2021/03/standards/un-regulation-no-156-software-update-and-software-update",
+  summary: "車両のソフトウェア更新について、SUMS（ソフトウェアアップデートマネジメントシステム）の認証と、車両型式ごとの認可を求める規則。RXSWIN（ソフトウェア識別番号）による構成管理と、OTA 更新時の安全確保を規定する。",
+  scope: "型式認証を要する車両。OTA 更新を行う場合の要件が特に重い。",
+  domains: ["AUTO"],
+  cats: ["LEG", "OPS", "DEV"],
+  chapters: [
+    { no: "7.1", title: "SUMS に関する要件", cat: ["GOV", "OPS"], note: "更新の記録、対象車両の特定、互換性確認、依存関係の管理。" },
+    { no: "7.2", title: "車両型式に関する要件", cat: ["DEV"], note: "RXSWIN の付与と保護、更新の完全性・真正性の確保。" },
+    { no: "Annex 1", title: "附属書 — RXSWIN と情報文書", cat: ["OPS"] }
+  ],
+  rel: [{ to: "iso24089", kind: "impl" }, { to: "un-r155", kind: "ref" }, { to: "jp-vehicle-law", kind: "local" }]
+},
+{
+  id: "iso15118",
+  short: "ISO 15118 シリーズ",
+  title: "道路車両 — 電気自動車と充電設備間の通信インタフェース",
+  orig: "Road vehicles — Vehicle to grid communication interface",
+  issuer: "ISO/TC 22/SC 31 & IEC",
+  region: "INT", type: "STD", version: "Part 2/20 ほか", year: 2022,
+  binding: "任意（充電インフラの相互接続要件として実質必須）",
+  url: "https://www.iso.org/standard/77845.html",
+  summary: "EV と充電器の通信プロトコル。Plug&Charge における証明書ベースの相互認証と、V2G（Vehicle to Grid）通信のセキュリティを規定する。充電インフラの PKI 設計の基礎となる。",
+  scope: "EV、充電器（EVSE）、充電サービス事業者、電力系統側の需給調整に関わる事業者。",
+  domains: ["AUTO", "PWR"],
+  cats: ["DEV", "OPS"],
+  chapters: [
+    { no: "-2", title: "Part 2: ネットワーク及びアプリケーションプロトコル要求事項", cat: ["DEV"], note: "TLS、契約証明書、Plug&Charge の認証シーケンス。" },
+    { no: "-20", title: "Part 20: 第2世代のネットワーク及びアプリケーションプロトコル要求事項", cat: ["DEV"], note: "双方向電力伝送（BPT）、更新された暗号スイート。" },
+    { no: "-3", title: "Part 3: 物理層及びデータリンク層要求事項", cat: ["DEV"] }
+  ],
+  rel: [{ to: "iso21434", kind: "ref" }, { to: "iec62351", kind: "align" }]
+},
+{
+  id: "etsi303645",
+  short: "ETSI EN 303 645",
+  title: "消費者向けIoTのサイバーセキュリティ — 基本要求事項",
+  orig: "Cyber Security for Consumer Internet of Things: Baseline Requirements",
+  issuer: "ETSI TC CYBER",
+  region: "INT", type: "STD", version: "V2.1.1（V3 準備中）", year: 2020,
+  binding: "任意（各国の消費者IoT規制・ラベリング制度が参照）",
+  url: "https://www.etsi.org/deliver/etsi_en/303600_303699/303645/",
+  summary: "消費者向け IoT 機器の最低限のセキュリティ要件を13の規定と1つのデータ保護規定にまとめた規格。「共通の初期パスワードを使用しない」「脆弱性報告の手段を提供する」「ソフトウェアを更新可能にする」など、実装しやすい形で書かれており、各国の IoT 規制の共通の下敷きになっている。",
+  scope: "インターネット接続する消費者向け機器 — スマート家電、住宅設備、ホームカメラ、住宅用エネルギー管理装置など。",
+  domains: ["LIFE", "BLD", "AUTO"],
+  cats: ["DEV", "IRS", "LEG"],
+  chapters: [
+    { no: "5.1", title: "共通の初期パスワードを使用しないこと", cat: ["DEV"] },
+    { no: "5.2", title: "脆弱性報告の管理手段を実装すること", cat: ["IRS"], note: "脆弱性開示方針の公開。ISO/IEC 29147 に接続。" },
+    { no: "5.3", title: "ソフトウェアを最新に保つこと", cat: ["DEV", "OPS"], note: "更新の提供期間の明示、更新の完全性検証、自動更新。" },
+    { no: "5.4", title: "セキュリティパラメータをセキュアに保管すること", cat: ["DEV"] },
+    { no: "5.5", title: "セキュアに通信すること", cat: ["DEV"] },
+    { no: "5.6", title: "攻撃対象領域を最小化すること", cat: ["DEV"] },
+    { no: "5.7", title: "ソフトウェアの完全性を確保すること", cat: ["DEV"], note: "セキュアブート、改ざん検知。" },
+    { no: "5.8", title: "個人データがセキュアであることを確実にすること", cat: ["DEV", "LEG"] },
+    { no: "5.9", title: "停電・通信断に対するレジリエンスを持たせること", cat: ["DEV", "BCP"] },
+    { no: "5.10", title: "システムテレメトリデータを検査すること", cat: ["MON"] },
+    { no: "5.11", title: "利用者が容易にデータを削除できるようにすること", cat: ["DEV", "LEG"] },
+    { no: "5.12", title: "機器の設置・保守を容易にすること", cat: ["DEV"] },
+    { no: "5.13", title: "入力データを検証すること", cat: ["DEV"] },
+    { no: "6", title: "消費者IoTにおけるデータ保護規定", cat: ["LEG"] }
+  ],
+  rel: [{ to: "eu-red-da", kind: "align", note: "EN 18031 シリーズの下敷き" }, { to: "eu-cra", kind: "align" }, { to: "jp-iot-gl", kind: "align" }]
+},
+{
+  id: "semi-e187",
+  short: "SEMI E187 / E188",
+  title: "半導体製造装置のサイバーセキュリティ仕様／マルウェアフリー装置統合仕様",
+  orig: "SEMI E187 Specification for Cybersecurity of Fab Equipment / SEMI E188 Specification for Malware Free Equipment Integration",
+  issuer: "SEMI",
+  region: "INT", type: "STD", version: "E187:2022、E188:2022（以降改訂あり）", year: 2022,
+  binding: "任意（主要ファブの調達要件として実質的な必須要件）",
+  url: "https://www.semi.org/en/standards",
+  summary: "半導体製造装置に対する最低限のセキュリティ要件（E187: OS のサポート状態、ネットワークセキュリティ、エンドポイント保護、ログ）と、装置をファブに搬入・統合する際のマルウェア混入防止手順（E188: 出荷前スキャン、パッチ状態の申告、SBOM 相当の構成情報提供）を定める。装置サプライヤと半導体メーカ双方に適用される。",
+  scope: "半導体製造装置のサプライヤと、装置を受け入れるファブ。自社の半導体製造ラインとFA製品の両面で関係する。",
+  domains: ["SEMI", "FA"],
+  cats: ["DEV", "SCM", "OPS"],
+  chapters: [
+    { no: "E187 §7", title: "コンピュータのセキュリティ要件", cat: ["DEV", "OPS"], note: "サポート対象OS の使用、不要サービスの無効化。" },
+    { no: "E187 §8", title: "ネットワークセキュリティ要件", cat: ["DEV", "OPS"], note: "使用ポート・プロトコルの文書化、暗号化通信。" },
+    { no: "E187 §9", title: "エンドポイント保護要件", cat: ["DEV", "OPS"], note: "マルウェア対策ソフトの動作許容、アプリケーション許可リスト。" },
+    { no: "E187 §10", title: "セキュリティ監視要件", cat: ["MON"], note: "ログの生成・保存・外部転送。" },
+    { no: "E188 §7", title: "装置出荷前のマルウェアスキャンと申告", cat: ["SCM"], note: "スキャン実施記録の提出。" },
+    { no: "E188 §8", title: "ソフトウェア構成情報の提供", cat: ["SCM"], note: "インストール済ソフトウェア・パッチレベルの一覧。" }
+  ],
+  verify: "節番号は改訂により変動する。最新版を SEMI Standards で確認すること。",
+  rel: [{ to: "iec62443-4-2", kind: "align" }, { to: "iec62443-2-4", kind: "align" }]
+},
+{
+  id: "iec63074",
+  short: "IEC TS 63074:2023",
+  title: "機械類の安全性 — 安全関連制御システムのセキュリティ的側面",
+  orig: "Safety of machinery — Security aspects related to functional safety of safety-related control systems",
+  issuer: "IEC TC 44",
+  region: "INT", type: "STD", version: "Ed.1", year: 2023,
+  binding: "任意（EU 機械規則の適合手段として参照される）",
+  url: "https://webstore.iec.ch/publication/61417",
+  summary: "機械の安全関連制御システム（ISO 13849-1 / IEC 62061 の対象）に対して、セキュリティ上の脅威が安全機能を損なわないようにするための指針。IEC 62443 の考え方を機能安全の枠組みへ橋渡しする。EU 機械規則が新設したセキュリティ要件への対応で参照される。",
+  scope: "産業機械・産業用ロボット・工作機械の安全制御を設計する部門。",
+  domains: ["FA", "SEMI"],
+  cats: ["DEV", "RSK"],
+  chapters: [
+    { no: "5", title: "脅威と脆弱性の識別", cat: ["RSK"] },
+    { no: "6", title: "セキュリティリスクアセスメントと安全性への影響", cat: ["RSK", "DEV"] },
+    { no: "7", title: "セキュリティ対策と安全機能の両立", cat: ["DEV"] },
+    { no: "8", title: "運用・保守段階における考慮事項", cat: ["OPS"] }
+  ],
+  rel: [{ to: "iec62443-3-2", kind: "ref" }]
+},
+{
+  id: "sbom-formats",
+  short: "SPDX / CycloneDX",
+  title: "SBOM の標準フォーマット（ISO/IEC 5962 SPDX、OASIS CycloneDX）",
+  orig: "ISO/IEC 5962:2021 SPDX / OASIS CycloneDX",
+  issuer: "Linux Foundation（SPDX）／ OASIS（CycloneDX）",
+  region: "INT", type: "STD", version: "SPDX 3.0 / CycloneDX 1.6", year: 2024,
+  binding: "任意（米国大統領令・EU CRA・国内調達で SBOM の提出が求められる際の実装形式）",
+  url: "https://spdx.dev/",
+  summary: "ソフトウェア部品表（SBOM）の機械可読フォーマット。SPDX は ISO/IEC 5962 として国際規格化されており、CycloneDX は脆弱性情報（VEX）との統合に強い。CRA・EO 14028・経産省 SBOM 手引がいずれも SBOM の提供を求めており、その実装形式としてどちらかを選ぶことになる。",
+  scope: "ソフトウェアを含む製品を出荷するすべての部門、および調達側。",
+  domains: ["FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI", "CORP"],
+  cats: ["SCM", "DEV", "IRS"],
+  chapters: [
+    { no: "SPDX Core", title: "SPDX — 文書情報・パッケージ・ファイル・スニペット", cat: ["SCM"] },
+    { no: "SPDX Rel", title: "SPDX — 関係性（依存関係）とライセンス情報", cat: ["SCM", "LEG"] },
+    { no: "CDX Comp", title: "CycloneDX — コンポーネント、サービス、依存関係", cat: ["SCM"] },
+    { no: "CDX VEX", title: "CycloneDX — VEX（脆弱性の影響有無の表明）", cat: ["IRS", "SCM"], note: "検出された CVE が実際に影響するかを機械可読で伝える。" }
+  ],
+  rel: [{ to: "jp-sbom-tebiki", kind: "detail" }, { to: "nist-800-218", kind: "ref" }]
+}
+
+]);
+
+</script>
+<script>
+/* Navigator — 米国政府・規制機関の文書 */
+window.NAV = window.NAV || {};
+window.NAV.documents = (window.NAV.documents || []).concat([
+
+{
+  id: "nist-csf2",
+  short: "NIST CSF 2.0",
+  title: "NIST サイバーセキュリティフレームワーク 2.0",
+  orig: "The NIST Cybersecurity Framework (CSF) 2.0 — NIST CSWP 29",
+  issuer: "NIST（米国国立標準技術研究所）",
+  region: "US", type: "FW", version: "2.0", year: 2024,
+  binding: "任意（米国連邦機関以外は自主的。取引先要求・保険審査で参照される）",
+  url: "https://www.nist.gov/cyberframework",
+  summary: "組織のサイバーセキュリティ体制を6つの機能（GOVERN／IDENTIFY／PROTECT／DETECT／RESPOND／RECOVER）と22のカテゴリで記述する共通言語。2.0 で GOVERN が最上位機能として追加され、経営レベルの責任とサプライチェーンリスク管理が明確に位置づけられた。組織プロファイル（現在／目標）とティアで成熟度を表現する。自社の対策カバレッジを地図として俯瞰する用途に最も適する。",
+  scope: "業種・規模を問わない。重要インフラ向けに始まったが 2.0 で全組織へ適用範囲を拡大した。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "DEF", "FA", "AUTO", "BLD", "LIFE", "SEMI"],
+  cats: ["GOV", "RSK", "OPS", "MON", "IRS", "BCP", "SCM", "ASR"],
+  chapters: [
+    { no: "GV", title: "GOVERN — 統治", cat: ["GOV", "RSK", "SCM"], note: "GV.OC 組織の状況、GV.RM リスクマネジメント戦略、GV.RR 役割・責任・権限、GV.PO 方針、GV.OV 監督、GV.SC サイバーサプライチェーンリスクマネジメント。" },
+    { no: "ID", title: "IDENTIFY — 識別", cat: ["RSK", "ASR"], note: "ID.AM 資産管理、ID.RA リスクアセスメント、ID.IM 改善。" },
+    { no: "PR", title: "PROTECT — 防御", cat: ["OPS", "HRD", "DEV"], note: "PR.AA 識別情報管理・認証・アクセス制御、PR.AT 意識向上と研修、PR.DS データセキュリティ、PR.PS プラットフォームセキュリティ、PR.IR 技術インフラのレジリエンス。" },
+    { no: "DE", title: "DETECT — 検知", cat: ["MON"], note: "DE.CM 継続的モニタリング、DE.AE 有害事象の分析。" },
+    { no: "RS", title: "RESPOND — 対応", cat: ["IRS"], note: "RS.MA インシデント管理、RS.AN インシデント分析、RS.CO インシデント対応の報告とコミュニケーション、RS.MI インシデントの軽減。" },
+    { no: "RC", title: "RECOVER — 復旧", cat: ["BCP", "IRS"], note: "RC.RP インシデント復旧計画の実行、RC.CO 復旧に関するコミュニケーション。" },
+    { no: "Tiers", title: "実装ティア（Tier 1 部分的 〜 Tier 4 適応的）", cat: ["GOV", "ASR"], note: "リスクガバナンス・リスク管理・第三者リスクの成熟度を表す。" },
+    { no: "Profiles", title: "組織プロファイル（現在／目標）とコミュニティプロファイル", cat: ["GOV", "RSK"], note: "業種別のコミュニティプロファイル（製造業、通信、EV充電等）が公開されている。" }
+  ],
+  rel: [
+    { to: "iso27001", kind: "align", note: "公式の対応表（Informative Reference）が提供されている" },
+    { to: "nist-800-53", kind: "detail", note: "各サブカテゴリの実装管理策" },
+    { to: "nist-800-82", kind: "detail", note: "OT 環境への適用" },
+    { to: "nist-800-61", kind: "detail", note: "RESPOND／RECOVER のコミュニティプロファイル" },
+    { to: "jp-cpsf", kind: "align" }
+  ]
+},
+{
+  id: "nist-800-53",
+  short: "NIST SP 800-53 Rev.5",
+  title: "情報システム及び組織のためのセキュリティ管理策とプライバシー管理策",
+  orig: "Security and Privacy Controls for Information Systems and Organizations",
+  issuer: "NIST",
+  region: "US", type: "STD", version: "Rev.5（Release 5.2.0 等の更新あり）", year: 2020,
+  binding: "強制（米国連邦情報システム）／任意（民間）",
+  url: "https://csrc.nist.gov/pubs/sp/800/53/r5/upd1/final",
+  summary: "20 のファミリに整理された1000を超える管理策のカタログ。連邦システムに対しては FIPS 200 経由で義務となり、民間でも管理策の網羅的なチェックリストとして参照される。Rev.5 でプライバシー管理策が統合され、サプライチェーンリスク管理（SR）ファミリが新設された。",
+  scope: "米国連邦情報システムと、それに準ずる保護を要する組織。米国政府向け製品・サービスの提供時に要求される。",
+  domains: ["IT", "CORP", "DEF", "PWR"],
+  cats: ["OPS", "GOV", "RSK", "SCM", "MON", "IRS", "BCP", "ASR", "HRD", "DEV"],
+  chapters: [
+    { no: "AC", title: "アクセス制御（Access Control）", cat: ["OPS"] },
+    { no: "AT", title: "意識向上及び訓練（Awareness and Training）", cat: ["HRD"] },
+    { no: "AU", title: "監査及び説明責任（Audit and Accountability）", cat: ["MON", "ASR"] },
+    { no: "CA", title: "アセスメント、認可及びモニタリング（Assessment, Authorization, and Monitoring）", cat: ["ASR", "MON"] },
+    { no: "CM", title: "構成管理（Configuration Management）", cat: ["OPS"] },
+    { no: "CP", title: "コンティンジェンシー計画（Contingency Planning）", cat: ["BCP"] },
+    { no: "IA", title: "識別及び認証（Identification and Authentication）", cat: ["OPS"] },
+    { no: "IR", title: "インシデント対応（Incident Response）", cat: ["IRS"] },
+    { no: "MA", title: "保守（Maintenance）", cat: ["OPS"] },
+    { no: "MP", title: "媒体保護（Media Protection）", cat: ["OPS"] },
+    { no: "PE", title: "物理的及び環境的保護（Physical and Environmental Protection）", cat: ["OPS"] },
+    { no: "PL", title: "計画（Planning）", cat: ["GOV"] },
+    { no: "PM", title: "プログラム管理（Program Management）", cat: ["GOV"] },
+    { no: "PS", title: "要員のセキュリティ（Personnel Security）", cat: ["HRD"] },
+    { no: "PT", title: "個人識別可能情報の処理と透明性（PII Processing and Transparency）", cat: ["LEG"] },
+    { no: "RA", title: "リスクアセスメント（Risk Assessment）", cat: ["RSK"] },
+    { no: "SA", title: "システム及びサービスの取得（System and Services Acquisition）", cat: ["SCM", "DEV"] },
+    { no: "SC", title: "システム及び通信の保護（System and Communications Protection）", cat: ["OPS"] },
+    { no: "SI", title: "システム及び情報の完全性（System and Information Integrity）", cat: ["OPS", "MON"] },
+    { no: "SR", title: "サプライチェーンリスク管理（Supply Chain Risk Management）", cat: ["SCM"] }
+  ],
+  rel: [
+    { to: "nist-csf2", kind: "parent" },
+    { to: "nist-800-171", kind: "detail", note: "非連邦システム向けに絞り込んだ派生" },
+    { to: "nist-800-82", kind: "detail", note: "OT オーバーレイを附属書として提供" },
+    { to: "nist-800-37", kind: "ref", note: "RMF の管理策選定ステップで使用" }
+  ]
+},
+{
+  id: "nist-800-171",
+  short: "NIST SP 800-171 Rev.3",
+  title: "非連邦システム及び組織における管理された非機密情報（CUI）の保護",
+  orig: "Protecting Controlled Unclassified Information in Nonfederal Systems and Organizations",
+  issuer: "NIST",
+  region: "US", type: "STD", version: "Rev.3", year: 2024,
+  binding: "強制（米国政府調達契約に DFARS 252.204-7012 等を通じて課される）",
+  url: "https://csrc.nist.gov/pubs/sp/800/171/r3/final",
+  summary: "民間企業が米国政府の CUI を扱う際に満たすべきセキュリティ要求を17ファミリで規定する。防衛関連の契約では DFARS を通じて義務となり、CMMC の評価基準の実体でもある。日本の防衛産業サイバーセキュリティ基準もこの文書を基礎としており、防衛・宇宙事業では実質的に必須の参照文書となる。",
+  scope: "米国政府（特に国防総省）と契約し CUI を取り扱う非連邦組織、およびその下請け。",
+  domains: ["DEF", "CORP", "IT", "SEMI"],
+  cats: ["OPS", "SCM", "LEG", "IRS", "ASR", "HRD"],
+  chapters: [
+    { no: "3.1", title: "アクセス制御", cat: ["OPS"] },
+    { no: "3.2", title: "意識向上及び訓練", cat: ["HRD"] },
+    { no: "3.3", title: "監査及び説明責任", cat: ["MON"] },
+    { no: "3.4", title: "構成管理", cat: ["OPS"] },
+    { no: "3.5", title: "識別及び認証", cat: ["OPS"] },
+    { no: "3.6", title: "インシデント対応", cat: ["IRS"] },
+    { no: "3.7", title: "保守", cat: ["OPS"] },
+    { no: "3.8", title: "媒体保護", cat: ["OPS"] },
+    { no: "3.9", title: "要員のセキュリティ", cat: ["HRD"] },
+    { no: "3.10", title: "物理的保護", cat: ["OPS"] },
+    { no: "3.11", title: "リスクアセスメント", cat: ["RSK"] },
+    { no: "3.12", title: "セキュリティアセスメント及びモニタリング", cat: ["ASR", "MON"] },
+    { no: "3.13", title: "システム及び通信の保護", cat: ["OPS"] },
+    { no: "3.14", title: "システム及び情報の完全性", cat: ["OPS", "MON"] },
+    { no: "3.15", title: "計画", cat: ["GOV"] },
+    { no: "3.16", title: "システム及びサービスの取得", cat: ["SCM", "DEV"] },
+    { no: "3.17", title: "サプライチェーンリスク管理", cat: ["SCM"] }
+  ],
+  rel: [
+    { to: "nist-800-53", kind: "parent" },
+    { to: "nist-800-172", kind: "detail", note: "APT 対策のための強化要件" },
+    { to: "us-cmmc", kind: "ref", note: "CMMC Level 2 の評価対象そのもの" },
+    { to: "jp-def-std", kind: "align", note: "防衛装備庁の基準が同等の要求を国内へ導入" }
+  ]
+},
+{
+  id: "nist-800-172",
+  short: "NIST SP 800-172",
+  title: "CUI 保護のための強化されたセキュリティ要求事項",
+  orig: "Enhanced Security Requirements for Protecting Controlled Unclassified Information",
+  issuer: "NIST",
+  region: "US", type: "STD", version: "Rev.1 準備／初版 2021", year: 2021,
+  binding: "強制（特に重要なプログラムに対して契約で指定される場合）",
+  url: "https://csrc.nist.gov/pubs/sp/800/172/final",
+  summary: "800-171 の上に積む強化要件。APT（高度で継続的な脅威）への対抗を目的とし、ペネトレーション耐性、被害限定、サイバーレジリエンスの3つの設計目標に基づく要件を定める。欺瞞（deception）、脅威ハンティング、二重認可などを含む。",
+  scope: "重要な防衛プログラムに関与する契約者。CMMC Level 3 の基準となる。",
+  domains: ["DEF", "CORP"],
+  cats: ["OPS", "MON", "RSK", "ASR"],
+  chapters: [
+    { no: "3.1-3.14", title: "強化要件（800-171 の各ファミリに対応）", cat: ["OPS", "MON"], note: "脅威ハンティング、欺瞞環境、二重認可、非永続性、動的な再構成など。" },
+    { no: "App B", title: "附属書 — APT への対抗と設計目標", cat: ["RSK"], note: "ペネトレーション耐性、被害限定、レジリエンスの考え方。" }
+  ],
+  rel: [{ to: "nist-800-171", kind: "parent" }, { to: "nist-800-160v2", kind: "ref" }, { to: "us-cmmc", kind: "ref" }]
+},
+{
+  id: "nist-800-37",
+  short: "NIST SP 800-37 Rev.2",
+  title: "リスクマネジメントフレームワーク（RMF）",
+  orig: "Risk Management Framework for Information Systems and Organizations: A System Life Cycle Approach for Security and Privacy",
+  issuer: "NIST",
+  region: "US", type: "FW", version: "Rev.2", year: 2018,
+  binding: "強制（米国連邦機関）／任意（民間）",
+  url: "https://csrc.nist.gov/pubs/sp/800/37/r2/final",
+  summary: "システムのライフサイクルを通じてセキュリティとプライバシーのリスクを管理する7ステップのプロセス（準備・分類・選択・実装・評価・認可・監視）。管理策の選定から運用認可までを一本のプロセスとして規定し、SP 800-53／800-53A／800-137 を束ねる役割を持つ。",
+  scope: "米国連邦情報システム。民間ではシステム導入の承認プロセス設計の参考として使われる。",
+  domains: ["IT", "CORP", "DEF"],
+  cats: ["RSK", "GOV", "ASR", "MON"],
+  chapters: [
+    { no: "Prepare", title: "ステップ0: 準備", cat: ["GOV", "RSK"], note: "組織レベル・システムレベルの前提整備。" },
+    { no: "Categorize", title: "ステップ1: システムの分類", cat: ["RSK"], note: "FIPS 199 に基づく影響度（低・中・高）の決定。" },
+    { no: "Select", title: "ステップ2: 管理策の選択", cat: ["RSK", "OPS"], note: "SP 800-53B のベースラインとテーラリング。" },
+    { no: "Implement", title: "ステップ3: 管理策の実装", cat: ["OPS", "DEV"] },
+    { no: "Assess", title: "ステップ4: 管理策の評価", cat: ["ASR"], note: "SP 800-53A の評価手順による。" },
+    { no: "Authorize", title: "ステップ5: システムの認可", cat: ["GOV", "ASR"], note: "残留リスクを踏まえた運用認可（ATO）の判断。" },
+    { no: "Monitor", title: "ステップ6: 継続的監視", cat: ["MON", "ASR"] }
+  ],
+  rel: [{ to: "nist-800-53", kind: "ref" }, { to: "nist-800-137", kind: "detail" }, { to: "nist-800-30", kind: "ref" }]
+},
+{
+  id: "nist-800-30",
+  short: "NIST SP 800-30 Rev.1",
+  title: "リスクアセスメントの実施の手引",
+  orig: "Guide for Conducting Risk Assessments",
+  issuer: "NIST",
+  region: "US", type: "TECH", version: "Rev.1", year: 2012,
+  binding: "任意",
+  url: "https://csrc.nist.gov/pubs/sp/800/30/r1/final",
+  summary: "脅威源・脅威事象・脆弱性・発生可能性・影響を段階的に評価する手順と、それぞれの評価尺度（附属書D〜I の表）を提供する。定性的リスク評価の設計に最も広く使われている実務文書。",
+  scope: "リスクアセスメントを実施するすべての組織。附属書の脅威事象リストは日本語資料にも頻繁に引用される。",
+  domains: ["CORP", "IT", "PWR", "FA", "DEF"],
+  cats: ["RSK"],
+  chapters: [
+    { no: "2", title: "リスクアセスメントの基礎", cat: ["RSK"], note: "リスクモデル（脅威源→脅威事象→脆弱性→影響）、評価アプローチ（脅威起点・資産起点・脆弱性起点）。" },
+    { no: "3", title: "リスクアセスメントプロセス", cat: ["RSK"], note: "準備、実施、結果の伝達、維持の4段階。" },
+    { no: "App D-I", title: "附属書 — 脅威源・脅威事象・脆弱性・影響・発生可能性の評価尺度", cat: ["RSK"], note: "そのまま評価表のテンプレートとして利用できる。" }
+  ],
+  rel: [{ to: "nist-800-37", kind: "ref" }, { to: "iso27005", kind: "align" }, { to: "jp-ipa-risk", kind: "align" }]
+},
+{
+  id: "nist-800-82",
+  short: "NIST SP 800-82 Rev.3",
+  title: "運用技術（OT）セキュリティの手引",
+  orig: "Guide to Operational Technology (OT) Security",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "Rev.3", year: 2023,
+  binding: "任意（米国重要インフラ分野で広く参照される）",
+  url: "https://csrc.nist.gov/pubs/sp/800/82/r3/final",
+  summary: "産業用制御システム（ICS）を含む OT 全般のセキュリティ手引。Rev.3 で対象を ICS から OT 全体（ビル自動化、物流、医療機器等を含む）へ広げ、CSF との対応づけと SP 800-53 の OT オーバーレイを収載した。OT セキュリティの実務書として最も網羅的な公開文書。",
+  scope: "OT を運用するすべての組織と、OT 機器・システムを供給するベンダ。工場、発電所、ビル設備、鉄道設備のいずれにも適用できる。",
+  domains: ["FA", "PWR", "BLD", "RAIL", "SEMI", "LIFE"],
+  cats: ["OPS", "RSK", "GOV", "MON", "IRS", "BCP"],
+  chapters: [
+    { no: "2", title: "OT の概要", cat: ["OPS"], note: "OT の種類（DCS、SCADA、PLC、BAS、PACS 等）と IT との運用上の差異。" },
+    { no: "3", title: "OT サイバーセキュリティプログラムの開発", cat: ["GOV", "HRD"], note: "ビジネスケース、体制、方針、訓練。" },
+    { no: "4", title: "OT のリスクマネジメント", cat: ["RSK"], note: "安全性・信頼性を含む影響評価、脅威・脆弱性の特定、既知の攻撃事例。" },
+    { no: "5", title: "OT セキュリティアーキテクチャ", cat: ["OPS"], note: "ネットワークセグメンテーション、境界防護、非武装地帯（DMZ）、リモートアクセス、無線、暗号。" },
+    { no: "6", title: "OT への CSF の適用", cat: ["GOV", "MON", "IRS", "BCP"], note: "CSF 各機能の OT 固有の実装 — 資産管理、検知（受動監視の優先）、対応、復旧。" },
+    { no: "App C", title: "附属書C — OT オーバーレイ（SP 800-53 管理策のOT向けテーラリング）", cat: ["OPS"], note: "各管理策の OT 環境での適用可否と追加ガイダンス。" }
+  ],
+  rel: [
+    { to: "nist-csf2", kind: "parent" },
+    { to: "nist-800-53", kind: "ref" },
+    { to: "iec62443-2-1", kind: "align" },
+    { to: "jp-factory-gl", kind: "align" },
+    { to: "jp-building-gl", kind: "align" }
+  ]
+},
+{
+  id: "nist-800-61",
+  short: "NIST SP 800-61 Rev.3",
+  title: "インシデント対応の推奨事項と考慮事項 — CSF 2.0 コミュニティプロファイル",
+  orig: "Incident Response Recommendations and Considerations for Cybersecurity Risk Management: A CSF 2.0 Community Profile",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "Rev.3", year: 2025,
+  binding: "任意",
+  url: "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+  summary: "CSIRT 運用の定番文書の改訂版。Rev.2 までの「準備／検知と分析／封じ込め・根絶・復旧／事後活動」という4フェーズ構成を改め、CSF 2.0 の6機能に沿ってインシデント対応を組織のリスク管理へ統合する構成になった。インシデント対応を独立した活動ではなく、ガバナンスと継続的改善の一部として扱う点が Rev.3 の主張。",
+  scope: "CSIRT を設置するすべての組織。CSIRT の役割定義・手順設計の出発点。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "FA", "BLD", "DEF"],
+  cats: ["IRS", "MON", "GOV", "BCP", "ASR"],
+  chapters: [
+    { no: "1", title: "序論 — インシデント対応とリスク管理の関係", cat: ["GOV", "IRS"] },
+    { no: "2", title: "CSF 2.0 の各機能とインシデント対応ライフサイクル", cat: ["IRS"], note: "GOVERN／IDENTIFY／PROTECT が「準備」に、DETECT／RESPOND／RECOVER が「対応」に対応する。" },
+    { no: "3", title: "インシデント対応のためのコミュニティプロファイル", cat: ["IRS", "MON", "BCP"], note: "サブカテゴリごとの推奨事項と考慮事項。" },
+    { no: "4", title: "継続的な学習と改善", cat: ["ASR", "HRD"], note: "事後レビュー、演習、メトリクス。" },
+    { no: "App", title: "附属書 — 移行の手引（Rev.2 からの対応）", cat: ["IRS"] }
+  ],
+  verify: "Rev.3 は 2025 年の発行であり、章立ての細部は原典で確認すること。",
+  rel: [{ to: "nist-csf2", kind: "parent" }, { to: "iso27035", kind: "align" }, { to: "us-cisa-cpg", kind: "align" }]
+},
+{
+  id: "nist-800-207",
+  short: "NIST SP 800-207",
+  title: "ゼロトラストアーキテクチャ",
+  orig: "Zero Trust Architecture",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "初版", year: 2020,
+  binding: "任意（米国連邦機関には EO 14028 経由で実質義務）",
+  url: "https://csrc.nist.gov/pubs/sp/800/207/final",
+  summary: "ネットワーク境界による暗黙の信頼を前提とせず、すべてのアクセス要求を都度検証する設計原則を定義する。ポリシーエンジン・ポリシー管理者・ポリシー実行点（PEP）からなる論理コンポーネントモデルと、7つの基本原則、移行のアプローチを示す。",
+  scope: "IT 環境の再設計を行う組織。OT への直接適用は制約が大きく、SP 800-82 側の考慮が必要。",
+  domains: ["IT", "CORP"],
+  cats: ["OPS", "RSK", "MON"],
+  chapters: [
+    { no: "2", title: "ゼロトラストの基本原則（7つの原則）", cat: ["OPS", "GOV"] },
+    { no: "3", title: "ゼロトラストアーキテクチャの論理コンポーネント", cat: ["OPS"], note: "PE／PA／PEP と、それらに情報を供給するデータソース。" },
+    { no: "4", title: "導入シナリオとユースケース", cat: ["OPS"] },
+    { no: "5", title: "ZTA に関連する脅威", cat: ["RSK", "MON"] },
+    { no: "6", title: "既存のガイダンスとの関係", cat: ["OPS"] },
+    { no: "7", title: "ゼロトラストアーキテクチャへの移行", cat: ["OPS", "GOV"] }
+  ],
+  rel: [{ to: "us-eo14028", kind: "parent" }, { to: "nist-800-53", kind: "ref" }]
+},
+{
+  id: "nist-800-218",
+  short: "NIST SP 800-218 (SSDF)",
+  title: "セキュアソフトウェア開発フレームワーク（SSDF）",
+  orig: "Secure Software Development Framework (SSDF) Version 1.1",
+  issuer: "NIST",
+  region: "US", type: "FW", version: "v1.1（生成AI向け補遺 800-218A あり）", year: 2022,
+  binding: "任意（米国政府へのソフトウェア納入時は自己証明が求められる）",
+  url: "https://csrc.nist.gov/pubs/sp/800/218/final",
+  summary: "セキュアなソフトウェア開発のプラクティスを4グループ（PO 組織の準備／PS ソフトウェアの保護／PW 適切に保護されたソフトウェアの作成／RV 脆弱性への対応）に整理したフレームワーク。EO 14028 に基づく米国政府調達のソフトウェア自己証明フォームの基準となっている。",
+  scope: "ソフトウェアを開発するすべての組織。組込みソフトを含む。",
+  domains: ["IT", "FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "SEMI", "CORP"],
+  cats: ["DEV", "SCM", "IRS", "GOV"],
+  chapters: [
+    { no: "PO", title: "組織の準備（Prepare the Organization）", cat: ["GOV", "DEV", "HRD"], note: "セキュリティ要求の定義、役割と責任、ツールチェーンの整備、チェックの基準設定。" },
+    { no: "PS", title: "ソフトウェアの保護（Protect the Software）", cat: ["DEV", "SCM"], note: "改ざんからのコード保護、リリースの完全性検証手段の提供、リリースのアーカイブ。" },
+    { no: "PW", title: "適切に保護されたソフトウェアの作成（Produce Well-Secured Software）", cat: ["DEV"], note: "設計のリスク対応、サードパーティコンポーネントの検証、セキュアコーディング、レビューとテスト、デフォルト設定のセキュア化。" },
+    { no: "RV", title: "脆弱性への対応（Respond to Vulnerabilities）", cat: ["IRS", "DEV"], note: "脆弱性の特定と確認、根本原因の分析、再発防止。" }
+  ],
+  rel: [{ to: "us-eo14028", kind: "parent" }, { to: "iec62443-4-1", kind: "align" }, { to: "sbom-formats", kind: "ref" }, { to: "eu-cra", kind: "align" }]
+},
+{
+  id: "nist-800-161",
+  short: "NIST SP 800-161 Rev.1",
+  title: "システム及び組織のためのサイバーセキュリティサプライチェーンリスク管理（C-SCRM）",
+  orig: "Cybersecurity Supply Chain Risk Management Practices for Systems and Organizations",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "Rev.1", year: 2022,
+  binding: "任意（連邦調達では実質必須）",
+  url: "https://csrc.nist.gov/pubs/sp/800/161/r1/final",
+  summary: "サプライチェーンに起因するサイバーリスクを、組織・ミッション・システムの3階層で管理する手法を示す。C-SCRM 戦略・方針・計画のテンプレート、供給者への要求事項の例、SP 800-53 の SR ファミリの拡張管理策を含む。CSF 2.0 の GV.SC カテゴリの実装文書。",
+  scope: "調達部門、製品セキュリティ部門、情報システム部門。多階層の供給網を持つ製造業に適合する。",
+  domains: ["CORP", "IT", "DEF", "FA", "AUTO", "SEMI"],
+  cats: ["SCM", "RSK", "GOV"],
+  chapters: [
+    { no: "1", title: "C-SCRM の統合", cat: ["GOV", "SCM"], note: "3階層のリスク管理構造への組込み。" },
+    { no: "2", title: "C-SCRM のリスク管理プロセス", cat: ["RSK", "SCM"], note: "フレーミング、アセスメント、対応、モニタリング。" },
+    { no: "3", title: "C-SCRM 管理策", cat: ["SCM", "OPS"], note: "SP 800-53 管理策の C-SCRM 向け拡張。" },
+    { no: "App A", title: "附属書A — C-SCRM 管理策の詳細", cat: ["SCM"] },
+    { no: "App C", title: "附属書C — サプライヤへの要求事項の例", cat: ["SCM"], note: "契約条項の設計に直接使える。" },
+    { no: "App D-F", title: "附属書 — 戦略・方針・計画のテンプレート、成熟度モデル", cat: ["GOV", "SCM"] }
+  ],
+  rel: [{ to: "nist-csf2", kind: "parent", note: "GV.SC カテゴリの実装文書" }, { to: "nist-800-53", kind: "ref" }, { to: "iso27036", kind: "align" }]
+},
+{
+  id: "nist-800-160v1",
+  short: "NIST SP 800-160 Vol.1 Rev.1",
+  title: "セキュアなシステムのエンジニアリング",
+  orig: "Engineering Trustworthy Secure Systems",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "Vol.1 Rev.1", year: 2022,
+  binding: "任意",
+  url: "https://csrc.nist.gov/pubs/sp/800/160/v1/r1/final",
+  summary: "システムズエンジニアリング（ISO/IEC/IEEE 15288）のプロセスにセキュリティを織り込むための原則と活動を規定する。要求定義からアーキテクチャ設計、検証、廃棄までの各技術プロセスにおけるセキュリティの考慮事項を体系化しており、大規模・長寿命のシステム設計に向く。",
+  scope: "システムエンジニア、アーキテクト。社会インフラ系の大規模システム設計で参照価値が高い。",
+  domains: ["PWR", "RAIL", "DEF", "IT", "FA"],
+  cats: ["DEV", "RSK"],
+  chapters: [
+    { no: "2", title: "セキュアシステム設計の基礎", cat: ["DEV"], note: "信頼性（trustworthiness）、保証、セキュリティの概念。" },
+    { no: "3", title: "システムセキュリティエンジニアリングの設計原則", cat: ["DEV"], note: "最小権限、経済性、多層防御、開放設計など。" },
+    { no: "4", title: "システムライフサイクルプロセスにおけるセキュリティ活動", cat: ["DEV", "RSK", "ASR"], note: "15288 の技術プロセス／技術管理プロセス別の活動。" }
+  ],
+  rel: [{ to: "nist-800-160v2", kind: "ref" }, { to: "iec62443-4-1", kind: "align" }]
+},
+{
+  id: "nist-800-160v2",
+  short: "NIST SP 800-160 Vol.2 Rev.1",
+  title: "サイバーレジリエントなシステムの開発",
+  orig: "Developing Cyber-Resilient Systems: A Systems Security Engineering Approach",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "Vol.2 Rev.1", year: 2021,
+  binding: "任意",
+  url: "https://csrc.nist.gov/pubs/sp/800/160/v2/r1/final",
+  summary: "攻撃を受けても事業機能を維持・回復できるシステムを設計するための、サイバーレジリエンスの目標・目的・技法（適応的応答、分析監視、欺瞞、多様性、非永続性、分離、冗長性など）を体系化する。侵入を前提とした設計（assume breach）の理論的基盤。",
+  scope: "重要システムの設計者。停止が許されない社会インフラ制御系との相性が良い。",
+  domains: ["PWR", "RAIL", "DEF", "FA", "IT"],
+  cats: ["DEV", "BCP", "RSK"],
+  chapters: [
+    { no: "2", title: "サイバーレジリエンスの枠組み", cat: ["RSK", "BCP"], note: "目標（Anticipate／Withstand／Recover／Adapt）、目的、技法、実装アプローチの階層。" },
+    { no: "3", title: "サイバーレジリエンス設計の実践", cat: ["DEV"], note: "技法の選択とトレードオフ分析。" },
+    { no: "App", title: "附属書 — 技法・実装アプローチ・脅威との対応表", cat: ["DEV", "RSK"], note: "APT の攻撃段階に対する各技法の効果を対応づける。" }
+  ],
+  rel: [{ to: "nist-800-160v1", kind: "ref" }, { to: "nist-800-172", kind: "ref" }, { to: "iso22301", kind: "align" }]
+},
+{
+  id: "nist-800-137",
+  short: "NIST SP 800-137",
+  title: "情報セキュリティ継続的モニタリング（ISCM）",
+  orig: "Information Security Continuous Monitoring for Federal Information Systems and Organizations",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "初版", year: 2011,
+  binding: "強制（米国連邦機関）／任意（民間）",
+  url: "https://csrc.nist.gov/pubs/sp/800/137/final",
+  summary: "セキュリティ状態を継続的に把握し、リスクに基づく判断を維持するためのモニタリング戦略とプログラムの設計手順。監視対象の選定、測定頻度の決定、収集データの分析・報告・対応までを扱う。SOC の監視要件を体系立てて設計する際の基礎文書。",
+  scope: "継続的監視プログラムを設計・運用する組織。",
+  domains: ["IT", "CORP", "PWR", "DEF"],
+  cats: ["MON", "ASR", "RSK"],
+  chapters: [
+    { no: "2", title: "ISCM の基礎", cat: ["MON", "RSK"], note: "組織・ミッション・システムの3階層における監視。" },
+    { no: "3", title: "ISCM プロセス", cat: ["MON"], note: "戦略の定義 → プログラムの確立 → 実装 → 分析と報告 → 対応 → レビューと更新。" },
+    { no: "App D", title: "附属書 — 継続的監視の技術と自動化", cat: ["MON"] }
+  ],
+  rel: [{ to: "nist-800-37", kind: "parent" }, { to: "nist-csf2", kind: "align", note: "DE.CM の実装" }]
+},
+{
+  id: "nist-ir-8259",
+  short: "NIST IR 8259 シリーズ",
+  title: "IoT機器製造者のためのサイバーセキュリティ活動／機器サイバーセキュリティ機能ベースライン",
+  orig: "IoT Device Cybersecurity Capability Core Baseline (IR 8259, 8259A, 8259B, 8259D)",
+  issuer: "NIST",
+  region: "US", type: "GL", version: "IR 8259/8259A/8259B/8259D", year: 2021,
+  binding: "任意（米国 Cyber Trust Mark 等のラベリング制度が参照）",
+  url: "https://csrc.nist.gov/pubs/ir/8259/final",
+  summary: "IoT 機器の製造者が実施すべき6つの活動（IR 8259）と、機器が備えるべき技術的機能のコアベースライン（IR 8259A: 機器識別、機器構成、データ保護、論理的アクセスインタフェース、ソフトウェア更新、状態の認識）、および製造者が提供すべき非技術的支援（IR 8259B: 文書、情報の受付と提供、教育）を規定する。",
+  scope: "IoT 機器の製品企画・開発部門。家電、住宅設備、ビル機器、カメラ等の製品セキュリティ要求のベースラインとして使える。",
+  domains: ["LIFE", "BLD", "AUTO", "FA"],
+  cats: ["DEV", "SCM", "IRS"],
+  chapters: [
+    { no: "8259", title: "製造者のための基礎的なサイバーセキュリティ活動（6活動）", cat: ["DEV"], note: "顧客の特定、機器のサイバーセキュリティ機能の決定、機能の実装、開発期間中の計画、顧客への情報伝達の決定と実行。" },
+    { no: "8259A", title: "機器サイバーセキュリティ機能コアベースライン", cat: ["DEV"], note: "機器識別、機器構成、データ保護、論理的アクセスインタフェース、ソフトウェア更新、サイバーセキュリティ状態の認識。" },
+    { no: "8259B", title: "非技術的な支援機能ベースライン", cat: ["SCM", "IRS", "HRD"], note: "文書化、情報の受付と対応、情報の伝達、教育と意識向上。" },
+    { no: "8259D", title: "連邦政府向けプロファイル", cat: ["LEG"] }
+  ],
+  rel: [{ to: "etsi303645", kind: "align" }, { to: "eu-cra", kind: "align" }, { to: "jp-iot-gl", kind: "align" }]
+},
+{
+  id: "us-cisa-cpg",
+  short: "CISA CPG",
+  title: "分野横断サイバーセキュリティパフォーマンスゴール（CPG）",
+  orig: "Cross-Sector Cybersecurity Performance Goals",
+  issuer: "CISA（サイバーセキュリティ・インフラセキュリティ庁）",
+  region: "US", type: "GL", version: "v1.0.1", year: 2023,
+  binding: "任意（重要インフラ事業者への推奨）",
+  url: "https://www.cisa.gov/cross-sector-cybersecurity-performance-goals",
+  summary: "重要インフラ事業者が優先的に実施すべき対策を、CSF の機能軸で整理した最小限のセットとして提示する。各ゴールに「対応する脅威（MITRE ATT&CK）」「推奨アクション」「コスト・影響・複雑さ」の目安が付き、投資判断がしやすい形式になっている。中小規模の拠点・子会社に何から着手させるかを決める際に有用。",
+  scope: "重要インフラ事業者。特にリソースの限られた組織向けの優先順位づけに使う。",
+  domains: ["PWR", "RAIL", "FA", "BLD", "IT", "CORP"],
+  cats: ["OPS", "GOV", "MON", "IRS", "BCP", "SCM", "HRD"],
+  chapters: [
+    { no: "1", title: "アカウントのセキュリティ（Identify）", cat: ["OPS"], note: "初期パスワードの変更、MFA、最小権限、離職者アカウントの失効。" },
+    { no: "2", title: "デバイスのセキュリティ", cat: ["OPS"], note: "資産インベントリ、承認されていないハードウェア／ソフトウェアの禁止、マクロの無効化。" },
+    { no: "3", title: "データのセキュリティ", cat: ["OPS", "MON"], note: "ログ収集、保存時暗号化、セキュアな通信。" },
+    { no: "4", title: "ガバナンスと訓練", cat: ["GOV", "HRD"], note: "責任者の指名、基本的な訓練、OT 固有の訓練。" },
+    { no: "5", title: "脆弱性の管理", cat: ["OPS", "SCM"], note: "既知の悪用された脆弱性（KEV）の緩和、脆弱性開示方針、EOL 製品の交換。" },
+    { no: "6", title: "サプライチェーンと第三者", cat: ["SCM"], note: "供給者のインシデント報告、調達時のセキュリティ要求。" },
+    { no: "7", title: "対応と復旧", cat: ["IRS", "BCP"], note: "インシデント対応計画、報告体制、バックアップ、事案後の演習。" },
+    { no: "8", title: "その他（OT を含む）", cat: ["OPS", "BCP"], note: "ネットワークセグメンテーション、電子メールセキュリティ。" }
+  ],
+  verify: "ゴールの番号体系は改訂で変わりうる。CISA サイトの最新版で確認すること。",
+  rel: [{ to: "nist-csf2", kind: "parent" }, { to: "us-kev", kind: "ref" }, { to: "jp-cii-plan", kind: "align" }]
+},
+{
+  id: "us-kev",
+  short: "CISA KEV カタログ",
+  title: "既知の悪用された脆弱性カタログ",
+  orig: "Known Exploited Vulnerabilities (KEV) Catalog",
+  issuer: "CISA",
+  region: "US", type: "TECH", version: "継続更新", year: 2021,
+  binding: "強制（米国連邦民生機関に BOD 22-01 で期限付き是正を義務づけ）／任意（民間）",
+  url: "https://www.cisa.gov/known-exploited-vulnerabilities-catalog",
+  summary: "実際に悪用が確認された脆弱性のリスト。CVE 番号、対象製品、要求される対処、期限が示される。CVSS スコアだけでは決まらないパッチ適用の優先順位づけに、事実上の世界標準として使われている。制御機器・ネットワーク機器の掲載も多く、OT のパッチ計画に直接効く。",
+  scope: "脆弱性管理を行うすべての組織。SOC・CSIRT の日次運用に組み込む対象。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "FA", "BLD", "LIFE", "SEMI", "AUTO"],
+  cats: ["MON", "OPS", "IRS"],
+  chapters: [
+    { no: "—", title: "カタログ本体（CVE 単位のエントリ）", cat: ["MON", "OPS"], note: "CVE ID、ベンダ／製品、脆弱性名、追加日、必要な対処、期限、ランサムウェアキャンペーンでの使用有無。" },
+    { no: "BOD 22-01", title: "拘束的運用指令 22-01（掲載脆弱性の是正義務）", cat: ["LEG", "OPS"] }
+  ],
+  rel: [{ to: "us-cisa-cpg", kind: "ref" }, { to: "us-cisa-advisories", kind: "ref" }]
+},
+{
+  id: "us-cisa-advisories",
+  short: "CISA ICS Advisories",
+  title: "産業用制御システム アドバイザリ",
+  orig: "ICS Advisories / ICS Medical Advisories",
+  issuer: "CISA",
+  region: "US", type: "TECH", version: "継続発行", year: 2025,
+  binding: "任意（情報提供）",
+  url: "https://www.cisa.gov/news-events/cybersecurity-advisories",
+  summary: "制御機器・産業用ソフトウェアの脆弱性に関するアドバイザリを継続的に発行する。自社製品が掲載される側にもなるため、PSIRT にとっては受信と発信の両面で関与する情報源。CVSS、影響製品バージョン、緩和策、報告者が記載される。",
+  scope: "制御機器を運用する組織と、制御機器を製造するベンダの PSIRT。",
+  domains: ["FA", "PWR", "BLD", "RAIL", "SEMI"],
+  cats: ["MON", "IRS"],
+  chapters: [
+    { no: "—", title: "アドバイザリの構成", cat: ["MON", "IRS"], note: "エグゼクティブサマリ、リスク評価、技術詳細、緩和策、CISA の推奨する防御策。" }
+  ],
+  rel: [{ to: "us-kev", kind: "ref" }, { to: "jp-partnership", kind: "align", note: "国内では JVN／JPCERT が対応する役割を担う" }]
+},
+{
+  id: "us-secure-by-design",
+  short: "CISA Secure by Design",
+  title: "セキュア・バイ・デザイン原則",
+  orig: "Shifting the Balance of Cybersecurity Risk: Principles and Approaches for Secure by Design Software",
+  issuer: "CISA ほか国際共同署名機関",
+  region: "US", type: "GL", version: "第2版", year: 2023,
+  binding: "任意（自主的な誓約 Secure by Design Pledge あり）",
+  url: "https://www.cisa.gov/securebydesign",
+  summary: "ソフトウェア製造者が負うべきセキュリティ責任を利用者から製造者側へ移すことを主張する共同ガイダンス。3原則（①顧客のセキュリティ成果を引き受ける ②徹底した透明性と説明責任 ③これらを実現する組織構造とリーダーシップ）と、デフォルトでセキュアにするための具体的な実装策を示す。製品セキュリティの方針文書を書く際の骨格になる。",
+  scope: "ソフトウェアを含む製品を出荷するすべてのメーカ。日本を含む各国機関が共同署名している。",
+  domains: ["FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI"],
+  cats: ["DEV", "GOV", "IRS"],
+  chapters: [
+    { no: "1", title: "セキュア・バイ・デザインの3原則", cat: ["GOV", "DEV"] },
+    { no: "2", title: "セキュア・バイ・デフォルトの実装策", cat: ["DEV"], note: "初期パスワードの排除、MFA の標準提供、追加費用なしのログ提供、SSO の標準化、安全でない機能の段階的廃止。" },
+    { no: "3", title: "製造者に推奨される戦術", cat: ["DEV", "GOV"], note: "メモリ安全なロードマップ、脆弱性の根本原因分析、CVE／CWE の適切な発行。" },
+    { no: "4", title: "顧客が求めるべきこと", cat: ["SCM"], note: "調達時に製造者へ問うべき事項。" }
+  ],
+  rel: [{ to: "nist-800-218", kind: "align" }, { to: "eu-cra", kind: "align" }, { to: "us-eo14028", kind: "ref" }]
+},
+{
+  id: "us-eo14028",
+  short: "EO 14028",
+  title: "大統領令14028号 — 国家のサイバーセキュリティの改善",
+  orig: "Executive Order 14028: Improving the Nation's Cybersecurity",
+  issuer: "米国大統領府",
+  region: "US", type: "LAW", version: "2021年5月12日（後続大統領令による改正あり）", year: 2021,
+  binding: "強制（連邦機関および連邦へ納入するソフトウェア供給者）",
+  url: "https://www.federalregister.gov/documents/2021/05/17/2021-10460/improving-the-nations-cybersecurity",
+  summary: "ソフトウェアサプライチェーンセキュリティ、SBOM の提供義務、ゼロトラストへの移行、連邦機関のログ要件、インシデント情報共有を一括して指示した大統領令。SSDF・SBOM 要求・ゼロトラスト戦略といった後続文書の起点であり、米国政府向けにソフトウェアを納入する場合の実質的な入口になる。",
+  scope: "連邦機関と、連邦政府へソフトウェアを提供する事業者。民間へも波及効果が大きい。",
+  domains: ["IT", "DEF", "CORP"],
+  cats: ["LEG", "SCM", "DEV", "OPS", "IRS"],
+  chapters: [
+    { no: "§2", title: "脅威情報共有の障壁の除去", cat: ["IRS", "LEG"], note: "契約者によるインシデント情報の政府への共有義務。" },
+    { no: "§3", title: "連邦政府のサイバーセキュリティの近代化", cat: ["OPS"], note: "ゼロトラストアーキテクチャ、クラウド、多要素認証・暗号化の期限付き導入。" },
+    { no: "§4", title: "ソフトウェアサプライチェーンセキュリティの強化", cat: ["SCM", "DEV"], note: "セキュア開発環境の要求、SBOM の提供、自己証明、重要ソフトウェアの定義。" },
+    { no: "§5", title: "サイバー安全審査委員会の設立", cat: ["IRS"] },
+    { no: "§6", title: "インシデント対応のための標準プレイブック", cat: ["IRS"] },
+    { no: "§7", title: "検知能力の向上（EDR）", cat: ["MON"] },
+    { no: "§8", title: "調査能力の向上（ログの保全要件）", cat: ["MON", "IRS"] }
+  ],
+  rel: [{ to: "nist-800-218", kind: "detail" }, { to: "nist-800-207", kind: "detail" }, { to: "sbom-formats", kind: "impl" }]
+},
+{
+  id: "us-cmmc",
+  short: "CMMC (32 CFR Part 170)",
+  title: "サイバーセキュリティ成熟度モデル認証プログラム",
+  orig: "Cybersecurity Maturity Model Certification (CMMC) Program",
+  issuer: "米国国防総省（DoD）",
+  region: "US", type: "REG", version: "最終規則（2024年12月発効、契約への段階的導入）", year: 2024,
+  binding: "強制（対象となる DoD 契約）",
+  url: "https://dodcio.defense.gov/cmmc/",
+  summary: "国防総省の契約者に対し、NIST SP 800-171／800-172 の実装状況を第三者評価または自己評価で証明させる制度。Level 1（自己評価・FCI 保護）、Level 2（800-171 準拠、C3PAO による評価が原則）、Level 3（800-172 の一部、政府による評価）の3段階。契約条項として段階的に導入されるため、米国防衛関連の取引がある場合は適用時期の把握が必要になる。",
+  scope: "DoD と契約し FCI／CUI を扱う事業者とその下請け。日本企業も対象となりうる。",
+  domains: ["DEF", "CORP", "IT"],
+  cats: ["LEG", "ASR", "SCM", "GOV"],
+  chapters: [
+    { no: "170.15", title: "CMMC Level 1（自己評価）", cat: ["LEG", "ASR"], note: "FAR 52.204-21 の15の基本的保護要件。年次の自己評価と確約。" },
+    { no: "170.16-17", title: "CMMC Level 2（自己評価／C3PAO 評価）", cat: ["LEG", "ASR"], note: "NIST SP 800-171 の110要件。3年ごとの認証と年次確約。" },
+    { no: "170.18", title: "CMMC Level 3（DIBCAC による評価）", cat: ["LEG", "ASR"], note: "NIST SP 800-172 の選択された強化要件。" },
+    { no: "170.19-21", title: "POA&M と是正、スコーピング", cat: ["ASR", "GOV"], note: "未充足項目の暫定的な扱いと、評価範囲の決定規則。" }
+  ],
+  verify: "契約条項（48 CFR）による適用時期は段階的であり、最新の実施スケジュールを確認すること。",
+  rel: [{ to: "nist-800-171", kind: "parent" }, { to: "nist-800-172", kind: "parent" }, { to: "us-dfars", kind: "ref" }]
+},
+{
+  id: "us-dfars",
+  short: "DFARS 252.204-7012",
+  title: "国防調達規則補足 — 保護された防衛情報の保護とサイバーインシデント報告",
+  orig: "DFARS 252.204-7012 Safeguarding Covered Defense Information and Cyber Incident Reporting",
+  issuer: "米国国防総省",
+  region: "US", type: "REG", version: "継続改正", year: 2016,
+  binding: "強制（対象となる DoD 契約）",
+  url: "https://www.acquisition.gov/dfars/252.204-7012-safeguarding-covered-defense-information-and-cyber-incident-reporting.",
+  summary: "DoD 契約者に NIST SP 800-171 の実装と、サイバーインシデントの72時間以内の報告、影響を受けた媒体の保全（90日間）、クラウドサービス利用時の条件を義務づける契約条項。CMMC 以前から実効性を持つ要求で、下請けにも流し込む（flow-down）義務がある。",
+  scope: "DoD の契約者・下請け。",
+  domains: ["DEF", "CORP"],
+  cats: ["LEG", "IRS", "SCM"],
+  chapters: [
+    { no: "(b)", title: "保護措置（SP 800-171 の実装）", cat: ["OPS", "LEG"] },
+    { no: "(c)", title: "サイバーインシデントの報告（72時間以内）", cat: ["IRS", "LEG"] },
+    { no: "(d)", title: "媒体の保全と提出（90日間の保存）", cat: ["IRS"] },
+    { no: "(m)", title: "下請けへの流し込み（Flow-down）", cat: ["SCM"] }
+  ],
+  rel: [{ to: "nist-800-171", kind: "impl" }, { to: "us-cmmc", kind: "ref" }]
+},
+{
+  id: "us-nerc-cip",
+  short: "NERC CIP",
+  title: "北米電力信頼度協議会 重要インフラ防護（CIP）基準",
+  orig: "NERC Critical Infrastructure Protection (CIP) Reliability Standards",
+  issuer: "NERC（FERC の認可を受けた電力信頼度機関）",
+  region: "US", type: "REG", version: "CIP-002 〜 CIP-015（継続改訂）", year: 2024,
+  binding: "強制（北米の大規模電力系統の運用者。違反に高額の制裁金）",
+  url: "https://www.nerc.com/pa/Stand/Pages/CIPStandards.aspx",
+  summary: "北米の大電力系統（BES）の運用者に課される強制力のあるサイバーセキュリティ基準群。BES サイバーシステムの分類から、電子的セキュリティ境界、物理的セキュリティ、システムセキュリティ管理、インシデント報告、復旧計画、構成変更管理、供給網リスク管理、内部ネットワーク監視（CIP-015）までを規定する。監査と制裁金を伴う点で、電力分野の規制として最も厳格な部類。",
+  scope: "北米の発電・送電事業者。日本の電力事業者向け基準の設計思想にも影響を与えている。",
+  domains: ["PWR"],
+  cats: ["OPS", "RSK", "IRS", "BCP", "SCM", "ASR", "HRD"],
+  chapters: [
+    { no: "CIP-002", title: "BES サイバーシステムの分類", cat: ["RSK"], note: "影響度（高・中・低）の判定基準。適用範囲を決める起点。" },
+    { no: "CIP-003", title: "セキュリティ管理策（方針・低影響システム）", cat: ["GOV", "OPS"] },
+    { no: "CIP-004", title: "要員と訓練（身元確認・アクセス管理・教育）", cat: ["HRD", "OPS"] },
+    { no: "CIP-005", title: "電子的セキュリティ境界（ESP）とリモートアクセス", cat: ["OPS"] },
+    { no: "CIP-006", title: "BES サイバーシステムの物理的セキュリティ", cat: ["OPS"] },
+    { no: "CIP-007", title: "システムセキュリティ管理（ポート・パッチ・マルウェア対策・ログ）", cat: ["OPS", "MON"] },
+    { no: "CIP-008", title: "インシデント報告と対応計画", cat: ["IRS"] },
+    { no: "CIP-009", title: "BES サイバーシステムの復旧計画", cat: ["BCP"] },
+    { no: "CIP-010", title: "構成変更管理と脆弱性評価", cat: ["OPS", "ASR"] },
+    { no: "CIP-011", title: "情報保護（BES サイバーシステム情報の取扱いと廃棄）", cat: ["OPS"] },
+    { no: "CIP-013", title: "サプライチェーンリスク管理", cat: ["SCM"] },
+    { no: "CIP-014", title: "物理的セキュリティ（重要変電所）", cat: ["OPS", "RSK"] },
+    { no: "CIP-015", title: "内部ネットワークセキュリティ監視（INSM）", cat: ["MON"] }
+  ],
+  rel: [{ to: "iec62351", kind: "impl" }, { to: "jp-jesc", kind: "align" }, { to: "nist-800-82", kind: "align" }]
+},
+{
+  id: "us-tsa-sd",
+  short: "TSA セキュリティ指令",
+  title: "運輸保安庁 セキュリティ指令（パイプライン・鉄道・航空）",
+  orig: "TSA Security Directives — Pipeline-2021-02 series, Rail Cybersecurity SD 1580/82-2022-01",
+  issuer: "TSA（米国運輸保安庁）",
+  region: "US", type: "REG", version: "継続更新（規則化の手続が進行中）", year: 2024,
+  binding: "強制（指定された事業者）",
+  url: "https://www.tsa.gov/for-industry/surface-cybersecurity",
+  summary: "コロニアル・パイプライン事案を受けて発出された強制力のある指令。指定事業者に対し、サイバーセキュリティ調整担当者の指名、CISA への24時間以内の報告、ネットワークセグメンテーション（IT/OT 分離）、アクセス制御、継続的監視、パッチ管理を含む「サイバーセキュリティ実施計画」の策定と、年次のアセスメントを義務づける。鉄道分野へも同様の指令が拡張された。",
+  scope: "米国の指定パイプライン事業者、旅客・貨物鉄道事業者。米国向け鉄道・エネルギー案件で顧客側の要求として現れる。",
+  domains: ["RAIL", "PWR"],
+  cats: ["GOV", "OPS", "MON", "IRS", "ASR", "BCP"],
+  chapters: [
+    { no: "1", title: "サイバーセキュリティ調整担当者の指名と報告体制", cat: ["GOV", "IRS"], note: "24時間以内の CISA 報告。" },
+    { no: "2", title: "ネットワークセグメンテーション方針と管理策", cat: ["OPS"], note: "IT と OT の分離、OT が停止しても機能する運用の確保。" },
+    { no: "3", title: "アクセス制御措置", cat: ["OPS"] },
+    { no: "4", title: "継続的な監視と検知", cat: ["MON"] },
+    { no: "5", title: "セキュリティパッチと更新の適用（リスクベース）", cat: ["OPS"] },
+    { no: "6", title: "サイバーセキュリティ評価プログラムと年次計画", cat: ["ASR"] },
+    { no: "7", title: "サイバーセキュリティ事故対応計画と演習", cat: ["IRS", "BCP", "HRD"] }
+  ],
+  verify: "指令は更新が頻繁であり、規則（NPRM）への移行が進行中。最新の適用状況を TSA サイトで確認すること。",
+  rel: [{ to: "us-cisa-cpg", kind: "align" }, { to: "en50701", kind: "align" }, { to: "jp-rail-gl", kind: "align" }]
+},
+{
+  id: "us-sec-disclosure",
+  short: "SEC サイバー開示規則",
+  title: "サイバーセキュリティのリスク管理、戦略、ガバナンス及びインシデント開示に関する規則",
+  orig: "Cybersecurity Risk Management, Strategy, Governance, and Incident Disclosure (17 CFR Parts 229, 232, 239, 240, 249)",
+  issuer: "SEC（米国証券取引委員会）",
+  region: "US", type: "REG", version: "最終規則", year: 2023,
+  binding: "強制（米国上場企業および一定の外国民間発行体）",
+  url: "https://www.sec.gov/rules/final/2023/33-11216.pdf",
+  summary: "重要なサイバーセキュリティインシデントを判定後4営業日以内に Form 8-K（外国民間発行体は 6-K）で開示し、年次報告書（10-K／20-F）でリスク管理プロセスと取締役会の監督体制を記述することを義務づける。インシデントの「重要性（materiality）」の判定プロセスをあらかじめ設計しておく必要が生じる点が実務上の要点。",
+  scope: "米国市場に上場する企業。ADR を発行する日本企業も外国民間発行体として関係しうる。",
+  domains: ["CORP"],
+  cats: ["LEG", "GOV", "IRS"],
+  chapters: [
+    { no: "Item 1.05", title: "Form 8-K — 重要なサイバーセキュリティインシデントの開示", cat: ["IRS", "LEG"], note: "重要性の判定から4営業日以内。国家安全保障上の例外あり。" },
+    { no: "Item 106(b)", title: "Reg S-K — リスク管理と戦略", cat: ["GOV", "RSK"], note: "リスクの識別・評価・管理のプロセスと、第三者利用の記述。" },
+    { no: "Item 106(c)", title: "Reg S-K — ガバナンス", cat: ["GOV"], note: "取締役会の監督、経営層の役割と専門性。" },
+    { no: "Form 20-F", title: "外国民間発行体向けの対応規定", cat: ["LEG"] }
+  ],
+  rel: [{ to: "nist-csf2", kind: "impl" }, { to: "eu-nis2", kind: "align", note: "報告義務という点で対比される" }]
+},
+{
+  id: "fips-140-3",
+  short: "FIPS 140-3",
+  title: "暗号モジュールのセキュリティ要件",
+  orig: "Security Requirements for Cryptographic Modules",
+  issuer: "NIST",
+  region: "US", type: "STD", version: "FIPS 140-3（ISO/IEC 19790 を採用）", year: 2019,
+  binding: "強制（米国連邦調達）／任意（民間）",
+  url: "https://csrc.nist.gov/pubs/fips/140-3/final",
+  summary: "暗号モジュールの設計と実装に対する4段階のセキュリティレベル要件。CMVP による認証を受けたモジュールの使用が、米国政府調達では必須となる。ISO/IEC 19790 を基礎に置いており、国際的な調達要件としても現れる。",
+  scope: "暗号機能を実装する製品。政府向け・金融向け製品で認証取得が要求される。",
+  domains: ["IT", "DEF", "SEMI", "FA"],
+  cats: ["DEV", "LEG"],
+  chapters: [
+    { no: "—", title: "セキュリティレベル1〜4", cat: ["DEV"], note: "レベルが上がるほど物理的耐タンパ性・役割ベース認証・環境攻撃耐性の要件が厳しくなる。" },
+    { no: "—", title: "11のセキュリティ領域", cat: ["DEV"], note: "モジュール仕様、インタフェース、役割と認証、ソフトウェア／ファームウェアのセキュリティ、動作環境、物理セキュリティ、非侵襲セキュリティ、重要セキュリティパラメータの管理、自己テスト、ライフサイクル保証、その他の攻撃への対策。" }
+  ],
+  rel: [{ to: "iso15408", kind: "align" }, { to: "nist-800-53", kind: "ref" }]
+}
+
+]);
+
+</script>
+<script>
+/* Navigator — EU の法令・規制・ガイダンス */
+window.NAV = window.NAV || {};
+window.NAV.documents = (window.NAV.documents || []).concat([
+
+{
+  id: "eu-nis2",
+  short: "NIS2 指令 (EU) 2022/2555",
+  title: "EU域内における高い共通水準のサイバーセキュリティのための措置に関する指令",
+  orig: "Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS2)",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2022/2555（NIS指令 2016/1148 を置換）", year: 2022,
+  binding: "強制（各加盟国の国内法を通じて。国内法化期限は2024年10月17日）",
+  url: "https://eur-lex.europa.eu/eli/dir/2022/2555/oj",
+  summary: "EU域内の重要・重要度の高い事業体に対し、リスク管理措置と重大インシデントの報告を義務づける指令。旧NIS指令から対象分野を大幅に拡大し、製造業（医療機器・電子機器・機械・自動車・その他輸送機器）が附属書IIに含まれた点で、製造業各社が直接の対象事業体になり得る。経営陣に個人的な責任を課し、違反に対して売上高比例の制裁金を定める。指令であるため、実際の義務内容は各加盟国の国内法で確認する必要がある。",
+  scope: "EU域内で活動する中規模以上の対象事業体。EU 域内に拠点を持つ製造子会社・販売会社が該当しうる。",
+  domains: ["PWR", "RAIL", "IT", "FA", "CORP", "BLD"],
+  cats: ["LEG", "GOV", "RSK", "IRS", "SCM", "BCP"],
+  chapters: [
+    { no: "第2条", title: "適用範囲", cat: ["LEG"], note: "附属書I（高重要度分野）・附属書II（その他重要分野）と規模基準による対象判定。" },
+    { no: "第20条", title: "ガバナンス", cat: ["GOV"], note: "経営陣によるリスク管理措置の承認と監督、その履行に対する責任、経営陣への訓練の義務。" },
+    { no: "第21条", title: "サイバーセキュリティリスク管理措置", cat: ["RSK", "OPS", "SCM", "BCP", "IRS"], note: "(a) リスク分析と情報システムセキュリティ方針、(b) インシデント処理、(c) 事業継続（バックアップ・災害復旧・危機管理）、(d) サプライチェーンセキュリティ、(e) 取得・開発・保守のセキュリティと脆弱性の取扱い、(f) 有効性評価の方針と手順、(g) サイバー衛生と訓練、(h) 暗号の使用方針、(i) 人的資源・アクセス制御・資産管理、(j) 多要素認証・セキュア通信・緊急通信。" },
+    { no: "第23条", title: "報告義務", cat: ["IRS", "LEG"], note: "24時間以内の早期警告、72時間以内のインシデント通知、1か月以内の最終報告。サービス受領者への通知義務を含む。" },
+    { no: "第24条", title: "認証スキームの利用", cat: ["LEG", "ASR"], note: "欧州サイバーセキュリティ認証スキームの適合製品・サービスの使用を要求できる。" },
+    { no: "第25条", title: "標準化", cat: ["LEG"], note: "欧州・国際規格の利用の奨励。" },
+    { no: "第29-30条", title: "情報共有の取決め", cat: ["MON", "IRS"] },
+    { no: "第32-34条", title: "監督措置・執行・制裁金", cat: ["LEG", "GOV"], note: "重要事業体は最大1000万ユーロまたは全世界売上高の2%等。" },
+    { no: "附属書I", title: "高重要度分野", cat: ["LEG"], note: "エネルギー、輸送、銀行、金融市場インフラ、保健、飲料水、廃水、デジタルインフラ、ICTサービス管理、公共行政、宇宙。" },
+    { no: "附属書II", title: "その他の重要分野", cat: ["LEG"], note: "郵便、廃棄物管理、化学、食品、製造業（医療機器、コンピュータ・電子・光学製品、電気機器、機械、自動車、その他輸送機器）、デジタルプロバイダ、研究。" }
+  ],
+  rel: [
+    { to: "eu-nis2-ir", kind: "detail", note: "一部分野の技術要件と重大インシデントの閾値" },
+    { to: "eu-cer", kind: "ref", note: "物理的レジリエンスを担う対の指令" },
+    { to: "iso27001", kind: "impl", note: "第21条の措置の実装手段として広く用いられる" },
+    { to: "iso22301", kind: "impl" },
+    { to: "en50701", kind: "impl" },
+    { to: "eu-enisa-guidance", kind: "detail" }
+  ]
+},
+{
+  id: "eu-nis2-ir",
+  short: "実施規則 (EU) 2024/2690",
+  title: "NIS2 指令の技術的・方法論的要件及び重大インシデントの判定基準に関する実施規則",
+  orig: "Commission Implementing Regulation (EU) 2024/2690",
+  issuer: "欧州委員会",
+  region: "EU", type: "REG", version: "2024/2690", year: 2024,
+  binding: "強制（対象となるデジタル分野の事業体に直接適用）",
+  url: "https://eur-lex.europa.eu/eli/reg_impl/2024/2690/oj",
+  summary: "NIS2 第21条の措置を、DNS・TLD・クラウド・データセンタ・CDN・マネージドサービス／セキュリティサービス・オンラインマーケットプレイス／検索エンジン／SNS・トラストサービスの各事業者に対して具体化した実施規則。附属書に13領域の詳細要件を列挙し、あわせて「重大インシデント」に該当する閾値を数値で定める。NIS2 の要求が実務上どの粒度で求められるかを知るうえで、対象分野外の事業者にも参照価値が高い。",
+  scope: "デジタルインフラ・ICTサービス管理・デジタルプロバイダの事業者。他分野の事業体にとっては要求水準の参考になる。",
+  domains: ["IT", "CORP"],
+  cats: ["LEG", "OPS", "IRS", "RSK", "SCM", "BCP"],
+  chapters: [
+    { no: "第3条", title: "重大インシデントの判定基準", cat: ["IRS", "LEG"], note: "サービス中断時間、影響利用者数、金銭的損失などの閾値。" },
+    { no: "附属書 1", title: "ネットワーク・情報システムセキュリティの方針", cat: ["GOV"] },
+    { no: "附属書 2", title: "リスク管理方針", cat: ["RSK"] },
+    { no: "附属書 3", title: "インシデント処理", cat: ["IRS", "MON"] },
+    { no: "附属書 4", title: "事業継続と危機管理", cat: ["BCP"] },
+    { no: "附属書 5", title: "サプライチェーンセキュリティ", cat: ["SCM"] },
+    { no: "附属書 6", title: "取得・開発・保守におけるセキュリティ", cat: ["DEV", "OPS"] },
+    { no: "附属書 7", title: "有効性の評価に関する方針と手順", cat: ["ASR"] },
+    { no: "附属書 8", title: "基本的なサイバー衛生と訓練", cat: ["HRD"] },
+    { no: "附属書 9", title: "暗号", cat: ["OPS"] },
+    { no: "附属書 10", title: "人的資源のセキュリティ", cat: ["HRD", "OPS"] },
+    { no: "附属書 11", title: "アクセス制御", cat: ["OPS"] },
+    { no: "附属書 12", title: "資産管理", cat: ["OPS"] },
+    { no: "附属書 13", title: "環境・物理的セキュリティ", cat: ["OPS"] }
+  ],
+  rel: [{ to: "eu-nis2", kind: "parent" }, { to: "eu-enisa-guidance", kind: "detail" }]
+},
+{
+  id: "eu-cer",
+  short: "CER 指令 (EU) 2022/2557",
+  title: "重要事業体のレジリエンスに関する指令",
+  orig: "Directive (EU) 2022/2557 on the resilience of critical entities",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2022/2557", year: 2022,
+  binding: "強制（各加盟国の国内法を通じて）",
+  url: "https://eur-lex.europa.eu/eli/dir/2022/2557/oj",
+  summary: "NIS2 がサイバー面を扱うのに対し、物理的・組織的なレジリエンス（自然災害、テロ、内部脅威、サボタージュ）を扱う対の指令。加盟国に重要事業体の特定と国家戦略の策定を求め、事業体にはリスクアセスメント、レジリエンス措置、インシデント通知、従業員の身元確認を義務づける。サイバーと物理の対策を分離せずに設計する必要が生じる。",
+  scope: "エネルギー、輸送、銀行、金融市場インフラ、保健、飲料水、廃水、デジタルインフラ、公共行政、宇宙、食品の重要事業体。",
+  domains: ["PWR", "RAIL", "IT", "CORP"],
+  cats: ["LEG", "RSK", "BCP", "OPS", "HRD"],
+  chapters: [
+    { no: "第12条", title: "重要事業体のリスクアセスメント", cat: ["RSK"] },
+    { no: "第13条", title: "重要事業体のレジリエンス措置", cat: ["OPS", "BCP"], note: "物理的保護、事故対応・復旧、要員管理、意識向上。" },
+    { no: "第14条", title: "インシデントの通知", cat: ["IRS", "LEG"] },
+    { no: "第15条", title: "従業員の身元確認（バックグラウンドチェック）", cat: ["HRD"] }
+  ],
+  rel: [{ to: "eu-nis2", kind: "ref" }, { to: "iso22301", kind: "impl" }]
+},
+{
+  id: "eu-cra",
+  short: "CRA (EU) 2024/2847",
+  title: "デジタル要素を含む製品の水平的なサイバーセキュリティ要件に関する規則（サイバーレジリエンス法）",
+  orig: "Regulation (EU) 2024/2847 on horizontal cybersecurity requirements for products with digital elements (Cyber Resilience Act)",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2024/2847", year: 2024,
+  binding: "強制（EU 市場に上市するデジタル要素を含む全製品。段階適用）",
+  url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj",
+  summary: "EU 市場に上市されるソフトウェア／ハードウェアを含むほぼすべての「デジタル要素を含む製品」に、設計・開発段階からのセキュリティ要件と、サポート期間中の脆弱性処理を義務づける規則。CE マーキングの一部として適合性評価が必要になる。製品事業を持つ企業にとって、EU 向け製品ロードマップに最も直接的な影響を与える文書。2024年12月10日発効、脆弱性・インシデント報告義務が2026年9月11日から、全面適用が2027年12月11日から。",
+  scope: "EU 市場へ上市するデジタル要素を含む製品の製造者・輸入者・流通者。FA機器、ビル設備、空調、家電、車載後付機器などがほぼ全て該当する。自動車（型式認証対象）、医療機器など他の規制が適用される製品は除外される。",
+  domains: ["FA", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI", "AUTO"],
+  cats: ["LEG", "DEV", "IRS", "SCM", "GOV"],
+  chapters: [
+    { no: "第13条", title: "製造者の義務", cat: ["DEV", "LEG"], note: "サイバーセキュリティリスクアセスメントの実施と技術文書への記載、サポート期間（原則5年以上）の決定、上市後の脆弱性の取扱い、SBOM の作成。" },
+    { no: "第14条", title: "製造者による報告義務", cat: ["IRS", "LEG"], note: "積極的に悪用されている脆弱性および重大なインシデントについて、認知から24時間以内の早期警告、72時間以内の通知、14日／1か月以内の最終報告を ENISA と CSIRT へ。" },
+    { no: "第18-21条", title: "輸入者・流通者の義務", cat: ["SCM", "LEG"] },
+    { no: "第24-27条", title: "適合性評価の手続きと EU 適合宣言・CE マーキング", cat: ["LEG", "ASR"] },
+    { no: "第32条", title: "適合性評価手続の選択", cat: ["LEG"], note: "製品区分により内部管理／第三者関与の要否が分かれる。" },
+    { no: "附属書I 第1部", title: "製品のサイバーセキュリティ要件", cat: ["DEV"], note: "既知の悪用可能な脆弱性のない状態での上市、セキュアなデフォルト設定、脆弱性への対処と自動更新、アクセス制御、機密性・完全性の保護、データ最小化、可用性とDoS耐性、攻撃対象領域の最小化、影響の緩和、セキュリティ関連情報の記録・監視、データの安全な削除。" },
+    { no: "附属書I 第2部", title: "脆弱性処理の要件", cat: ["IRS", "SCM"], note: "コンポーネントの特定と文書化（SBOM）、脆弱性の遅滞ない修正、定期的な検査、公開された脆弱性情報の共有、調整された脆弱性開示方針、報告のための連絡先、セキュアな更新配布の仕組み、更新の無償・遅滞なき提供。" },
+    { no: "附属書II", title: "利用者へ提供すべき情報と指示", cat: ["DEV", "SCM"] },
+    { no: "附属書III", title: "重要な製品（クラスI／クラスII）", cat: ["LEG"], note: "ID管理、ブラウザ、ハイパーバイザ、ファイアウォール、マイクロプロセッサ、産業用オートメーション・制御システム（IACS）、産業用IoT など。" },
+    { no: "附属書IV", title: "重要度の高い製品（Critical products）", cat: ["LEG"], note: "ハードウェアデバイス（セキュアエレメント）、スマートメーターゲートウェイなど。欧州サイバーセキュリティ認証が要求されうる。" },
+    { no: "附属書VII", title: "技術文書の内容", cat: ["DEV", "LEG"] }
+  ],
+  rel: [
+    { to: "iec62443-4-1", kind: "impl", note: "セキュア開発プロセス要件の実装手段" },
+    { to: "iec62443-4-2", kind: "impl", note: "附属書I第1部の技術要件の実装手段" },
+    { to: "iso29147", kind: "impl", note: "調整された脆弱性開示方針の実装手段" },
+    { to: "iso30111", kind: "impl" },
+    { to: "sbom-formats", kind: "impl" },
+    { to: "etsi303645", kind: "align" },
+    { to: "eu-red-da", kind: "supersede", note: "RED 委任規則の対象範囲は CRA 適用に伴い整理される" }
+  ]
+},
+{
+  id: "eu-csa",
+  short: "Cybersecurity Act (EU) 2019/881",
+  title: "ENISA 及び情報通信技術のサイバーセキュリティ認証に関する規則",
+  orig: "Regulation (EU) 2019/881 on ENISA and on information and communications technology cybersecurity certification",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2019/881", year: 2019,
+  binding: "強制（枠組み規則。個別の認証スキームは原則任意）",
+  url: "https://eur-lex.europa.eu/eli/reg/2019/881/oj",
+  summary: "ENISA に恒久的な権限を与えるとともに、EU 共通のサイバーセキュリティ認証枠組みを創設した規則。保証レベル（基本・実質的・高度）を定義し、個別のスキーム（EUCC、EUCS、EU5G など）はこの枠組みに基づいて委任規則として制定される。NIS2 や CRA が「認証された製品の使用」を求める際の参照先。",
+  scope: "ICT 製品・サービス・プロセスの提供者。EU 向け製品の認証戦略に関わる。",
+  domains: ["IT", "FA", "SEMI", "CORP"],
+  cats: ["LEG", "ASR", "GOV"],
+  chapters: [
+    { no: "第I編", title: "ENISA の任務と体制", cat: ["GOV"] },
+    { no: "第III編 第52条", title: "保証レベル（基本／実質的／高度）", cat: ["ASR", "LEG"] },
+    { no: "第III編 第54条", title: "欧州サイバーセキュリティ認証スキームの要素", cat: ["LEG", "ASR"], note: "対象、目的、参照規格、評価手法、有効期間、開示すべき情報。" },
+    { no: "第III編 第56条", title: "サイバーセキュリティ認証", cat: ["LEG"], note: "原則として任意。特定の場合に義務化しうる。" }
+  ],
+  rel: [{ to: "eu-eucc", kind: "detail" }, { to: "eu-nis2", kind: "ref" }, { to: "eu-cra", kind: "ref" }]
+},
+{
+  id: "eu-eucc",
+  short: "EUCC (EU) 2024/482",
+  title: "コモンクライテリアに基づく欧州サイバーセキュリティ認証スキーム",
+  orig: "Commission Implementing Regulation (EU) 2024/482 — European Cybersecurity Certification Scheme on Common Criteria (EUCC)",
+  issuer: "欧州委員会",
+  region: "EU", type: "REG", version: "2024/482", year: 2024,
+  binding: "任意（他の規制が要求する場合に実質的な義務となる）",
+  url: "https://eur-lex.europa.eu/eli/reg_impl/2024/482/oj",
+  summary: "Cybersecurity Act に基づく最初の認証スキーム。ISO/IEC 15408／18045（コモンクライテリア）を基礎に、保証レベル「実質的」「高度」の ICT 製品認証を EU 全域で相互承認可能にする。既存の SOG-IS 相互承認の後継。CRA 附属書IV の重要度の高い製品に対して要求されうる。",
+  scope: "EU 向けに高保証を要する ICT 製品を出荷する事業者。セキュアエレメント、スマートカード、ネットワーク機器など。",
+  domains: ["SEMI", "IT", "FA", "CORP"],
+  cats: ["LEG", "ASR", "DEV"],
+  chapters: [
+    { no: "第II章", title: "認証の対象と保証レベル", cat: ["LEG", "ASR"], note: "AVA_VAN の水準により実質的／高度を区分。" },
+    { no: "第III章", title: "適合性評価機関と認定", cat: ["ASR"] },
+    { no: "第IV章", title: "認証の維持（脆弱性の管理とパッチ）", cat: ["IRS", "DEV"], note: "認証後に発見された脆弱性への対応と再評価。" },
+    { no: "附属書", title: "保護プロファイルと評価活動", cat: ["DEV", "ASR"] }
+  ],
+  rel: [{ to: "eu-csa", kind: "parent" }, { to: "iso15408", kind: "impl" }, { to: "eu-cra", kind: "ref" }]
+},
+{
+  id: "eu-gdpr",
+  short: "GDPR (EU) 2016/679",
+  title: "一般データ保護規則",
+  orig: "Regulation (EU) 2016/679 — General Data Protection Regulation",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2016/679", year: 2016,
+  binding: "強制（EU 域内の個人データを扱う組織。域外適用あり）",
+  url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+  summary: "個人データの保護に関する規則。セキュリティ実務との接点は、第32条（処理のセキュリティ）、第33条（監督機関への72時間以内の侵害通知）、第34条（データ主体への通知）、第25条（データ保護バイデザイン／バイデフォルト）、第35条（データ保護影響評価）にある。インシデント発生時、NIS2・CRA の報告義務と並行して GDPR の通知義務が走るため、報告フローを一体で設計する必要がある。",
+  scope: "EU 域内の個人データを取り扱う組織。域外の日本本社も対象になりうる。",
+  domains: ["CORP", "IT", "LIFE", "AUTO", "BLD"],
+  cats: ["LEG", "IRS", "OPS", "RSK"],
+  chapters: [
+    { no: "第25条", title: "データ保護バイデザイン及びバイデフォルト", cat: ["DEV", "LEG"] },
+    { no: "第28条", title: "処理者（委託先）に関する要件", cat: ["SCM", "LEG"] },
+    { no: "第32条", title: "処理のセキュリティ", cat: ["OPS", "RSK"], note: "仮名化・暗号化、機密性・完全性・可用性・復元力、定期的な有効性テスト。" },
+    { no: "第33条", title: "監督機関への個人データ侵害の通知（72時間）", cat: ["IRS", "LEG"] },
+    { no: "第34条", title: "データ主体への個人データ侵害の連絡", cat: ["IRS", "LEG"] },
+    { no: "第35条", title: "データ保護影響評価（DPIA）", cat: ["RSK", "LEG"] }
+  ],
+  rel: [{ to: "iso27701", kind: "impl" }, { to: "eu-nis2", kind: "ref", note: "報告義務が並走する" }, { to: "jp-appi", kind: "align" }]
+},
+{
+  id: "eu-machinery",
+  short: "機械規則 (EU) 2023/1230",
+  title: "機械類に関する規則",
+  orig: "Regulation (EU) 2023/1230 on machinery",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2023/1230（機械指令 2006/42/EC を置換）", year: 2023,
+  binding: "強制（2027年1月20日から適用）",
+  url: "https://eur-lex.europa.eu/eli/reg/2023/1230/oj",
+  summary: "旧機械指令を置き換える規則。安全性に影響するセキュリティ要件が必須健康安全要求事項（EHSR）に新設された点が新しい。制御システムが意図的な改ざん（corruption）に耐えること、安全機能に関わるソフトウェアとデータの完全性が保たれること、その記録が残ることを求める。産業機械・ロボットの CE マーキングにセキュリティ評価が組み込まれることを意味する。",
+  scope: "EU 市場に上市する機械類とその関連製品。産業用ロボット、工作機械、生産設備。",
+  domains: ["FA", "SEMI"],
+  cats: ["LEG", "DEV", "RSK"],
+  chapters: [
+    { no: "第III章", title: "適合性評価の手続き", cat: ["LEG", "ASR"] },
+    { no: "附属書I", title: "高リスク機械類のカテゴリ", cat: ["LEG"], note: "安全機能を持つソフトウェア、AI を用いた安全関連システムを含む。" },
+    { no: "附属書III 1.1.9", title: "改ざんに対する保護（Protection against corruption）", cat: ["DEV"], note: "制御システムへの意図的・非意図的な接続が危険な状況を生じさせないこと。ソフトウェア・データの改ざん検知と記録。" },
+    { no: "附属書III 1.2.1", title: "制御システムの安全性と信頼性", cat: ["DEV"] },
+    { no: "附属書III 1.2.6", title: "動力供給の途絶", cat: ["DEV", "BCP"] }
+  ],
+  rel: [{ to: "iec63074", kind: "impl" }, { to: "iec62443-4-2", kind: "impl" }, { to: "eu-cra", kind: "ref", note: "同一製品に双方が適用される場合の関係整理が必要" }]
+},
+{
+  id: "eu-red-da",
+  short: "RED 委任規則 (EU) 2022/30",
+  title: "無線機器指令 第3条(3)(d)(e)(f) の適用に関する委任規則",
+  orig: "Commission Delegated Regulation (EU) 2022/30 supplementing Directive 2014/53/EU",
+  issuer: "欧州委員会",
+  region: "EU", type: "REG", version: "2022/30", year: 2022,
+  binding: "強制（2025年8月1日から適用）",
+  url: "https://eur-lex.europa.eu/eli/reg_del/2022/30/oj",
+  summary: "無線機器指令（RED）の基本要求のうち、ネットワークの保護（3(3)(d)）、個人データとプライバシーの保護（3(3)(e)）、不正な課金からの保護（3(3)(f)）を、インターネット接続する無線機器へ適用可能にした委任規則。整合規格 EN 18031-1/-2/-3 により適合を推定できる。Wi-Fi／Bluetooth を搭載する製品はほぼ全て対象となるため、家電・空調・ビル機器の EU 出荷に直接関わる。",
+  scope: "インターネットに接続できる無線機器、個人データ／トラフィックデータ／位置データを処理する無線機器、電子的な金銭のやり取りが可能な無線機器。",
+  domains: ["LIFE", "BLD", "AUTO", "FA"],
+  cats: ["LEG", "DEV"],
+  chapters: [
+    { no: "第3条(3)(d)", title: "ネットワークへの害の防止と機能の悪用防止", cat: ["DEV"], note: "整合規格 EN 18031-1 が対応。" },
+    { no: "第3条(3)(e)", title: "個人データ及び利用者のプライバシーの保護", cat: ["DEV", "LEG"], note: "整合規格 EN 18031-2 が対応。" },
+    { no: "第3条(3)(f)", title: "不正・詐欺からの保護", cat: ["DEV"], note: "整合規格 EN 18031-3 が対応。" }
+  ],
+  rel: [{ to: "etsi303645", kind: "align" }, { to: "eu-cra", kind: "ref", note: "CRA の適用開始に伴い対象範囲が整理される" }]
+},
+{
+  id: "eu-aiact",
+  short: "AI Act (EU) 2024/1689",
+  title: "人工知能に関する調和規則（AI法）",
+  orig: "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2024/1689", year: 2024,
+  binding: "強制（段階適用。高リスクAIの義務は2026年8月以降が中心）",
+  url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+  summary: "AI システムをリスクに応じて分類し、高リスク AI に対して品質管理・データガバナンス・技術文書・ログ・人間による監督・正確性／堅牢性／サイバーセキュリティの要件を課す規則。附属書I に列挙された製品（機械、無線機器、昇降機、産業機器など）の安全構成要素として AI を用いる場合、その製品は高リスク AI に分類されうる点が製造業にとって重要。",
+  scope: "EU 市場に AI システムを上市・提供する者。製品に組み込む AI（外観検査、予知保全、昇降機の制御など）も対象になりうる。",
+  domains: ["FA", "BLD", "AUTO", "LIFE", "IT", "CORP"],
+  cats: ["LEG", "DEV", "RSK", "GOV"],
+  chapters: [
+    { no: "第6条・附属書I", title: "高リスクAIシステムの分類規則", cat: ["LEG", "RSK"], note: "EU の製品安全法令（機械、無線機器、昇降機、自動車など）の対象製品の安全構成要素であるAIは高リスクとなりうる。" },
+    { no: "第9条", title: "リスク管理システム", cat: ["RSK"] },
+    { no: "第10条", title: "データ及びデータガバナンス", cat: ["DEV", "GOV"] },
+    { no: "第12条", title: "記録の保持（ログ）", cat: ["MON"] },
+    { no: "第14条", title: "人間による監督", cat: ["GOV", "OPS"] },
+    { no: "第15条", title: "正確性、堅牢性及びサイバーセキュリティ", cat: ["DEV", "OPS"], note: "データポイズニング、モデルポイズニング、敵対的サンプル、モデル回避、機密性攻撃への対策を明示的に要求。" },
+    { no: "第17条", title: "品質管理システム", cat: ["GOV", "ASR"] },
+    { no: "第73条", title: "重大なインシデントの報告", cat: ["IRS", "LEG"] }
+  ],
+  rel: [{ to: "iso42001", kind: "impl" }, { to: "eu-machinery", kind: "ref" }, { to: "eu-cra", kind: "ref" }]
+},
+{
+  id: "eu-dora",
+  short: "DORA (EU) 2022/2554",
+  title: "金融セクターのデジタルオペレーショナルレジリエンスに関する規則",
+  orig: "Regulation (EU) 2022/2554 on digital operational resilience for the financial sector",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2022/2554", year: 2022,
+  binding: "強制（2025年1月17日から適用）",
+  url: "https://eur-lex.europa.eu/eli/reg/2022/2554/oj",
+  summary: "金融機関とその重要な ICT サードパーティプロバイダに、ICT リスク管理、インシデント報告、デジタルオペレーショナルレジリエンステスト（脅威主導型ペネトレーションテストを含む）、第三者リスク管理、情報共有を義務づける規則。金融機関に ICT サービスを提供する事業者は、契約要件として DORA の要求を負う。",
+  scope: "EU の金融機関と、それに ICT サービスを提供する事業者（クラウド、データセンタ、ソフトウェアベンダ等）。",
+  domains: ["IT", "CORP"],
+  cats: ["LEG", "RSK", "IRS", "SCM", "ASR", "BCP"],
+  chapters: [
+    { no: "第II章", title: "ICT リスク管理の枠組み", cat: ["RSK", "GOV", "OPS"] },
+    { no: "第III章", title: "ICT 関連インシデントの管理・分類・報告", cat: ["IRS", "LEG"] },
+    { no: "第IV章", title: "デジタルオペレーショナルレジリエンステスト", cat: ["ASR"], note: "脅威主導型ペネトレーションテスト（TLPT）を含む。" },
+    { no: "第V章", title: "ICT サードパーティリスクの管理", cat: ["SCM"], note: "契約に含めるべき事項、重要プロバイダの監督枠組み。" },
+    { no: "第VI章", title: "情報共有の取決め", cat: ["MON"] }
+  ],
+  rel: [{ to: "eu-nis2", kind: "ref", note: "金融分野では DORA が lex specialis として優先する" }, { to: "iso22301", kind: "impl" }]
+},
+{
+  id: "eu-enisa-guidance",
+  short: "ENISA 実装ガイダンス",
+  title: "NIS2 技術的実装ガイダンス／各種 ENISA 刊行物",
+  orig: "ENISA Technical Implementation Guidance on Cybersecurity Risk Management Measures, ENISA Threat Landscape, and sectoral guidance",
+  issuer: "ENISA（欧州連合サイバーセキュリティ機関）",
+  region: "EU", type: "GL", version: "継続発行", year: 2025,
+  binding: "任意（法的拘束力はないが監督当局の期待水準を示す）",
+  url: "https://www.enisa.europa.eu/",
+  summary: "実施規則 (EU) 2024/2690 の各要件について、具体的な実施例、証跡の例、参照規格（ISO/IEC 27001、NIST CSF、IEC 62443 等）へのマッピングを示すガイダンス。年次の ENISA Threat Landscape はセクタ別の脅威動向の基礎資料として広く参照される。NIS2 対応で「どこまでやれば十分か」を判断する実務的な拠り所になる。",
+  scope: "NIS2 の対象事業体、および EU 域内でセキュリティ水準を説明する必要のある事業者。",
+  domains: ["PWR", "RAIL", "IT", "FA", "CORP", "BLD"],
+  cats: ["LEG", "OPS", "RSK", "MON"],
+  chapters: [
+    { no: "TIG", title: "技術的実装ガイダンス（実施規則の要件別）", cat: ["OPS", "LEG"], note: "要件ごとの手引、実施例、証跡、国際規格へのマッピング表。" },
+    { no: "ETL", title: "ENISA Threat Landscape（年次）", cat: ["MON", "RSK"], note: "主要な脅威カテゴリ、セクタ別の被害統計、攻撃者動向。" },
+    { no: "Sectoral", title: "セクタ別の脅威分析（エネルギー、輸送、製造 等）", cat: ["RSK", "MON"] }
+  ],
+  rel: [{ to: "eu-nis2-ir", kind: "parent" }, { to: "eu-nis2", kind: "parent" }, { to: "iso27001", kind: "align" }]
+}
+
+]);
+
+</script>
+<script>
+/* Navigator — 日本の法令・政府文書・業界ガイドライン */
+window.NAV = window.NAV || {};
+window.NAV.documents = (window.NAV.documents || []).concat([
+
+/* ---------------- 法令・国家戦略 ---------------- */
+{
+  id: "jp-basic-act",
+  short: "サイバーセキュリティ基本法",
+  title: "サイバーセキュリティ基本法（平成26年法律第104号）",
+  orig: "Basic Act on Cybersecurity",
+  issuer: "内閣官房（内閣サイバーセキュリティセンター／NISC）",
+  region: "JP", type: "LAW", version: "累次改正", year: 2014,
+  binding: "強制（国・地方公共団体等の責務。事業者には努力義務が中心）",
+  url: "https://laws.e-gov.go.jp/law/426AC1000000104",
+  summary: "日本のサイバーセキュリティ政策の基本法。国・地方公共団体・重要社会基盤事業者・サイバー関連事業者それぞれの責務を定め、サイバーセキュリティ戦略の策定と NISC・サイバーセキュリティ戦略本部の設置根拠となる。重要社会基盤事業者には「自主的かつ積極的にサイバーセキュリティの確保に努める」努力義務が課される。個別の技術要求は下位の行動計画・ガイドラインが担う。",
+  scope: "国、地方公共団体、重要社会基盤事業者、サイバー関連事業者、教育研究機関、国民。",
+  domains: ["CORP", "PWR", "RAIL", "IT"],
+  cats: ["LEG", "GOV"],
+  chapters: [
+    { no: "第1章", title: "総則（目的・定義・基本理念）", cat: ["LEG"], note: "第2条でサイバーセキュリティを定義。" },
+    { no: "第2章", title: "サイバーセキュリティ戦略", cat: ["GOV", "LEG"] },
+    { no: "第3章", title: "基本的施策", cat: ["LEG"], note: "国の行政機関、重要社会基盤事業者、民間事業者、教育研究機関等における対策の推進。" },
+    { no: "第4章", title: "サイバーセキュリティ戦略本部", cat: ["GOV"] },
+    { no: "第6-8条", title: "重要社会基盤事業者等の責務", cat: ["GOV", "LEG"], note: "自主的・積極的な取組の努力義務、国の施策への協力。" }
+  ],
+  rel: [{ to: "jp-cii-plan", kind: "detail" }, { to: "jp-active-cyber", kind: "ref" }, { to: "jp-govt-std", kind: "detail" }]
+},
+{
+  id: "jp-active-cyber",
+  short: "サイバー対処能力強化法",
+  title: "重要電子計算機に対する不正な行為による被害の防止に関する法律（能動的サイバー防御関連法）",
+  orig: "Act on Prevention of Damage from Unauthorized Acts against Critical Computers (Active Cyber Defence legislation)",
+  issuer: "内閣官房／NISC",
+  region: "JP", type: "LAW", version: "令和7年成立、段階的施行", year: 2025,
+  binding: "強制（対象となる基幹インフラ事業者等）",
+  url: "https://www.nisc.go.jp/",
+  summary: "いわゆる能動的サイバー防御を制度化する法律群。基幹インフラ事業者に対する重大インシデントの国への報告義務、通信情報の分析、攻撃元サーバへの無害化措置（アクセス・無害化）の権限などを定める。基幹インフラ事業者にとっては、既存の業法上の報告に加えて新たな報告経路と義務が生じるため、インシデント報告フローの再設計が必要になる。施行は段階的で、政令・内閣府令により対象・手続の詳細が定まる。",
+  scope: "指定される基幹インフラ事業者、電気通信事業者、国の行政機関等。",
+  domains: ["PWR", "RAIL", "IT", "CORP", "DEF"],
+  cats: ["LEG", "IRS", "GOV", "MON"],
+  chapters: [
+    { no: "—", title: "基幹インフラ事業者の報告義務", cat: ["IRS", "LEG"], note: "重大なインシデントの国への報告。既存の業法上の報告との関係整理が必要。" },
+    { no: "—", title: "通信情報の利用・分析", cat: ["MON", "LEG"] },
+    { no: "—", title: "アクセス・無害化措置", cat: ["IRS", "LEG"], note: "国の機関による攻撃基盤への措置。事業者側の協力に関する規定を含む。" },
+    { no: "—", title: "官民の情報共有の枠組み", cat: ["MON", "IRS"] }
+  ],
+  verify: "施行は段階的であり、対象事業者・報告手続の詳細は政令・内閣府令の制定状況を確認すること。",
+  rel: [{ to: "jp-basic-act", kind: "parent" }, { to: "jp-keizai-anpo", kind: "ref" }, { to: "jp-cii-plan", kind: "ref" }]
+},
+{
+  id: "jp-keizai-anpo",
+  short: "経済安全保障推進法（基幹インフラ制度）",
+  title: "経済施策を一体的に講ずることによる安全保障の確保の推進に関する法律 — 特定社会基盤役務の安定的な提供の確保",
+  orig: "Economic Security Promotion Act — Ensuring stable provision of critical infrastructure services",
+  issuer: "内閣府",
+  region: "JP", type: "LAW", version: "令和4年法律第43号、基幹インフラ制度は令和6年5月全面施行", year: 2022,
+  binding: "強制（特定社会基盤事業者に指定された事業者）",
+  url: "https://www.cao.go.jp/keizai_anzen_hosho/",
+  summary: "電気、ガス、鉄道、通信、金融など15分野の特定社会基盤事業者が、重要設備の導入・重要維持管理委託を行う際に、事前に国へ届出て審査を受ける制度。妨害行為（サイバー攻撃を含む）のリスクを供給者の属性まで含めて審査するため、制御システム・監視システムを納入する側にとっては、顧客が届出審査を通せる構成・供給体制であることが受注要件になる。",
+  scope: "指定された特定社会基盤事業者と、その事業者へ重要設備を供給・維持管理する事業者。",
+  domains: ["PWR", "RAIL", "IT", "CORP"],
+  cats: ["LEG", "SCM", "RSK", "GOV"],
+  chapters: [
+    { no: "第3章", title: "特定社会基盤役務の安定的な提供の確保", cat: ["LEG", "SCM"] },
+    { no: "第50条", title: "特定社会基盤事業者の指定", cat: ["LEG"], note: "15の特定社会基盤事業と規模基準。" },
+    { no: "第52条", title: "特定重要設備の導入等に関する届出・審査", cat: ["LEG", "SCM", "RSK"], note: "設備の供給者、部品の供給網、委託先の情報を含む導入等計画書の届出。審査期間中は導入不可。" },
+    { no: "第54条", title: "勧告及び命令", cat: ["LEG"] },
+    { no: "第55条", title: "変更の届出・報告徴収", cat: ["LEG", "SCM"] }
+  ],
+  rel: [{ to: "jp-cii-plan", kind: "ref" }, { to: "jp-active-cyber", kind: "ref" }, { to: "nist-800-161", kind: "align" }]
+},
+{
+  id: "jp-cii-plan",
+  short: "重要インフラ行動計画",
+  title: "重要インフラのサイバーセキュリティに係る行動計画",
+  orig: "The Cybersecurity Policy for Critical Infrastructure Protection",
+  issuer: "サイバーセキュリティ戦略本部／NISC",
+  region: "JP", type: "GL", version: "令和4年6月改定（令和6年一部改定）", year: 2022,
+  binding: "任意（重要インフラ事業者への政府の期待。所管省庁の安全基準等を通じて実効化）",
+  url: "https://www.nisc.go.jp/policy/group/infra/index.html",
+  summary: "重要インフラ15分野の防護に関する政府の基本方針。「安全基準等の整備・浸透」「情報共有体制の強化」「障害対応体制の強化」「リスクマネジメント」「防護基盤の強化」の5つの施策群からなる。各分野の所管省庁が定める安全基準等（電力、鉄道、ガス等）の上位に位置し、事業者にとってはこの計画を受けた業界ガイドラインが直接の参照先になる。",
+  scope: "情報通信、金融、航空、空港、鉄道、電力、ガス、政府・行政サービス、医療、水道、物流、化学、クレジット、石油の各分野の事業者。",
+  domains: ["PWR", "RAIL", "IT", "CORP", "BLD"],
+  cats: ["GOV", "RSK", "IRS", "MON", "BCP", "HRD"],
+  chapters: [
+    { no: "施策1", title: "障害対応体制の強化", cat: ["IRS", "BCP"], note: "セプター（分野別情報共有組織）を通じた連携、演習の実施。" },
+    { no: "施策2", title: "安全基準等の整備及び浸透", cat: ["GOV", "LEG"], note: "所管省庁による分野別の安全基準等の策定と、事業者による対策の実施。" },
+    { no: "施策3", title: "情報共有体制の強化", cat: ["MON", "IRS"], note: "NISC・セプター・所管省庁の間の情報連絡体制。" },
+    { no: "施策4", title: "リスクマネジメント及び対処態勢の整備", cat: ["RSK", "GOV"], note: "経営層の関与、サプライチェーンを含むリスクの把握。" },
+    { no: "施策5", title: "防護基盤の強化", cat: ["HRD", "GOV"], note: "人材育成、広報、規格・標準の活用、国際連携。" },
+    { no: "指針", title: "重要インフラにおける情報セキュリティ確保に係る安全基準等策定指針", cat: ["GOV", "RSK"], note: "所管省庁が安全基準を作る際の共通の骨格。事業者側は自社の対策の網羅性検証に使える。" }
+  ],
+  rel: [{ to: "jp-basic-act", kind: "parent" }, { to: "jp-jesc", kind: "detail" }, { to: "jp-rail-gl", kind: "detail" }, { to: "us-cisa-cpg", kind: "align" }]
+},
+{
+  id: "jp-govt-std",
+  short: "政府統一基準群",
+  title: "政府機関等のサイバーセキュリティ対策のための統一基準群",
+  orig: "Common Standards for Cybersecurity Measures for Government Agencies and Related Agencies",
+  issuer: "サイバーセキュリティ戦略本部／NISC",
+  region: "JP", type: "REG", version: "令和5年度版（以降改定）", year: 2023,
+  binding: "強制（国の行政機関等）／間接（政府へ納入する事業者に契約を通じて波及）",
+  url: "https://www.nisc.go.jp/policy/group/general/kijun.html",
+  summary: "国の行政機関・独立行政法人等が遵守すべき対策基準。統一規範、統一基準、対策基準策定のためのガイドラインで構成される。政府情報システムを受注する場合、調達仕様書はこの基準を根拠に要求を組み立てるため、公共分野の SI・設備案件では実質的な設計制約になる。外部委託・クラウド利用・機器の調達に関する規定が実務上の要点。",
+  scope: "国の行政機関、独立行政法人、指定法人。およびこれらへ情報システム・機器を納入する事業者。",
+  domains: ["IT", "CORP", "DEF", "BLD"],
+  cats: ["LEG", "OPS", "SCM", "IRS"],
+  chapters: [
+    { no: "第2部", title: "情報セキュリティ対策の基本的枠組み", cat: ["GOV"], note: "体制、対策推進計画、例外措置、教育、自己点検、監査。" },
+    { no: "第3部", title: "情報の取扱い", cat: ["OPS"], note: "格付けと取扱制限、情報の管理・提供・運搬・消去。" },
+    { no: "第4部", title: "外部委託", cat: ["SCM"], note: "委託先の選定基準、契約に含める要求、クラウドサービスの利用（ISMAP の利用を含む）。" },
+    { no: "第5部", title: "情報システムのライフサイクル", cat: ["OPS", "DEV", "SCM"], note: "企画・要件定義、調達・構築、運用・保守、更改・廃棄。機器等の調達におけるサプライチェーンリスク対策。" },
+    { no: "第6部", title: "情報システムのセキュリティ要件", cat: ["OPS", "DEV"], note: "アクセス制御、暗号、ログ、不正プログラム対策、脆弱性対策。" },
+    { no: "第7部", title: "情報システムの構成要素", cat: ["OPS"], note: "端末・サーバ・複合機・IoT機器・電子メール・ウェブ・ドメイン名等。" },
+    { no: "第8部", title: "情報システムの利用", cat: ["HRD", "OPS"] }
+  ],
+  rel: [{ to: "jp-basic-act", kind: "parent" }, { to: "jp-ismap", kind: "ref" }, { to: "nist-800-53", kind: "align" }]
+},
+{
+  id: "jp-appi",
+  short: "個人情報保護法",
+  title: "個人情報の保護に関する法律（安全管理措置・漏えい等報告）",
+  orig: "Act on the Protection of Personal Information (APPI)",
+  issuer: "個人情報保護委員会（PPC）",
+  region: "JP", type: "LAW", version: "令和2年・令和3年改正（以降見直し継続）", year: 2022,
+  binding: "強制（個人情報取扱事業者）",
+  url: "https://www.ppc.go.jp/personalinfo/legal/",
+  summary: "個人データの安全管理措置（第23条）と、漏えい等が発生した場合の個人情報保護委員会への報告・本人への通知（第26条）を定める。ガイドライン（通則編）が、組織的・人的・物理的・技術的安全管理措置と外的環境の把握という5区分で具体的な手法例を示す。報告は速報（概ね3〜5日以内）と確報（30日以内、不正アクセス等の場合は60日以内）の二段構えで、CSIRT の対外報告フローに直接組み込む必要がある。",
+  scope: "個人情報を取り扱うすべての事業者。従業者情報・顧客情報・製品から取得する利用者データを含む。",
+  domains: ["CORP", "IT", "LIFE", "AUTO", "BLD"],
+  cats: ["LEG", "IRS", "OPS"],
+  chapters: [
+    { no: "第23条", title: "安全管理措置", cat: ["OPS", "GOV"], note: "ガイドライン通則編 10 に組織的・人的・物理的・技術的安全管理措置と外的環境の把握の具体例。" },
+    { no: "第25条", title: "委託先の監督", cat: ["SCM"] },
+    { no: "第26条", title: "漏えい等の報告・本人への通知", cat: ["IRS", "LEG"], note: "要配慮個人情報、財産的被害のおそれ、不正の目的によるおそれ、1000人超の漏えいが対象。速報・確報の二段階。" },
+    { no: "第28条", title: "外国にある第三者への提供の制限", cat: ["LEG", "SCM"] }
+  ],
+  rel: [{ to: "eu-gdpr", kind: "align" }, { to: "iso27701", kind: "impl" }]
+},
+
+/* ---------------- 経済産業省・IPA 系 ---------------- */
+{
+  id: "jp-keiei-gl",
+  short: "サイバーセキュリティ経営ガイドライン Ver3.0",
+  title: "サイバーセキュリティ経営ガイドライン",
+  orig: "Cybersecurity Management Guidelines",
+  issuer: "経済産業省／独立行政法人情報処理推進機構（IPA）",
+  region: "JP", type: "GL", version: "Ver3.0", year: 2023,
+  binding: "任意（上場企業の開示・取引先要求で参照される）",
+  url: "https://www.meti.go.jp/policy/netsecurity/mngguide.html",
+  summary: "経営者が認識すべき3原則と、経営者が CISO 等に指示すべき重要10項目からなる。日本国内で「経営としてのサイバーセキュリティ」を語る際の共通の枠組みであり、取締役会報告・有価証券報告書の記述・取引先への説明のいずれにも使われる。付録として、重要10項目の実践のためのプラクティス集、可視化ツール、インシデント対応の参考資料が提供されている。",
+  scope: "大企業および中小企業のうち IT に関するシステム・サービス等を供給する企業と、経営戦略上 IT の利活用が不可欠である企業の経営者。",
+  domains: ["CORP", "IT", "PWR", "RAIL", "DEF", "FA", "AUTO", "BLD", "LIFE", "SEMI"],
+  cats: ["GOV", "RSK", "IRS", "SCM", "BCP", "HRD", "MON"],
+  chapters: [
+    { no: "原則1", title: "経営者のリーダーシップによる対策の推進", cat: ["GOV"] },
+    { no: "原則2", title: "サプライチェーン全体（ビジネスパートナー・委託先を含む）の対策", cat: ["SCM"] },
+    { no: "原則3", title: "平時・緊急時の関係者との積極的なコミュニケーション", cat: ["IRS", "GOV"] },
+    { no: "指示1", title: "サイバーセキュリティリスクの認識、組織全体での対応方針の策定", cat: ["GOV", "RSK"] },
+    { no: "指示2", title: "サイバーセキュリティリスク管理体制の構築", cat: ["GOV"], note: "CISO の任命、責任範囲の明確化、他部門との連携。" },
+    { no: "指示3", title: "サイバーセキュリティ対策のための資源（予算、人材等）確保", cat: ["GOV", "HRD"] },
+    { no: "指示4", title: "サイバーセキュリティリスクの把握とリスク対応に関する計画の策定", cat: ["RSK"] },
+    { no: "指示5", title: "サイバーセキュリティリスクに効果的に対応する仕組みの構築", cat: ["OPS", "MON"] },
+    { no: "指示6", title: "PDCA サイクルによるサイバーセキュリティ対策の継続的改善", cat: ["ASR"] },
+    { no: "指示7", title: "インシデント発生時の緊急対応体制の整備", cat: ["IRS"], note: "CSIRT の整備、対外的な情報開示体制。" },
+    { no: "指示8", title: "インシデントによる被害に備えた事業継続・復旧体制の整備", cat: ["BCP"] },
+    { no: "指示9", title: "ビジネスパートナーや委託先等を含めたサプライチェーン全体の状況把握及び対策", cat: ["SCM"] },
+    { no: "指示10", title: "サイバーセキュリティに関する情報の収集、共有及び開示の促進", cat: ["MON", "IRS"] }
+  ],
+  rel: [{ to: "nist-csf2", kind: "align" }, { to: "jp-cpsf", kind: "ref" }, { to: "iso27001", kind: "impl" }, { to: "jp-sc-guide", kind: "detail" }]
+},
+{
+  id: "jp-cpsf",
+  short: "CPSF Ver1.0",
+  title: "サイバー・フィジカル・セキュリティ対策フレームワーク",
+  orig: "The Cyber/Physical Security Framework (CPSF)",
+  issuer: "経済産業省",
+  region: "JP", type: "FW", version: "Ver1.0", year: 2019,
+  binding: "任意",
+  url: "https://www.meti.go.jp/policy/netsecurity/wg1/index.html",
+  summary: "Society 5.0 におけるサプライチェーンを、3つの層（企業間のつながり／フィジカル空間とサイバー空間のつながり／サイバー空間におけるつながり）と6つの構成要素（ソシキ、ヒト、モノ、データ、プロシージャ、システム）で捉え、リスク源と対策要件を導出する枠組み。分野別のガイドライン（工場、ビル、電力、自動車等）はいずれもこの CPSF を上位の枠組みとして位置づけており、国内の分野別ガイドラインを読む際の共通の座標軸になる。",
+  scope: "サプライチェーンを構成するすべての事業者。分野別ガイドラインの作成主体を含む。",
+  domains: ["FA", "BLD", "PWR", "AUTO", "IT", "CORP", "SEMI"],
+  cats: ["RSK", "GOV", "SCM", "OPS"],
+  chapters: [
+    { no: "第I部", title: "コンセプト", cat: ["RSK"], note: "三層構造モデルと6つの構成要素。バリュークリエイションプロセスの捉え方。" },
+    { no: "第II部", title: "ポリシー（リスク源と対策要件）", cat: ["RSK", "OPS"], note: "構成要素ごとにリスク源を特定し、対策要件を対応づける。" },
+    { no: "第III部", title: "メソッド（対策例）", cat: ["OPS"], note: "対策要件に対する具体的な対策例と、国際規格（ISO/IEC 27001、NIST CSF、IEC 62443 等）への参照。" },
+    { no: "第1層", title: "企業間のつながり", cat: ["SCM", "GOV"], note: "従来のサプライチェーンにおける信頼の確保。" },
+    { no: "第2層", title: "フィジカル空間とサイバー空間のつながり", cat: ["OPS", "DEV"], note: "転写機能（センサ・アクチュエータ）の信頼性確保。IoT 機器のセキュリティ。" },
+    { no: "第3層", title: "サイバー空間におけるつながり", cat: ["OPS"], note: "データの流通・加工における信頼性確保。" }
+  ],
+  rel: [
+    { to: "jp-factory-gl", kind: "detail" },
+    { to: "jp-building-gl", kind: "detail" },
+    { to: "nist-csf2", kind: "align" },
+    { to: "iso27001", kind: "align" },
+    { to: "jp-keiei-gl", kind: "ref" }
+  ]
+},
+{
+  id: "jp-factory-gl",
+  short: "工場システム セキュリティガイドライン",
+  title: "工場システムにおけるサイバー・フィジカル・セキュリティ対策ガイドライン",
+  orig: "Cyber/Physical Security Guidelines for Factory Systems",
+  issuer: "経済産業省",
+  region: "JP", type: "GL", version: "Ver1.0（別冊を含む改訂あり）", year: 2022,
+  binding: "任意",
+  url: "https://www.meti.go.jp/policy/netsecurity/wg1/factory.html",
+  summary: "工場の生産設備・制御システムのセキュリティ対策を、3ステップ（守るべきものの明確化 → セキュリティ対策の立案 → 対策の実行と改善）で進める手順書。生産ライン停止の影響を起点にゾーニングと対策レベルを決める考え方をとり、IEC 62443 や NIST SP 800-82 との対応も示される。自社工場のセキュリティ構築と、FA製品を納入する顧客工場の要求理解の双方で使える国内の中核文書。",
+  scope: "工場を持つすべての製造事業者と、工場向けに設備・システムを供給するベンダ。",
+  domains: ["FA", "SEMI", "PWR", "AUTO", "LIFE", "CORP"],
+  cats: ["RSK", "OPS", "GOV", "SCM", "IRS", "BCP", "HRD"],
+  chapters: [
+    { no: "ステップ1", title: "内外の要件等を踏まえた、対象を明確化した上での業務の整理", cat: ["RSK"], note: "1-1 業務の重要度・影響の把握、1-2 守るべきものの明確化、1-3 対象範囲のゾーン分け（業務・設備・ネットワーク）。" },
+    { no: "ステップ2", title: "セキュリティ対策の立案", cat: ["RSK", "OPS"], note: "2-1 想定脅威とリスクの明確化、2-2 対策の立案（ゾーンごとのセキュリティレベル設定）、2-3 対策の優先順位づけ。" },
+    { no: "ステップ3", title: "セキュリティ対策の実行、及び計画・対策の見直し", cat: ["OPS", "ASR", "HRD"], note: "3-1 対策の実行、3-2 体制・ルールの整備と教育、3-3 継続的な見直し。" },
+    { no: "付録", title: "対策例・チェックリスト・想定脅威と対策の対応表", cat: ["OPS", "RSK"] },
+    { no: "別冊", title: "サプライチェーン／中小製造事業者向けの補足", cat: ["SCM"], note: "取引先へ求める対策水準と、規模に応じた段階的な導入。" }
+  ],
+  verify: "版数と別冊の構成は改訂されている。経済産業省の公開ページで最新版を確認すること。",
+  rel: [
+    { to: "jp-cpsf", kind: "parent" },
+    { to: "iec62443-2-1", kind: "impl" },
+    { to: "nist-800-82", kind: "align" },
+    { to: "jp-ipa-risk", kind: "detail", note: "ステップ2のリスク分析手法" }
+  ]
+},
+{
+  id: "jp-building-gl",
+  short: "ビルシステム セキュリティガイドライン",
+  title: "ビルシステムにおけるサイバー・フィジカル・セキュリティ対策ガイドライン",
+  orig: "Cyber/Physical Security Guidelines for Building Systems",
+  issuer: "経済産業省",
+  region: "JP", type: "GL", version: "Ver2.0", year: 2022,
+  binding: "任意",
+  url: "https://www.meti.go.jp/policy/netsecurity/wg1/building.html",
+  summary: "ビル管理システム（BAS/BEMS）、昇降機、入退室管理、監視カメラ、空調といったビル設備のセキュリティ対策を扱うガイドライン。ビル特有の事情 — 所有者・管理会社・設備ベンダ・テナントの多層構造、設備の長寿命（20年以上）、遠隔保守の常態化 — を踏まえ、企画・設計から運用・更新までのライフサイクルで関係者の役割と対策を整理する。昇降機・ビル設備・空調事業に直接関係する国内文書。",
+  scope: "ビルオーナー、ビル管理会社、設備ベンダ、システムインテグレータ、テナント。",
+  domains: ["BLD", "LIFE", "FA", "IT"],
+  cats: ["RSK", "OPS", "SCM", "GOV", "IRS", "DEV"],
+  chapters: [
+    { no: "第1章", title: "ビルシステムを取り巻く環境と課題", cat: ["RSK"], note: "IP 化・遠隔保守・クラウド連携によるリスクの変化。" },
+    { no: "第2章", title: "ビルシステムの構成とライフサイクル", cat: ["OPS"], note: "企画・設計、構築、運用・保守、更新・廃棄の各段階と関係者。" },
+    { no: "第3章", title: "リスクアセスメント", cat: ["RSK"], note: "ビル用途・設備種別に応じた想定脅威と影響（人命・事業・情報）。" },
+    { no: "第4章", title: "ライフサイクル各段階の対策", cat: ["OPS", "DEV", "SCM"], note: "調達仕様への要求の織り込み、ネットワーク分離、遠隔保守経路の保護、保守事業者の管理。" },
+    { no: "第5章", title: "インシデント対応と体制", cat: ["IRS", "GOV"], note: "オーナー・管理会社・ベンダ間の連絡体制と役割分担。" },
+    { no: "付録", title: "対策一覧・チェックリスト・調達仕様書への記載例", cat: ["OPS", "SCM"] }
+  ],
+  verify: "版数・公開年は経済産業省の公開ページで確認すること。",
+  rel: [{ to: "jp-cpsf", kind: "parent" }, { to: "nist-800-82", kind: "align" }, { to: "iec62443-2-4", kind: "impl" }]
+},
+{
+  id: "jp-sc-guide",
+  short: "サプライチェーン対策の手引",
+  title: "サプライチェーン強化に向けたセキュリティ対策評価制度／中小企業の情報セキュリティ対策ガイドライン",
+  orig: "Security measures evaluation scheme for supply chain strengthening / SME information security guidelines",
+  issuer: "経済産業省／IPA",
+  region: "JP", type: "GL", version: "評価制度は制度設計・試行が進行中", year: 2024,
+  binding: "任意",
+  url: "https://www.ipa.go.jp/security/security-action/",
+  summary: "サプライチェーン全体のセキュリティ水準を底上げするための施策群。取引先の対策状況を★の段階で可視化する評価制度の検討と、中小企業向けの実践的なガイドライン・SECURITY ACTION 自己宣言制度からなる。多階層の協力会社を持つ製造業にとって、取引先へ求める水準を段階的に設定する際の共通尺度になる。",
+  scope: "サプライチェーンの発注側・受注側の双方。特に中小規模の協力会社への展開に用いる。",
+  domains: ["CORP", "FA", "AUTO", "SEMI", "IT"],
+  cats: ["SCM", "GOV", "ASR"],
+  chapters: [
+    { no: "—", title: "サプライチェーン対策の評価基準（段階的な水準）", cat: ["SCM", "ASR"] },
+    { no: "—", title: "中小企業の情報セキュリティ対策ガイドライン（経営者編・実践編）", cat: ["GOV", "OPS"] },
+    { no: "—", title: "SECURITY ACTION 自己宣言（★一つ星・★★二つ星）", cat: ["ASR", "GOV"] },
+    { no: "—", title: "情報セキュリティ簡易診断・対策ベンチマーク", cat: ["ASR"] }
+  ],
+  verify: "評価制度は制度設計が進行中のため、最新の状況を経済産業省・IPA で確認すること。",
+  rel: [{ to: "jp-keiei-gl", kind: "parent", note: "指示9の実装" }, { to: "iso27036", kind: "align" }, { to: "nist-800-161", kind: "align" }]
+},
+{
+  id: "jp-sbom-tebiki",
+  short: "SBOM 導入の手引 Ver2.0",
+  title: "ソフトウェア管理に向けたSBOM（Software Bill of Materials）の導入に関する手引",
+  orig: "Guidance on Introducing SBOM for Software Management",
+  issuer: "経済産業省",
+  region: "JP", type: "GL", version: "Ver2.0", year: 2024,
+  binding: "任意",
+  url: "https://www.meti.go.jp/policy/mono_info_service/info_service/sbom.html",
+  summary: "SBOM の導入を、環境構築・体制整備 → SBOM 作成・共有 → SBOM 運用・管理の3フェーズで進める手引。フォーマット（SPDX、CycloneDX）の選定、ツールの選定基準、部品の粒度の決め方、脆弱性管理への接続、取引先との共有時の留意点を扱う。CRA や米国調達で SBOM 提出が求められる場面が増えており、製品事業の実務ではまずこの手引から入るのが現実的。",
+  scope: "ソフトウェアを含む製品を開発・出荷する事業者、およびソフトウェアを調達する事業者。",
+  domains: ["FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI", "CORP"],
+  cats: ["SCM", "DEV", "IRS"],
+  chapters: [
+    { no: "第1部", title: "SBOM の概要と意義", cat: ["SCM"] },
+    { no: "第2部", title: "環境構築・体制整備フェーズ", cat: ["GOV", "SCM"], note: "適用範囲の決定、ツールの選定、要員の確保、コストの見積り。" },
+    { no: "第3部", title: "SBOM 作成・共有フェーズ", cat: ["DEV", "SCM"], note: "部品の構成解析、SBOM の作成、部品の粒度と正確性の確保、取引先との共有方法。" },
+    { no: "第4部", title: "SBOM 運用・管理フェーズ", cat: ["IRS", "OPS"], note: "脆弱性情報との突合、脆弱性対応の判断、ライセンス管理、SBOM の更新。" },
+    { no: "付録", title: "分野別の適用（自動車・医療機器・ソフトウェア）と実証結果", cat: ["SCM"] }
+  ],
+  rel: [{ to: "sbom-formats", kind: "impl" }, { to: "eu-cra", kind: "ref" }, { to: "nist-800-218", kind: "align" }]
+},
+{
+  id: "jp-ipa-risk",
+  short: "制御システムのリスク分析ガイド",
+  title: "制御システムのセキュリティリスク分析ガイド 第2版",
+  orig: "Guide to Security Risk Analysis for Control Systems, 2nd Edition",
+  issuer: "IPA",
+  region: "JP", type: "TECH", version: "第2版", year: 2018,
+  binding: "任意",
+  url: "https://www.ipa.go.jp/security/controlsystem/riskanalysis.html",
+  summary: "制御システムのリスク分析を、資産ベースのリスク分析と事業被害ベースのリスク分析の2つの手法で実施する手順を、記入シート付きで具体的に示した実務書。特に事業被害ベースの分析（想定する事業被害から攻撃シナリオを遡って作る）は、制御システムのリスク評価を経営説明に接続する際に有効で、工場・プラント・ビル設備のリスクアセスメントで国内では最も使われている手法のひとつ。",
+  scope: "制御システムを運用・設計する組織のリスク分析担当者。",
+  domains: ["FA", "PWR", "BLD", "RAIL", "SEMI"],
+  cats: ["RSK"],
+  chapters: [
+    { no: "第1章", title: "リスク分析の全体像", cat: ["RSK"], note: "2つの手法の使い分けと実施順序。" },
+    { no: "第2章", title: "資産ベースのリスク分析", cat: ["RSK"], note: "資産の洗い出し、脅威と脆弱性の評価、リスク値の算出。網羅的な把握に向く。" },
+    { no: "第3章", title: "事業被害ベースのリスク分析", cat: ["RSK"], note: "事業被害の想定 → 攻撃シナリオの作成 → 攻撃ツリーの展開 → 対策状況の評価。重大リスクの深掘りに向く。" },
+    { no: "第4章", title: "分析結果の活用", cat: ["RSK", "GOV"], note: "対策の優先順位づけと経営層への説明。" },
+    { no: "付録", title: "記入シート・分析例（プラント、ビル、ビル空調等）", cat: ["RSK"] }
+  ],
+  rel: [{ to: "iec62443-3-2", kind: "align" }, { to: "jp-factory-gl", kind: "parent", note: "工場ガイドラインのステップ2で用いられる" }, { to: "nist-800-30", kind: "align" }]
+},
+{
+  id: "jp-ipa-threats",
+  short: "情報セキュリティ10大脅威",
+  title: "情報セキュリティ10大脅威（組織編・個人編）",
+  orig: "10 Major Security Threats",
+  issuer: "IPA",
+  region: "JP", type: "TECH", version: "年次発行", year: 2025,
+  binding: "任意",
+  url: "https://www.ipa.go.jp/security/10threats/",
+  summary: "前年に発生した事案から、社会的影響の大きかった脅威を専門家の投票で選出し順位づけしたもの。解説書には各脅威の攻撃手口、事例、対策が組織の立場別（利用者・システム管理者・経営者）に整理されている。社内教育・経営説明・年度計画の脅威前提として、国内で最も使いやすい共通資料。",
+  scope: "全組織。特に教育資料と年度リスク見直しのインプットとして。",
+  domains: ["CORP", "IT", "FA", "PWR", "RAIL", "BLD", "LIFE", "SEMI", "AUTO", "DEF"],
+  cats: ["RSK", "HRD", "MON"],
+  chapters: [
+    { no: "組織編", title: "組織向けの10大脅威と解説", cat: ["RSK", "MON"], note: "ランサムウェア、サプライチェーン攻撃、標的型攻撃、内部不正、テレワーク環境の弱点、脆弱性対策情報の公開に伴う悪用など。" },
+    { no: "個人編", title: "個人向けの脅威（順位なしの手口別）", cat: ["HRD"] },
+    { no: "解説書", title: "脅威別の攻撃手口・事例・対策（立場別）", cat: ["HRD", "RSK", "OPS"] }
+  ],
+  rel: [{ to: "jp-keiei-gl", kind: "ref" }, { to: "eu-enisa-guidance", kind: "align", note: "ENISA Threat Landscape が対応する欧州版" }]
+},
+{
+  id: "jp-partnership",
+  short: "早期警戒パートナーシップ",
+  title: "情報セキュリティ早期警戒パートナーシップガイドライン",
+  orig: "Information Security Early Warning Partnership Guideline",
+  issuer: "IPA／JPCERT コーディネーションセンター",
+  region: "JP", type: "GL", version: "年次改訂", year: 2024,
+  binding: "任意（経済産業省告示に基づく官民の枠組み）",
+  url: "https://www.ipa.go.jp/security/vuln/report/partnership_guide.html",
+  summary: "日本国内における脆弱性情報の届出・調整・公表の枠組み。発見者が IPA へ届け出た脆弱性を JPCERT/CC が製品開発者と調整し、JVN で公表するまでの役割と手順、標準的な調整期間を定める。製品ベンダは「製品開発者」として登録し、この枠組みを通じて脆弱性の連絡を受けることになるため、PSIRT の受信経路として国内では必須の理解事項。",
+  scope: "製品開発者、ウェブサイト運営者、脆弱性の発見者。",
+  domains: ["FA", "AUTO", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI"],
+  cats: ["IRS", "DEV"],
+  chapters: [
+    { no: "第1部", title: "本ガイドラインの位置づけと関係者の役割", cat: ["IRS"], note: "発見者、受付機関（IPA）、調整機関（JPCERT/CC）、製品開発者、ウェブサイト運営者。" },
+    { no: "第2部", title: "ソフトウェア製品の脆弱性の取扱い", cat: ["IRS", "DEV"], note: "届出の受理、製品開発者への連絡、調整、公表。標準的な調整期間の目安。" },
+    { no: "第3部", title: "ウェブアプリケーションの脆弱性の取扱い", cat: ["IRS", "OPS"] },
+    { no: "第4部", title: "製品開発者の対応", cat: ["IRS", "DEV"], note: "製品開発者リストへの登録、連絡窓口の維持、対策情報の作成と JVN での公表。" }
+  ],
+  rel: [{ to: "us-cisa-advisories", kind: "align", note: "米国では CISA が同等の調整・公表の役割を担う" }]
+},
+{
+  id: "jp-ismap",
+  short: "ISMAP 管理基準",
+  title: "政府情報システムのためのセキュリティ評価制度（ISMAP）管理基準",
+  orig: "Information system Security Management and Assessment Program",
+  issuer: "内閣官房／総務省／経済産業省／デジタル庁",
+  region: "JP", type: "REG", version: "継続改訂", year: 2020,
+  binding: "強制（政府調達のクラウドサービス）",
+  url: "https://www.ismap.go.jp/",
+  summary: "政府が調達するクラウドサービスに求めるセキュリティ要求を定め、登録されたサービスのみを原則調達対象とする制度。管理基準はガバナンス基準・マネジメント基準・管理策基準の3層構成で、ISO/IEC 27001・27017、NIST SP 800-53 を参照して作られている。政府・自治体向けにクラウドサービスを提供する場合、登録の可否が受注可否に直結する。",
+  scope: "政府情報システム向けにクラウドサービスを提供する事業者。",
+  domains: ["IT", "CORP"],
+  cats: ["LEG", "ASR", "OPS", "GOV"],
+  chapters: [
+    { no: "ガバナンス基準", title: "統制環境・経営者の関与", cat: ["GOV"] },
+    { no: "マネジメント基準", title: "ISMS 相当のマネジメントプロセス", cat: ["GOV", "RSK", "ASR"] },
+    { no: "管理策基準", title: "詳細管理策", cat: ["OPS"], note: "ISO/IEC 27002／27017 と NIST SP 800-53 を参照した個別の管理策。" },
+    { no: "—", title: "監査・登録の手続き", cat: ["ASR", "LEG"], note: "監査機関による外部監査と ISMAP クラウドサービスリストへの登録。" }
+  ],
+  rel: [{ to: "iso27001", kind: "parent" }, { to: "iso27017", kind: "parent" }, { to: "nist-800-53", kind: "parent" }, { to: "jp-govt-std", kind: "ref" }]
+},
+{
+  id: "jp-secsvc-std",
+  short: "情報セキュリティサービス基準",
+  title: "情報セキュリティサービス基準／情報セキュリティサービス審査登録制度",
+  orig: "Standards for Information Security Services",
+  issuer: "経済産業省／IPA",
+  region: "JP", type: "REG", version: "継続改訂", year: 2018,
+  binding: "任意（政府調達では登録サービスの利用が求められる）",
+  url: "https://www.ipa.go.jp/security/service-list/",
+  summary: "情報セキュリティ監査、脆弱性診断、デジタルフォレンジック、セキュリティ監視・運用（SOC）の4区分について、サービス提供者が満たすべき技術要件・品質管理要件を定める。適合するサービスは審査登録され、政府調達等で参照される。外部のセキュリティサービスを調達する際の選定基準としても使える。",
+  scope: "セキュリティサービスの提供事業者と、それを調達する組織。",
+  domains: ["IT", "CORP"],
+  cats: ["SCM", "ASR", "MON", "IRS"],
+  chapters: [
+    { no: "区分1", title: "情報セキュリティ監査サービス", cat: ["ASR"] },
+    { no: "区分2", title: "脆弱性診断サービス", cat: ["ASR", "DEV"] },
+    { no: "区分3", title: "デジタルフォレンジックサービス", cat: ["IRS"] },
+    { no: "区分4", title: "セキュリティ監視・運用サービス（SOC）", cat: ["MON"] }
+  ],
+  rel: [{ to: "jp-govt-std", kind: "ref" }, { to: "jp-ismap", kind: "align" }]
+},
+
+/* ---------------- 分野別（電力・鉄道・自動車・防衛・宇宙・医療・IoT） ---------------- */
+{
+  id: "jp-jesc",
+  short: "電力制御システムセキュリティガイドライン",
+  title: "電力制御システムセキュリティガイドライン（JESC Z0004）",
+  orig: "Security Guideline for Electric Power Control Systems",
+  issuer: "日本電気技術規格委員会（JESC）／電気協同研究会",
+  region: "JP", type: "GL", version: "継続改定", year: 2023,
+  binding: "任意（電気事業法の技術基準の解釈・保安規程を通じて実効化される）",
+  url: "https://www.jesc.gr.jp/",
+  summary: "電力の給電・系統制御・変電・配電自動化等の制御システムに対するセキュリティ対策を定めた業界ガイドライン。電気事業法に基づくサイバーセキュリティ確保の要求を受けて、電力事業者と機器ベンダが従うべき対策の水準を示す。電力向けの制御システム・変電機器・系統システムを納入する場合、顧客の調達仕様が本ガイドラインを根拠に組み立てられる。",
+  scope: "一般送配電事業者、発電事業者等と、これらへ制御システム・機器を納入するベンダ。",
+  domains: ["PWR"],
+  cats: ["OPS", "RSK", "GOV", "IRS", "SCM", "BCP"],
+  chapters: [
+    { no: "—", title: "適用範囲と対象システムの区分", cat: ["RSK"], note: "給電システム、系統監視制御、変電所自動化、配電自動化、スマートメーターシステム等の区分。" },
+    { no: "—", title: "組織・体制と管理策", cat: ["GOV"] },
+    { no: "—", title: "ネットワークの分離と境界防護", cat: ["OPS"], note: "情報系・制御系の分離、外部接続点の管理。" },
+    { no: "—", title: "アクセス制御・認証と保守作業の管理", cat: ["OPS", "SCM"], note: "保守用端末・可搬媒体・リモート保守の扱い。" },
+    { no: "—", title: "監視・ログとインシデント対応", cat: ["MON", "IRS"] },
+    { no: "—", title: "調達・委託におけるセキュリティ要求", cat: ["SCM"] },
+    { no: "—", title: "バックアップと復旧", cat: ["BCP"] }
+  ],
+  verify: "章立ては公開情報が限定的なため対策領域単位で整理している。適用時は最新版の原典で確認すること。",
+  rel: [{ to: "jp-cii-plan", kind: "parent" }, { to: "iec62351", kind: "impl" }, { to: "us-nerc-cip", kind: "align" }, { to: "iso27019", kind: "align" }]
+},
+{
+  id: "jp-smartmeter",
+  short: "スマートメーターセキュリティガイドライン",
+  title: "スマートメーターシステムセキュリティガイドライン",
+  orig: "Security Guideline for Smart Meter Systems",
+  issuer: "経済産業省",
+  region: "JP", type: "GL", version: "継続改定", year: 2021,
+  binding: "任意",
+  url: "https://www.meti.go.jp/policy/netsecurity/smartmeter.html",
+  summary: "スマートメーター、通信ネットワーク（Aルート・Bルート・Cルート）、MDMS（メーターデータ管理システム）を含むシステム全体のセキュリティ要求を定める。需要家側の HEMS 連携（Bルート）を含むため、住宅設備・エネルギーマネジメント機器の設計にも関係する。",
+  scope: "一般送配電事業者、メーターメーカ、通信事業者、HEMS 機器メーカ。",
+  domains: ["PWR", "LIFE", "BLD"],
+  cats: ["DEV", "OPS", "RSK"],
+  chapters: [
+    { no: "—", title: "スマートメーターシステムの構成と脅威分析", cat: ["RSK"] },
+    { no: "—", title: "Aルート（メーター〜MDMS）のセキュリティ要求", cat: ["DEV", "OPS"] },
+    { no: "—", title: "Bルート（メーター〜需要家 HEMS）のセキュリティ要求", cat: ["DEV"] },
+    { no: "—", title: "Cルート（MDMS〜小売事業者等）のセキュリティ要求", cat: ["OPS"] },
+    { no: "—", title: "鍵管理と暗号", cat: ["OPS", "DEV"] }
+  ],
+  verify: "版数・章立ては公開資料で確認すること。",
+  rel: [{ to: "jp-jesc", kind: "ref" }, { to: "iec62351", kind: "align" }, { to: "eu-cra", kind: "align", note: "CRA 附属書IV にスマートメーターゲートウェイが含まれる" }]
+},
+{
+  id: "jp-rail-gl",
+  short: "鉄道サイバーセキュリティ安全ガイドライン",
+  title: "鉄道分野におけるサイバーセキュリティ確保に係る安全ガイドライン",
+  orig: "Safety Guideline for Ensuring Cybersecurity in the Railway Sector",
+  issuer: "国土交通省 鉄道局",
+  region: "JP", type: "GL", version: "継続改定", year: 2023,
+  binding: "任意（重要インフラ行動計画に基づく分野別の安全基準等として位置づけ）",
+  url: "https://www.mlit.go.jp/tetudo/",
+  summary: "鉄道事業者に対するサイバーセキュリティ確保の指針。運行管理システム、信号保安設備、旅客案内、駅務機器、電力設備といった鉄道システムを対象に、経営層の関与、体制整備、対策の実施、インシデント対応、情報共有（鉄道 ISAC・セプター）を求める。鉄道向けの運行管理・信号・駅設備を納入する場合、顧客側の要求の根拠となる。",
+  scope: "鉄道事業者と、鉄道システムを供給するベンダ。",
+  domains: ["RAIL"],
+  cats: ["GOV", "RSK", "OPS", "IRS", "BCP", "HRD"],
+  chapters: [
+    { no: "—", title: "経営層の関与と組織体制の整備", cat: ["GOV"] },
+    { no: "—", title: "対象システムの把握とリスクアセスメント", cat: ["RSK"], note: "運行の安全に直結するシステムの特定。" },
+    { no: "—", title: "技術的・組織的対策の実施", cat: ["OPS"], note: "ネットワーク分離、アクセス管理、保守作業の管理。" },
+    { no: "—", title: "インシデント発生時の対応と報告", cat: ["IRS"], note: "国土交通省への報告と、鉄道セプターを通じた情報共有。" },
+    { no: "—", title: "教育・訓練と演習", cat: ["HRD"] },
+    { no: "—", title: "委託先・供給者の管理", cat: ["SCM"] }
+  ],
+  verify: "章立て・改定年は国土交通省の公開資料で確認すること。",
+  rel: [{ to: "jp-cii-plan", kind: "parent" }, { to: "en50701", kind: "impl" }, { to: "us-tsa-sd", kind: "align" }]
+},
+{
+  id: "jp-vehicle-law",
+  short: "道路運送車両法 保安基準（サイバーセキュリティ）",
+  title: "道路運送車両の保安基準における UN R155／R156 の国内適用",
+  orig: "Road Vehicles Act safety standards implementing UN R155/R156",
+  issuer: "国土交通省",
+  region: "JP", type: "REG", version: "段階適用", year: 2022,
+  binding: "強制（型式指定を受ける車両）",
+  url: "https://www.mlit.go.jp/jidosha/",
+  summary: "UN R155（サイバーセキュリティ／CSMS）および UN R156（ソフトウェアアップデート／SUMS）を国内の保安基準へ取り込んだもの。日本は 1958年協定の締約国として、対象車種へ段階的に適用している。車載部品を供給する立場では、OEM の CSMS 適合の一部として自社のプロセスが審査対象になる。",
+  scope: "国内で型式指定を受ける車両の製作者と、その部品サプライヤ。",
+  domains: ["AUTO"],
+  cats: ["LEG", "DEV", "GOV"],
+  chapters: [
+    { no: "—", title: "CSMS 適合性の確認（UN R155 相当）", cat: ["GOV", "LEG"] },
+    { no: "—", title: "車両型式ごとのサイバーセキュリティ要件（UN R155 相当）", cat: ["DEV", "RSK"] },
+    { no: "—", title: "SUMS 適合性とソフトウェアアップデート要件（UN R156 相当）", cat: ["OPS", "DEV"] },
+    { no: "—", title: "適用時期（新型・継続生産車の区分）", cat: ["LEG"] }
+  ],
+  verify: "適用時期は車種区分ごとに異なる。国土交通省の告示・通達で確認すること。",
+  rel: [{ to: "iso21434", kind: "impl" }]
+},
+{
+  id: "jp-jama-gl",
+  short: "自動車業界サイバーセキュリティガイドライン",
+  title: "自動車産業サイバーセキュリティガイドライン",
+  orig: "Automotive Industry Cybersecurity Guidelines (JAMA/JAPIA)",
+  issuer: "日本自動車工業会（JAMA）／日本自動車部品工業会（JAPIA）",
+  region: "JP", type: "GL", version: "Ver2.x", year: 2024,
+  binding: "任意（OEM が取引先へ求める水準として実質的な要件）",
+  url: "https://www.jama.or.jp/",
+  summary: "自動車サプライチェーンの各社が満たすべき情報セキュリティ対策項目を、達成レベル（Lv1〜Lv3）付きで整理したガイドライン。自己点検シートによる自己評価と、取引先への提出という運用が定着しており、部品サプライヤにとっては取引継続の実質的な条件になっている。製品そのもののセキュリティ（ISO/SAE 21434）とは別に、会社としての情報セキュリティ水準を問う点が特徴。",
+  scope: "自動車 OEM とサプライチェーンを構成する部品メーカ・材料メーカ・物流事業者等。",
+  domains: ["AUTO", "CORP"],
+  cats: ["SCM", "GOV", "OPS", "ASR", "IRS"],
+  chapters: [
+    { no: "—", title: "分類A: 情報セキュリティのマネジメント（方針・体制・人材）", cat: ["GOV", "HRD"] },
+    { no: "—", title: "分類B: 情報セキュリティの管理策（物理・技術・運用）", cat: ["OPS"] },
+    { no: "—", title: "分類C: インシデント対応と事業継続", cat: ["IRS", "BCP"] },
+    { no: "—", title: "分類D: 委託先・取引先の管理", cat: ["SCM"] },
+    { no: "—", title: "自己点検シートと達成レベル（Lv1〜Lv3）", cat: ["ASR", "SCM"] }
+  ],
+  verify: "版数と分類の記号は改訂で変わる。JAMA／JAPIA の最新版で確認すること。",
+  rel: [{ to: "iso21434", kind: "ref" }, { to: "iso27001", kind: "align" }, { to: "jp-keiei-gl", kind: "ref" }]
+},
+{
+  id: "jp-def-std",
+  short: "防衛産業サイバーセキュリティ基準",
+  title: "装備品等及び役務の調達における情報セキュリティの確保に関する特約条項／防衛産業サイバーセキュリティ基準",
+  orig: "Defense Industry Cybersecurity Standard",
+  issuer: "防衛省／防衛装備庁",
+  region: "JP", type: "REG", version: "令和4年度制定、令和5年度契約から段階適用", year: 2022,
+  binding: "強制（対象となる防衛省の契約）",
+  url: "https://www.mod.go.jp/atla/",
+  summary: "防衛省の契約企業が「保護すべき情報」を取り扱う際に満たすべきセキュリティ基準。NIST SP 800-171 と同等の水準を目指して策定され、アクセス制御、構成管理、インシデント対応、監査、供給網管理などの要求を含む。契約の特約条項として課され、下請けにも流し込まれる。防衛・宇宙事業では受注の前提条件となる。",
+  scope: "防衛省と契約し保護すべき情報を扱う企業と、その下請け。",
+  domains: ["DEF", "CORP"],
+  cats: ["LEG", "OPS", "SCM", "IRS", "ASR", "HRD"],
+  chapters: [
+    { no: "—", title: "保護すべき情報の特定と取扱い", cat: ["OPS", "LEG"] },
+    { no: "—", title: "アクセス制御・識別と認証", cat: ["OPS"] },
+    { no: "—", title: "構成管理・媒体保護・物理的保護", cat: ["OPS"] },
+    { no: "—", title: "監査とログ、継続的監視", cat: ["MON", "ASR"] },
+    { no: "—", title: "インシデント対応と報告", cat: ["IRS", "LEG"] },
+    { no: "—", title: "要員のセキュリティと教育", cat: ["HRD"] },
+    { no: "—", title: "供給網（下請負者）への要求の流し込み", cat: ["SCM"] }
+  ],
+  verify: "適用範囲・要求項目の詳細は契約ごとに異なる。防衛装備庁の公開資料と契約書類で確認すること。",
+  rel: [{ to: "nist-800-171", kind: "align" }, { to: "us-cmmc", kind: "align" }, { to: "jp-keizai-anpo", kind: "ref" }]
+},
+{
+  id: "jp-space-gl",
+  short: "宇宙産業サイバーセキュリティ対策ガイドライン",
+  title: "民間宇宙システムにおけるサイバーセキュリティ対策ガイドライン",
+  orig: "Cybersecurity Guidelines for Commercial Space Systems",
+  issuer: "経済産業省／内閣府 宇宙開発戦略推進事務局",
+  region: "JP", type: "GL", version: "Ver1.x", year: 2023,
+  binding: "任意",
+  url: "https://www.meti.go.jp/policy/mono_info_service/mono/space/",
+  summary: "人工衛星、地上局、運用管制、データ利用サービスからなる民間宇宙システムを対象に、セグメント別の脅威と対策を整理したガイドライン。衛星の長い運用期間と、打ち上げ後は物理的なアクセスができない制約を前提に、コマンドリンクの保護、地上系の分離、サプライチェーンの管理を扱う。衛星・地上局事業に直接関係する国内文書。",
+  scope: "衛星の製造・運用事業者、地上局の運用者、衛星データサービス事業者。",
+  domains: ["DEF", "IT"],
+  cats: ["RSK", "DEV", "OPS", "SCM"],
+  chapters: [
+    { no: "—", title: "宇宙システムの構成とセグメント別の脅威", cat: ["RSK"], note: "宇宙セグメント、地上セグメント、リンクセグメント、利用者セグメント。" },
+    { no: "—", title: "宇宙セグメント（衛星）の対策", cat: ["DEV"], note: "コマンド認証、耐タンパ、搭載ソフトウェアの更新。" },
+    { no: "—", title: "リンクセグメントの対策", cat: ["DEV", "OPS"], note: "テレメトリ・コマンドリンクの暗号化と認証、妨害・なりすまし対策。" },
+    { no: "—", title: "地上セグメントの対策", cat: ["OPS"], note: "管制システムの分離、アクセス制御、監視。" },
+    { no: "—", title: "サプライチェーンとライフサイクル管理", cat: ["SCM"] }
+  ],
+  verify: "版数・章立ては公開資料で確認すること。",
+  rel: [{ to: "jp-cpsf", kind: "parent" }, { to: "iec62443-2-1", kind: "align" }, { to: "jp-def-std", kind: "ref" }]
+},
+{
+  id: "jp-iot-gl",
+  short: "IoT セキュリティガイドライン",
+  title: "IoT セキュリティガイドライン ver1.0 ／ IoT・5G セキュリティ総合対策",
+  orig: "IoT Security Guidelines",
+  issuer: "総務省／経済産業省（IoT 推進コンソーシアム）",
+  region: "JP", type: "GL", version: "ver1.0（関連文書は継続更新）", year: 2016,
+  binding: "任意",
+  url: "https://www.soumu.go.jp/main_sosiki/cybersecurity/",
+  summary: "IoT 機器・システムのライフサイクル（方針・分析・設計・構築接続・運用保守）に沿って21の要点を示すガイドライン。あわせて総務省の IoT・5G セキュリティ総合対策や、NOTICE（脆弱なIoT機器の調査・注意喚起）といった施策がある。家電・住宅設備・ビル機器のセキュリティ設計における国内の出発点となる文書。",
+  scope: "IoT 機器・サービスを提供する事業者と利用者。",
+  domains: ["LIFE", "BLD", "AUTO", "FA", "IT"],
+  cats: ["DEV", "RSK", "OPS", "GOV"],
+  chapters: [
+    { no: "方針", title: "IoT の性質を考慮した基本方針を定める", cat: ["GOV"], note: "経営者のコミットメント、内部不正・ミスへの備え。" },
+    { no: "分析", title: "IoT のリスクを認識する", cat: ["RSK"], note: "守るべきものの特定、つながることによるリスクの想定、過去の事例に学ぶ。" },
+    { no: "設計", title: "守るべきものを守る設計を考える", cat: ["DEV"], note: "個々でも全体でも守れる設計、つながる相手に迷惑をかけない設計、安全安心を実現する設計の検証・評価。" },
+    { no: "構築・接続", title: "ネットワーク上での対策を考える", cat: ["OPS"], note: "機能・用途に応じた適切なネットワーク接続、初期設定への留意、認証機能の導入。" },
+    { no: "運用・保守", title: "安全安心な状態を維持し、情報発信・共有を行う", cat: ["OPS", "IRS"], note: "出荷・リリース後の更新、サポート期間の明示、脆弱性情報の受付と発信、関係者の役割の明確化。" },
+    { no: "利用者向け", title: "一般利用者のためのルール", cat: ["HRD"] }
+  ],
+  rel: [{ to: "etsi303645", kind: "align" }, { to: "nist-ir-8259", kind: "align" }, { to: "jp-cpsf", kind: "ref" }]
+},
+{
+  id: "jp-medical-gl",
+  short: "医療情報システム安全管理ガイドライン",
+  title: "医療情報システムの安全管理に関するガイドライン 第6.0版",
+  orig: "Guidelines for the Security Management of Medical Information Systems, Ver 6.0",
+  issuer: "厚生労働省",
+  region: "JP", type: "GL", version: "第6.0版（以降改定）", year: 2023,
+  binding: "任意（医療法上の義務・診療報酬要件を通じて実効化）",
+  url: "https://www.mhlw.go.jp/stf/shingi/0000516275.html",
+  summary: "医療機関等における医療情報システムの安全管理の指針。第6.0版で「概説編」「経営管理編」「企画管理編」「システム運用編」に再構成され、読者の役割別に整理された。医療機関へ設備・システムを納入する場合や、病院向けのビル設備・空調・電力設備がネットワーク接続される場合に、顧客側の要求の根拠となる。ランサムウェアによる診療停止事案を受けてバックアップと BCP の記述が強化されている。",
+  scope: "医療機関等と、医療情報システム・医療機関向け設備を提供する事業者。",
+  domains: ["BLD", "IT", "LIFE"],
+  cats: ["GOV", "OPS", "BCP", "IRS", "SCM"],
+  chapters: [
+    { no: "概説編", title: "ガイドラインの全体像と読み方", cat: ["GOV"] },
+    { no: "経営管理編", title: "経営者が果たすべき責任", cat: ["GOV", "RSK"], note: "リスク評価、体制、委託先管理、非常時の対応方針。" },
+    { no: "企画管理編", title: "システムの企画・調達・運用体制の管理", cat: ["SCM", "OPS", "BCP"], note: "外部委託・クラウド利用、ネットワークの管理、非常時（サイバー攻撃を含む）の対応と BCP。" },
+    { no: "システム運用編", title: "技術的な安全管理措置", cat: ["OPS", "MON"], note: "認証・アクセス制御、ログ、バックアップ、外部ネットワーク接続、機器の管理。" }
+  ],
+  rel: [{ to: "jp-cii-plan", kind: "parent" }, { to: "iso27001", kind: "align" }, { to: "jp-building-gl", kind: "ref", note: "病院のビル設備側の対策" }]
+}
+
+]);
+
+</script>
+<script>
+/* Navigator — portal application logic (no build step, no dependencies) */
+(function () {
+  "use strict";
+
+  var NAV = window.NAV;
+  var DOCS = NAV.documents;
+
+  /* ---- lookups --------------------------------------------------------- */
+  var byId = {};
+  var regionOf = {}, typeOf = {}, catOf = {}, domainOf = {}, clusterOf = {};
+  NAV.regions.forEach(function (r) { regionOf[r.code] = r; });
+  NAV.types.forEach(function (t) { typeOf[t.code] = t; });
+  NAV.categories.forEach(function (c) { catOf[c.code] = c; });
+  NAV.domains.forEach(function (d) { domainOf[d.code] = d; });
+  NAV.clusters.forEach(function (c) { clusterOf[c.code] = c; });
+
+  var CAT_ORDER = NAV.categories.map(function (c) { return c.code; });
+
+  /* Normalise: catsAll = 文書として宣言したカテゴリ ∪ 章に付いたカテゴリ。
+     一覧の表示は宣言済み（主用途）を優先し、章由来のみのものは副次として薄く出す。 */
+  DOCS.forEach(function (d) {
+    d.cats = d.cats || [];
+    d.domains = d.domains || [];
+    d.chapters = d.chapters || [];
+    d.rel = d.rel || [];
+    var set = {};
+    d.cats.forEach(function (c) { set[c] = 1; });
+    d.chapters.forEach(function (ch) { (ch.cat || []).forEach(function (c) { set[c] = 1; }); });
+    d.catsAll = CAT_ORDER.filter(function (c) { return set[c]; });
+    d.catsSecondary = d.catsAll.filter(function (c) { return d.cats.indexOf(c) === -1; });
+    d.searchBlob = [
+      d.short, d.title, d.orig, d.issuer, d.summary, d.scope, d.version, d.binding,
+      d.chapters.map(function (ch) { return ch.no + " " + ch.title + " " + (ch.note || ""); }).join(" "),
+      d.domains.map(function (x) { return domainOf[x] ? domainOf[x].name : x; }).join(" "),
+      d.catsAll.map(function (x) { return catOf[x] ? catOf[x].name : x; }).join(" ")
+    ].join(" ").toLowerCase();
+    byId[d.id] = d;
+  });
+
+  /* 逆方向の関係も参照できるようにする（A→B を B 側からも見せる） */
+  DOCS.forEach(function (d) { d.relIn = []; });
+  DOCS.forEach(function (d) {
+    d.rel.forEach(function (r) {
+      var t = byId[r.to];
+      if (t) t.relIn.push({ from: d.id, kind: r.kind, note: r.note });
+    });
+  });
+
+  /* ---- state ----------------------------------------------------------- */
+  var state = {
+    view: "docs",
+    q: "",
+    region: [], type: [], domain: [], cat: [],
+    sort: "region", dir: 1,
+    selected: null
+  };
+
+  var FACETS = ["region", "type", "domain", "cat"];
+
+  /* ---- helpers --------------------------------------------------------- */
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+  function el(sel) { return document.querySelector(sel); }
+  function has(arr, v) { return arr.indexOf(v) !== -1; }
+
+  function matchesExcept(d, skipFacet) {
+    if (state.q) {
+      var terms = state.q.toLowerCase().split(/\s+/).filter(Boolean);
+      for (var i = 0; i < terms.length; i++) {
+        if (d.searchBlob.indexOf(terms[i]) === -1) return false;
+      }
+    }
+    if (skipFacet !== "region" && state.region.length && !has(state.region, d.region)) return false;
+    if (skipFacet !== "type" && state.type.length && !has(state.type, d.type)) return false;
+    if (skipFacet !== "domain" && state.domain.length &&
+        !state.domain.some(function (x) { return has(d.domains, x); })) return false;
+    if (skipFacet !== "cat" && state.cat.length &&
+        !state.cat.some(function (x) { return has(d.catsAll, x); })) return false;
+    return true;
+  }
+  function matches(d) { return matchesExcept(d, null); }
+
+  function filtered() { return DOCS.filter(matches); }
+
+  var REGION_RANK = { JP: 0, US: 1, EU: 2, INT: 3 };
+  var TYPE_RANK = {};
+  NAV.types.forEach(function (t, i) { TYPE_RANK[t.code] = i; });
+
+  function sorted(list) {
+    var k = state.sort, dir = state.dir;
+    var copy = list.slice();
+    copy.sort(function (a, b) {
+      var v = 0;
+      if (k === "region") v = (REGION_RANK[a.region] - REGION_RANK[b.region]) ||
+                              (TYPE_RANK[a.type] - TYPE_RANK[b.type]) ||
+                              a.short.localeCompare(b.short, "ja");
+      else if (k === "name") v = a.short.localeCompare(b.short, "ja");
+      else if (k === "issuer") v = a.issuer.localeCompare(b.issuer, "ja");
+      else if (k === "type") v = (TYPE_RANK[a.type] - TYPE_RANK[b.type]) || a.short.localeCompare(b.short, "ja");
+      else if (k === "year") v = (a.year - b.year) || a.short.localeCompare(b.short, "ja");
+      else if (k === "chapters") v = (a.chapters.length - b.chapters.length) || a.short.localeCompare(b.short, "ja");
+      return v * dir;
+    });
+    return copy;
+  }
+
+  /* ---- chip renderers -------------------------------------------------- */
+  function regionChip(code) {
+    var r = regionOf[code];
+    return '<span class="chip chip--region rg-' + code + '">' + esc(r ? r.name : code) + "</span>";
+  }
+  function typeChip(code) {
+    var t = typeOf[code];
+    return '<span class="chip chip--type" data-t="' + code + '">' + esc(t ? t.name : code) + "</span>";
+  }
+  function catChips(d, limit) {
+    var primary = d.cats.slice();
+    var sec = d.catsSecondary.slice();
+    var out = [];
+    primary.forEach(function (c) {
+      out.push('<span class="chip chip--code chip--cat" title="' + esc(catOf[c] ? catOf[c].name : c) + '">' + c + "</span>");
+    });
+    if (limit && sec.length) {
+      sec.forEach(function (c) {
+        out.push('<span class="chip chip--code chip--cat chip--sec" title="' +
+          esc((catOf[c] ? catOf[c].name : c) + "（章単位で該当）") + '">' + c + "</span>");
+      });
+    }
+    return out.join("");
+  }
+  function domChips(d) {
+    if (d.domains.length === NAV.domains.length) {
+      return '<span class="chip" title="' + esc(NAV.domains.map(function (x) { return x.name; }).join("、")) +
+        '">全ドメイン</span>';
+    }
+    var show = d.domains.slice(0, 6), rest = d.domains.slice(6);
+    var out = show.map(function (x) {
+      var dm = domainOf[x];
+      return '<span class="chip chip--code" title="' + esc(dm ? dm.name : x) + '">' + x + "</span>";
+    });
+    if (rest.length) {
+      out.push('<span class="chip chip--code chip--sec" title="' +
+        esc(rest.map(function (x) { return domainOf[x] ? domainOf[x].name : x; }).join("、")) +
+        '">+' + rest.length + "</span>");
+    }
+    return out.join("");
+  }
+
+  /* ---- filter rail ----------------------------------------------------- */
+  function facetCounts(facet, codes, accessor) {
+    var pool = DOCS.filter(function (d) { return matchesExcept(d, facet); });
+    var counts = {};
+    codes.forEach(function (c) { counts[c] = 0; });
+    pool.forEach(function (d) {
+      var v = accessor(d);
+      (Array.isArray(v) ? v : [v]).forEach(function (c) {
+        if (counts[c] !== undefined) counts[c]++;
+      });
+    });
+    return counts;
+  }
+
+  function renderGroup(title, facet, items, counts) {
+    var sel = state[facet];
+    var rows = items.map(function (it) {
+      var n = counts[it.code] || 0;
+      var on = has(sel, it.code);
+      return '<button class="fopt' + (n === 0 && !on ? " fopt--dim" : "") + '" role="checkbox"' +
+        ' aria-pressed="' + on + '" aria-checked="' + on + '"' +
+        ' data-facet="' + facet + '" data-code="' + it.code + '"' +
+        (it.tip ? ' title="' + esc(it.tip) + '"' : "") + ">" +
+        '<span class="fopt__box" aria-hidden="true"></span>' +
+        (it.code2 ? '<span class="fcode">' + esc(it.code2) + "</span>" : "") +
+        '<span class="fopt__label">' + esc(it.label) + "</span>" +
+        '<span class="fopt__n">' + n + "</span></button>";
+    }).join("");
+    return '<section class="fgroup"><h2 class="fgroup__title">' + esc(title) + "</h2>" +
+      '<div class="fgroup__list">' + rows + "</div></section>";
+  }
+
+  function renderRail() {
+    var rc = facetCounts("region", NAV.regions.map(function (r) { return r.code; }), function (d) { return d.region; });
+    var tc = facetCounts("type", NAV.types.map(function (t) { return t.code; }), function (d) { return d.type; });
+    var dc = facetCounts("domain", NAV.domains.map(function (x) { return x.code; }), function (d) { return d.domains; });
+    var cc = facetCounts("cat", CAT_ORDER, function (d) { return d.catsAll; });
+
+    var n = filtered().length;
+    var any = state.q || FACETS.some(function (f) { return state[f].length; });
+
+    var html =
+      '<div class="rail__head">' +
+        '<span class="rail__count"><b>' + n + "</b> / " + DOCS.length + " 件</span>" +
+        (any ? '<button class="rail__reset" id="resetAll">条件をクリア</button>' : "") +
+      "</div>" +
+      renderGroup("地域", "region", NAV.regions.map(function (r) {
+        return { code: r.code, label: r.name, code2: r.code, tip: r.full };
+      }), rc) +
+      renderGroup("文書種別", "type", NAV.types.map(function (t) {
+        return { code: t.code, label: t.name, tip: t.desc };
+      }), tc) +
+      renderGroup("事業ドメイン", "domain", NAV.domains.map(function (x) {
+        return { code: x.code, label: x.name, code2: x.code, tip: x.segment + " — " + x.desc };
+      }), dc) +
+      renderGroup("業務カテゴリ", "cat", NAV.categories.map(function (c) {
+        return { code: c.code, label: c.name, code2: c.code, tip: c.def };
+      }), cc);
+
+    el("#rail").innerHTML = html;
+  }
+
+  /* ---- documents view -------------------------------------------------- */
+  function sortBtn(key, label) {
+    var on = state.sort === key;
+    return '<button data-sort="' + key + '">' + esc(label) +
+      (on ? '<span class="arrow">' + (state.dir === 1 ? "▲" : "▼") + "</span>" : "") + "</button>";
+  }
+
+  function activeFilterChips() {
+    var out = [];
+    if (state.q) out.push('<button class="afchip" data-clear="q"><b>検索</b> ' + esc(state.q) + "</button>");
+    FACETS.forEach(function (f) {
+      var label = { region: "地域", type: "種別", domain: "ドメイン", cat: "カテゴリ" }[f];
+      state[f].forEach(function (code) {
+        var name = f === "region" ? regionOf[code].name
+                 : f === "type" ? typeOf[code].name
+                 : f === "domain" ? domainOf[code].name
+                 : catOf[code].name;
+        out.push('<button class="afchip" data-facet="' + f + '" data-code="' + code + '"><b>' +
+          label + "</b> " + esc(name) + "</button>");
+      });
+    });
+    return out.length ? '<div class="activefilters">' + out.join("") + "</div>" : "";
+  }
+
+  function renderDocs() {
+    var list = sorted(filtered());
+    var rows = list.map(function (d) {
+      return '<tr data-id="' + d.id + '" aria-selected="' + (state.selected === d.id) + '">' +
+        '<td class="c-doc"><div class="c-doc__short">' + esc(d.short) +
+          (d.verify ? '<span class="flag-verify" title="' + esc(d.verify) + '">!</span>' : "") +
+        "</div>" +
+        '<div class="c-doc__title">' + esc(d.title) + "</div></td>" +
+        "<td>" + regionChip(d.region) + "</td>" +
+        "<td>" + typeChip(d.type) + "</td>" +
+        '<td class="c-issuer">' + esc(d.issuer) + "</td>" +
+        '<td class="c-year">' + esc(d.year) + "</td>" +
+        '<td class="c-chapn">' + d.chapters.length + "</td>" +
+        '<td><div class="chips">' + domChips(d) + "</div></td>" +
+        '<td><div class="chips">' + catChips(d, true) + "</div></td>" +
+      "</tr>";
+    }).join("");
+
+    return '<div class="viewhead">' +
+        "<h1>文書一覧</h1>" +
+        "<p>行を選ぶと、その文書の章立てと関連文書が右側に開く。" +
+        "業務カテゴリの濃い印は文書全体の主用途、薄い印は特定の章だけが該当するもの。" +
+        '<span class="flag-verify" style="vertical-align:1px">!</span> は原典で確認すべき記載があることを示す。</p>' +
+      "</div>" +
+      activeFilterChips() +
+      (list.length === 0
+        ? '<div class="tablewrap"><div class="empty">条件に一致する文書がありません。</div></div>'
+        : '<div class="tablewrap tablewrap--pane"><table class="docs"><thead><tr>' +
+            "<th>" + sortBtn("name", "文書") + "</th>" +
+            "<th>" + sortBtn("region", "地域") + "</th>" +
+            "<th>" + sortBtn("type", "種別") + "</th>" +
+            "<th>" + sortBtn("issuer", "発行主体") + "</th>" +
+            "<th>" + sortBtn("year", "年") + "</th>" +
+            '<th style="text-align:right">' + sortBtn("chapters", "章") + "</th>" +
+            "<th>ドメイン</th><th>業務カテゴリ</th>" +
+          "</tr></thead><tbody>" + rows + "</tbody></table></div>");
+  }
+
+  /* ---- categories view ------------------------------------------------- */
+  function renderCats() {
+    var counts = {};
+    CAT_ORDER.forEach(function (c) {
+      counts[c] = DOCS.filter(function (d) { return has(d.catsAll, c); }).length;
+    });
+
+    var m = NAV.meceNote;
+    var clusters = NAV.clusters.map(function (cl) {
+      var cards = NAV.categories.filter(function (c) { return c.cluster === cl.code; }).map(function (c) {
+        return '<button class="catcard" data-gocat="' + c.code + '">' +
+          '<div class="catcard__head">' +
+            '<span class="catcard__code">' + c.code + "</span>" +
+            '<span class="catcard__name">' + esc(c.name) + "</span>" +
+            '<span class="catcard__n">' + counts[c.code] + " 文書</span>" +
+          "</div>" +
+          '<p class="catcard__def">' + esc(c.def) + "</p>" +
+          '<div class="catcard__sub">主な成果物</div>' +
+          '<ul class="catcard__list">' + c.outputs.map(function (o) {
+            return "<li>" + esc(o) + "</li>";
+          }).join("") + "</ul>" +
+          '<div class="catcard__roles">担当: ' + esc(c.roles.join("、")) + "</div>" +
+          '<div class="catcard__tb"><b>境界の判定ルール</b>' + esc(c.tiebreak) + "</div>" +
+        "</button>";
+      }).join("");
+
+      return '<section class="cluster">' +
+        '<div class="cluster__head">' +
+          '<span class="cluster__code">' + cl.code + "</span>" +
+          '<span class="cluster__name">' + esc(cl.name) + "</span>" +
+          '<span class="cluster__desc">' + esc(cl.desc) + "</span>" +
+        "</div>" +
+        '<div class="catgrid">' + cards + "</div>" +
+      "</section>";
+    }).join("");
+
+    return '<div class="viewhead">' +
+        "<h1>業務カテゴリ体系</h1>" +
+        "<p>サイバーセキュリティ業務を11に分割した MECE な分類。カードを選ぶと、そのカテゴリに該当する文書の一覧に移動する。</p>" +
+      "</div>" +
+      '<div class="mecebox">' +
+        '<div class="mecebox__row"><div class="mecebox__k">分割軸</div><div class="mecebox__v">' + esc(m.axis) + "</div></div>" +
+        '<div class="mecebox__row"><div class="mecebox__k">漏れがない</div><div class="mecebox__v">' + esc(m.exhaustive) + "</div></div>" +
+        '<div class="mecebox__row"><div class="mecebox__k">重なりがない</div><div class="mecebox__v">' + esc(m.exclusive) + "</div></div>" +
+        '<div class="mecebox__row"><div class="mecebox__k">注意</div><div class="mecebox__v"><b>' + esc(m.caveat) + "</b></div></div>" +
+      "</div>" +
+      clusters;
+  }
+
+  /* ---- matrix view ----------------------------------------------------- */
+  function renderMatrix() {
+    var grid = {}, max = 0, min = Infinity;
+    NAV.domains.forEach(function (dm) {
+      grid[dm.code] = {};
+      CAT_ORDER.forEach(function (c) {
+        var n = DOCS.filter(function (d) {
+          return has(d.domains, dm.code) && has(d.catsAll, c);
+        }).length;
+        grid[dm.code][c] = n;
+        if (n > max) max = n;
+        if (n < min) min = n;
+      });
+    });
+    /* 実データの下限が 0 から離れているため、[min, max] に正規化しないと
+       濃淡がほとんど付かない。0 だけは無色にして「該当なし」を区別する。 */
+    var span = Math.max(1, max - min);
+    function tint(n) {
+      if (n === 0) return "transparent";
+      var a = (n - min) / span;
+      return "color-mix(in srgb, var(--accent) " + Math.round(8 + a * 46) + "%, transparent)";
+    }
+
+    var head = '<tr><th style="text-align:left">事業ドメイン</th>' +
+      CAT_ORDER.map(function (c) {
+        return '<th class="mx-cat" title="' + esc(catOf[c].name) + '">' + c + "</th>";
+      }).join("") + '<th class="mx-cat">計</th></tr>';
+
+    var body = NAV.domains.map(function (dm) {
+      var tot = DOCS.filter(function (d) { return has(d.domains, dm.code); }).length;
+      return "<tr><th>" + esc(dm.name) + '<span class="seg">' + esc(dm.segment) + "</span></th>" +
+        CAT_ORDER.map(function (c) {
+          var n = grid[dm.code][c];
+          return '<td style="background:' + tint(n) + '"><button class="mxcell" data-zero="' + (n === 0) +
+            '" data-dm="' + dm.code + '" data-cat="' + c + '" title="' +
+            esc(dm.name + " × " + catOf[c].name + " — " + n + " 文書") +
+            '">' + n + "</button></td>";
+        }).join("") +
+        '<td class="mxtot"><span class="mxcell">' + tot + "</span></td></tr>";
+    }).join("");
+
+    return '<div class="viewhead">' +
+        "<h1>ドメイン × 業務カテゴリ</h1>" +
+        "<p>三菱電機の事業ドメインごとに、どの業務カテゴリに文書が集まっているかを示す。" +
+        "数値はその組み合わせに該当する文書数。セルを選ぶとその条件で一覧を絞り込む。" +
+        "薄いセルは対象文書が少ない領域で、参照すべき文書が本当に無いのか、収録が足りていないのかを点検する手掛かりになる。</p>" +
+      "</div>" +
+      '<div class="tablewrap" style="padding:2px"><table class="matrix">' +
+        "<thead>" + head + "</thead><tbody>" + body + "</tbody></table></div>" +
+      '<div class="legend"><span>' + min + " 文書</span>" +
+        '<span class="legend__scale">' +
+        [0, .25, .5, .75, 1].map(function (a) {
+          return '<span class="legend__sw" style="background:color-mix(in srgb, var(--accent) ' +
+            Math.round(8 + a * 46) + '%, transparent)"></span>';
+        }).join("") +
+      "</span><span>" + max + " 文書</span></div>";
+  }
+
+  /* ---- relations view -------------------------------------------------- */
+  function renderRels() {
+    var pool = filtered();
+    var inPool = {};
+    pool.forEach(function (d) { inPool[d.id] = 1; });
+
+    var groups = {};
+    Object.keys(NAV.relKinds).forEach(function (k) { groups[k] = []; });
+    pool.forEach(function (d) {
+      d.rel.forEach(function (r) {
+        if (!byId[r.to]) return;
+        groups[r.kind].push({ from: d, to: byId[r.to], note: r.note, both: !!inPool[r.to] });
+      });
+    });
+
+    var total = Object.keys(groups).reduce(function (a, k) { return a + groups[k].length; }, 0);
+
+    var sections = Object.keys(NAV.relKinds).map(function (k) {
+      var list = groups[k];
+      if (!list.length) return "";
+      var kind = NAV.relKinds[k];
+      var edges = list.map(function (e) {
+        return '<div class="reledge">' +
+          '<div class="reledge__side">' + regionChip(e.from.region) +
+            '<button class="reledge__name" data-id="' + e.from.id + '">' + esc(e.from.short) + "</button></div>" +
+          '<div class="reledge__mid"><span class="reledge__arrow">──▶ ' + esc(kind.label) + "</span></div>" +
+          '<div class="reledge__side">' + regionChip(e.to.region) +
+            '<button class="reledge__name" data-id="' + e.to.id + '">' + esc(e.to.short) + "</button></div>" +
+          (e.note ? '<div class="reledge__note">' + esc(e.note) + "</div>" : "") +
+        "</div>";
+      }).join("");
+      return '<section class="d-sec"><h2 class="d-sec__h">' + esc(kind.label) +
+        '<span class="n">' + list.length + "</span> — " + esc(kind.desc) + "</h2>" +
+        '<div class="reledges">' + edges + "</div></section>";
+    }).join("");
+
+    return '<div class="viewhead">' +
+        "<h1>文書間の関係</h1>" +
+        "<p>左の文書から見た関係を、関係の種類ごとに並べる。左側の絞り込み条件は関係の起点となる文書に適用される。" +
+        "国際規格が各法域でどう受け入れられ、法令が何を実装手段として想定しているかは、" +
+        "「実装手段」と「国内適用」の2つの群を見るのが早い。</p>" +
+      "</div>" +
+      activeFilterChips() +
+      (total === 0 ? '<div class="empty">条件に一致する関係がありません。</div>' : sections);
+  }
+
+  /* ---- drawer ---------------------------------------------------------- */
+  function relBlock(d) {
+    var out = [];
+    var groups = {};
+    d.rel.forEach(function (r) {
+      if (!byId[r.to]) return;
+      (groups[r.kind] = groups[r.kind] || []).push({ doc: byId[r.to], note: r.note, dir: "out" });
+    });
+    d.relIn.forEach(function (r) {
+      if (!byId[r.from]) return;
+      var k = "in:" + r.kind;
+      (groups[k] = groups[k] || []).push({ doc: byId[r.from], note: r.note, dir: "in" });
+    });
+
+    var order = Object.keys(NAV.relKinds).concat(Object.keys(NAV.relKinds).map(function (k) { return "in:" + k; }));
+    order.forEach(function (k) {
+      var list = groups[k];
+      if (!list || !list.length) return;
+      var incoming = k.indexOf("in:") === 0;
+      var kind = NAV.relKinds[incoming ? k.slice(3) : k];
+      out.push('<div class="relgroup"><div class="relgroup__h">' +
+        '<span class="kindbadge">' + (incoming ? "◀ 被参照" : "▶ 参照") + "</span>" +
+        esc(incoming ? "この文書を「" + kind.label + "」として挙げている文書" : kind.label) +
+        "</div>" +
+        list.map(function (e) {
+          return '<button class="rellink" data-id="' + e.doc.id + '">' +
+            '<div class="rellink__top">' + regionChip(e.doc.region) + typeChip(e.doc.type) +
+              '<span class="rellink__name">' + esc(e.doc.short) + "</span></div>" +
+            (e.note ? '<div class="rellink__note">' + esc(e.note) + "</div>" : "") +
+          "</button>";
+        }).join("") + "</div>");
+    });
+    return out.length ? out.join("") : '<p style="color:var(--ink-3);font-size:12.5px">登録された関係はありません。</p>';
+  }
+
+  function renderDrawer(d) {
+    var bar = el("#drawerBar"), body = el("#drawerBody");
+    if (!d) { el("#drawer").setAttribute("data-open", "false"); el("#scrim").setAttribute("data-open", "false"); return; }
+
+    bar.innerHTML = '<div class="chips">' + regionChip(d.region) + typeChip(d.type) +
+      '<span class="chip chip--code">' + esc(d.year) + "</span></div>" +
+      '<button class="iconbtn" id="drawerClose" aria-label="閉じる">✕</button>';
+
+    var chapters = d.chapters.map(function (ch) {
+      return '<div class="chap"><div class="chap__head">' +
+        '<span class="chap__no">' + esc(ch.no) + "</span>" +
+        '<span class="chap__title">' + esc(ch.title) + "</span></div>" +
+        (ch.note ? '<div class="chap__note">' + esc(ch.note) + "</div>" : "") +
+        ((ch.cat && ch.cat.length)
+          ? '<div class="chap__cats">' + ch.cat.map(function (c) {
+              return '<span class="chip chip--code chip--cat" title="' + esc(catOf[c] ? catOf[c].name : c) + '">' + c + "</span>";
+            }).join("") + "</div>"
+          : "") +
+      "</div>";
+    }).join("");
+
+    body.innerHTML =
+      '<h2 class="d-title">' + esc(d.short) + "</h2>" +
+      '<p class="d-fulltitle">' + esc(d.title) + "</p>" +
+      (d.orig ? '<p class="d-orig">' + esc(d.orig) + "</p>" : "") +
+      (d.verify ? '<div class="d-note"><b>要確認 </b>' + esc(d.verify) + "</div>" : "") +
+      '<dl class="d-meta">' +
+        "<dt>発行主体</dt><dd>" + esc(d.issuer) + "</dd>" +
+        "<dt>版・年</dt><dd>" + esc(d.version || "—") + "（" + esc(d.year) + "）</dd>" +
+        "<dt>拘束力</dt><dd>" + esc(d.binding || "—") + "</dd>" +
+        "<dt>事業ドメイン</dt><dd>" + d.domains.map(function (x) {
+          return esc(domainOf[x] ? domainOf[x].name : x);
+        }).join("、") + "</dd>" +
+        "<dt>原典</dt><dd><a href=\"" + esc(d.url) + "\" target=\"_blank\" rel=\"noopener noreferrer\">" +
+          esc(d.url) + "</a></dd>" +
+      "</dl>" +
+      '<section class="d-sec"><h2 class="d-sec__h">概要</h2><p>' + esc(d.summary) + "</p></section>" +
+      '<section class="d-sec"><h2 class="d-sec__h">適用対象</h2><p>' + esc(d.scope) + "</p></section>" +
+      '<section class="d-sec"><h2 class="d-sec__h">主な業務カテゴリ</h2>' +
+        '<div class="chips" style="max-width:none">' + catChips(d, true) + "</div>" +
+        '<p style="font-size:11.5px;color:var(--ink-3);margin-top:6px">' +
+        "濃い印は文書全体としての主用途、薄い印は特定の章だけが該当するもの。</p></section>" +
+      '<section class="d-sec"><h2 class="d-sec__h">章立て<span class="n">' + d.chapters.length + "</span></h2>" +
+        chapters + "</section>" +
+      '<section class="d-sec"><h2 class="d-sec__h">関連文書</h2>' + relBlock(d) + "</section>";
+
+    el("#drawer").setAttribute("data-open", "true");
+    el("#scrim").setAttribute("data-open", "true");
+    body.scrollTop = 0;
+  }
+
+  function select(id) {
+    state.selected = id;
+    renderDrawer(byId[id]);
+    var rows = document.querySelectorAll("table.docs tbody tr");
+    for (var i = 0; i < rows.length; i++) {
+      rows[i].setAttribute("aria-selected", rows[i].getAttribute("data-id") === id);
+    }
+  }
+  function closeDrawer() {
+    state.selected = null;
+    renderDrawer(null);
+    var rows = document.querySelectorAll("table.docs tbody tr");
+    for (var i = 0; i < rows.length; i++) rows[i].setAttribute("aria-selected", "false");
+  }
+
+  /* ---- render root ----------------------------------------------------- */
+  function render() {
+    var main = el("#main");
+    if (state.view === "docs") main.innerHTML = renderDocs();
+    else if (state.view === "cats") main.innerHTML = renderCats();
+    else if (state.view === "matrix") main.innerHTML = renderMatrix();
+    else if (state.view === "rels") main.innerHTML = renderRels();
+    renderRail();
+
+    var tabs = document.querySelectorAll(".viewtab");
+    for (var i = 0; i < tabs.length; i++) {
+      tabs[i].setAttribute("aria-selected", tabs[i].getAttribute("data-view") === state.view);
+    }
+    var showRail = state.view === "docs" || state.view === "rels";
+    el("#rail").style.visibility = showRail ? "" : "hidden";
+    el(".shell").style.gridTemplateColumns = showRail ? "" : "0 minmax(0,1fr)";
+  }
+
+  function toggleFacet(facet, code) {
+    var arr = state[facet];
+    var i = arr.indexOf(code);
+    if (i === -1) arr.push(code); else arr.splice(i, 1);
+    render();
+  }
+
+  /* ---- events ---------------------------------------------------------- */
+  document.addEventListener("click", function (ev) {
+    var t = ev.target;
+
+    var tab = t.closest(".viewtab");
+    if (tab) { state.view = tab.getAttribute("data-view"); render(); return; }
+
+    var fopt = t.closest(".fopt");
+    if (fopt) { toggleFacet(fopt.getAttribute("data-facet"), fopt.getAttribute("data-code")); return; }
+
+    var af = t.closest(".afchip");
+    if (af) {
+      if (af.getAttribute("data-clear") === "q") { state.q = ""; el("#q").value = ""; render(); }
+      else toggleFacet(af.getAttribute("data-facet"), af.getAttribute("data-code"));
+      return;
+    }
+
+    if (t.closest("#resetAll")) {
+      state.q = ""; el("#q").value = "";
+      FACETS.forEach(function (f) { state[f] = []; });
+      render(); return;
+    }
+
+    var sortEl = t.closest("[data-sort]");
+    if (sortEl) {
+      var k = sortEl.getAttribute("data-sort");
+      if (state.sort === k) state.dir = -state.dir; else { state.sort = k; state.dir = 1; }
+      render(); return;
+    }
+
+    var cc = t.closest("[data-gocat]");
+    if (cc) {
+      state.cat = [cc.getAttribute("data-gocat")];
+      state.view = "docs";
+      render(); return;
+    }
+
+    var mx = t.closest(".mxcell[data-dm]");
+    if (mx) {
+      state.domain = [mx.getAttribute("data-dm")];
+      state.cat = [mx.getAttribute("data-cat")];
+      state.view = "docs";
+      render(); return;
+    }
+
+    var link = t.closest("[data-id]");
+    if (link) { select(link.getAttribute("data-id")); return; }
+
+    if (t.closest("#drawerClose") || t.closest("#scrim")) { closeDrawer(); return; }
+
+    if (t.closest("#railToggle")) {
+      var r = el("#rail");
+      r.setAttribute("data-open", r.getAttribute("data-open") === "true" ? "false" : "true");
+      return;
+    }
+    if (t.closest("#themeToggle")) {
+      var root = document.documentElement;
+      var cur = root.getAttribute("data-theme");
+      var isDark = cur ? cur === "dark"
+        : window.matchMedia("(prefers-color-scheme: dark)").matches;
+      root.setAttribute("data-theme", isDark ? "light" : "dark");
+      return;
+    }
+    if (t.closest("#clearQ")) { state.q = ""; el("#q").value = ""; render(); return; }
+  });
+
+  el("#q").addEventListener("input", function (e) {
+    state.q = e.target.value.trim();
+    render();
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { closeDrawer(); return; }
+    if (e.key === "/" && document.activeElement !== el("#q")) {
+      e.preventDefault(); el("#q").focus();
+    }
+  });
+
+  render();
+})();
+
+</script>
+</body>
+</html>

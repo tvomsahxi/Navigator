@@ -1,0 +1,302 @@
+/* Navigator — EU の法令・規制・ガイダンス */
+window.NAV = window.NAV || {};
+window.NAV.documents = (window.NAV.documents || []).concat([
+
+{
+  id: "eu-nis2",
+  short: "NIS2 指令 (EU) 2022/2555",
+  title: "EU域内における高い共通水準のサイバーセキュリティのための措置に関する指令",
+  orig: "Directive (EU) 2022/2555 on measures for a high common level of cybersecurity across the Union (NIS2)",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2022/2555（NIS指令 2016/1148 を置換）", year: 2022,
+  binding: "強制（各加盟国の国内法を通じて。国内法化期限は2024年10月17日）",
+  url: "https://eur-lex.europa.eu/eli/dir/2022/2555/oj",
+  summary: "EU域内の重要・重要度の高い事業体に対し、リスク管理措置と重大インシデントの報告を義務づける指令。旧NIS指令から対象分野を大幅に拡大し、製造業（医療機器・電子機器・機械・自動車・その他輸送機器）が附属書IIに含まれた点で、製造業各社が直接の対象事業体になり得る。経営陣に個人的な責任を課し、違反に対して売上高比例の制裁金を定める。指令であるため、実際の義務内容は各加盟国の国内法で確認する必要がある。",
+  scope: "EU域内で活動する中規模以上の対象事業体。EU 域内に拠点を持つ製造子会社・販売会社が該当しうる。",
+  domains: ["PWR", "RAIL", "IT", "FA", "CORP", "BLD"],
+  cats: ["LEG", "GOV", "RSK", "IRS", "SCM", "BCP"],
+  chapters: [
+    { no: "第2条", title: "適用範囲", cat: ["LEG"], note: "附属書I（高重要度分野）・附属書II（その他重要分野）と規模基準による対象判定。" },
+    { no: "第20条", title: "ガバナンス", cat: ["GOV"], note: "経営陣によるリスク管理措置の承認と監督、その履行に対する責任、経営陣への訓練の義務。" },
+    { no: "第21条", title: "サイバーセキュリティリスク管理措置", cat: ["RSK", "OPS", "SCM", "BCP", "IRS"], note: "(a) リスク分析と情報システムセキュリティ方針、(b) インシデント処理、(c) 事業継続（バックアップ・災害復旧・危機管理）、(d) サプライチェーンセキュリティ、(e) 取得・開発・保守のセキュリティと脆弱性の取扱い、(f) 有効性評価の方針と手順、(g) サイバー衛生と訓練、(h) 暗号の使用方針、(i) 人的資源・アクセス制御・資産管理、(j) 多要素認証・セキュア通信・緊急通信。" },
+    { no: "第23条", title: "報告義務", cat: ["IRS", "LEG"], note: "24時間以内の早期警告、72時間以内のインシデント通知、1か月以内の最終報告。サービス受領者への通知義務を含む。" },
+    { no: "第24条", title: "認証スキームの利用", cat: ["LEG", "ASR"], note: "欧州サイバーセキュリティ認証スキームの適合製品・サービスの使用を要求できる。" },
+    { no: "第25条", title: "標準化", cat: ["LEG"], note: "欧州・国際規格の利用の奨励。" },
+    { no: "第29-30条", title: "情報共有の取決め", cat: ["MON", "IRS"] },
+    { no: "第32-34条", title: "監督措置・執行・制裁金", cat: ["LEG", "GOV"], note: "重要事業体は最大1000万ユーロまたは全世界売上高の2%等。" },
+    { no: "附属書I", title: "高重要度分野", cat: ["LEG"], note: "エネルギー、輸送、銀行、金融市場インフラ、保健、飲料水、廃水、デジタルインフラ、ICTサービス管理、公共行政、宇宙。" },
+    { no: "附属書II", title: "その他の重要分野", cat: ["LEG"], note: "郵便、廃棄物管理、化学、食品、製造業（医療機器、コンピュータ・電子・光学製品、電気機器、機械、自動車、その他輸送機器）、デジタルプロバイダ、研究。" }
+  ],
+  rel: [
+    { to: "eu-nis2-ir", kind: "detail", note: "一部分野の技術要件と重大インシデントの閾値" },
+    { to: "eu-cer", kind: "ref", note: "物理的レジリエンスを担う対の指令" },
+    { to: "iso27001", kind: "impl", note: "第21条の措置の実装手段として広く用いられる" },
+    { to: "iso22301", kind: "impl" },
+    { to: "en50701", kind: "impl" },
+    { to: "eu-enisa-guidance", kind: "detail" }
+  ]
+},
+{
+  id: "eu-nis2-ir",
+  short: "実施規則 (EU) 2024/2690",
+  title: "NIS2 指令の技術的・方法論的要件及び重大インシデントの判定基準に関する実施規則",
+  orig: "Commission Implementing Regulation (EU) 2024/2690",
+  issuer: "欧州委員会",
+  region: "EU", type: "REG", version: "2024/2690", year: 2024,
+  binding: "強制（対象となるデジタル分野の事業体に直接適用）",
+  url: "https://eur-lex.europa.eu/eli/reg_impl/2024/2690/oj",
+  summary: "NIS2 第21条の措置を、DNS・TLD・クラウド・データセンタ・CDN・マネージドサービス／セキュリティサービス・オンラインマーケットプレイス／検索エンジン／SNS・トラストサービスの各事業者に対して具体化した実施規則。附属書に13領域の詳細要件を列挙し、あわせて「重大インシデント」に該当する閾値を数値で定める。NIS2 の要求が実務上どの粒度で求められるかを知るうえで、対象分野外の事業者にも参照価値が高い。",
+  scope: "デジタルインフラ・ICTサービス管理・デジタルプロバイダの事業者。他分野の事業体にとっては要求水準の参考になる。",
+  domains: ["IT", "CORP"],
+  cats: ["LEG", "OPS", "IRS", "RSK", "SCM", "BCP"],
+  chapters: [
+    { no: "第3条", title: "重大インシデントの判定基準", cat: ["IRS", "LEG"], note: "サービス中断時間、影響利用者数、金銭的損失などの閾値。" },
+    { no: "附属書 1", title: "ネットワーク・情報システムセキュリティの方針", cat: ["GOV"] },
+    { no: "附属書 2", title: "リスク管理方針", cat: ["RSK"] },
+    { no: "附属書 3", title: "インシデント処理", cat: ["IRS", "MON"] },
+    { no: "附属書 4", title: "事業継続と危機管理", cat: ["BCP"] },
+    { no: "附属書 5", title: "サプライチェーンセキュリティ", cat: ["SCM"] },
+    { no: "附属書 6", title: "取得・開発・保守におけるセキュリティ", cat: ["DEV", "OPS"] },
+    { no: "附属書 7", title: "有効性の評価に関する方針と手順", cat: ["ASR"] },
+    { no: "附属書 8", title: "基本的なサイバー衛生と訓練", cat: ["HRD"] },
+    { no: "附属書 9", title: "暗号", cat: ["OPS"] },
+    { no: "附属書 10", title: "人的資源のセキュリティ", cat: ["HRD", "OPS"] },
+    { no: "附属書 11", title: "アクセス制御", cat: ["OPS"] },
+    { no: "附属書 12", title: "資産管理", cat: ["OPS"] },
+    { no: "附属書 13", title: "環境・物理的セキュリティ", cat: ["OPS"] }
+  ],
+  rel: [{ to: "eu-nis2", kind: "parent" }, { to: "eu-enisa-guidance", kind: "detail" }]
+},
+{
+  id: "eu-cer",
+  short: "CER 指令 (EU) 2022/2557",
+  title: "重要事業体のレジリエンスに関する指令",
+  orig: "Directive (EU) 2022/2557 on the resilience of critical entities",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2022/2557", year: 2022,
+  binding: "強制（各加盟国の国内法を通じて）",
+  url: "https://eur-lex.europa.eu/eli/dir/2022/2557/oj",
+  summary: "NIS2 がサイバー面を扱うのに対し、物理的・組織的なレジリエンス（自然災害、テロ、内部脅威、サボタージュ）を扱う対の指令。加盟国に重要事業体の特定と国家戦略の策定を求め、事業体にはリスクアセスメント、レジリエンス措置、インシデント通知、従業員の身元確認を義務づける。サイバーと物理の対策を分離せずに設計する必要が生じる。",
+  scope: "エネルギー、輸送、銀行、金融市場インフラ、保健、飲料水、廃水、デジタルインフラ、公共行政、宇宙、食品の重要事業体。",
+  domains: ["PWR", "RAIL", "IT", "CORP"],
+  cats: ["LEG", "RSK", "BCP", "OPS", "HRD"],
+  chapters: [
+    { no: "第12条", title: "重要事業体のリスクアセスメント", cat: ["RSK"] },
+    { no: "第13条", title: "重要事業体のレジリエンス措置", cat: ["OPS", "BCP"], note: "物理的保護、事故対応・復旧、要員管理、意識向上。" },
+    { no: "第14条", title: "インシデントの通知", cat: ["IRS", "LEG"] },
+    { no: "第15条", title: "従業員の身元確認（バックグラウンドチェック）", cat: ["HRD"] }
+  ],
+  rel: [{ to: "eu-nis2", kind: "ref" }, { to: "iso22301", kind: "impl" }]
+},
+{
+  id: "eu-cra",
+  short: "CRA (EU) 2024/2847",
+  title: "デジタル要素を含む製品の水平的なサイバーセキュリティ要件に関する規則（サイバーレジリエンス法）",
+  orig: "Regulation (EU) 2024/2847 on horizontal cybersecurity requirements for products with digital elements (Cyber Resilience Act)",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2024/2847", year: 2024,
+  binding: "強制（EU 市場に上市するデジタル要素を含む全製品。段階適用）",
+  url: "https://eur-lex.europa.eu/eli/reg/2024/2847/oj",
+  summary: "EU 市場に上市されるソフトウェア／ハードウェアを含むほぼすべての「デジタル要素を含む製品」に、設計・開発段階からのセキュリティ要件と、サポート期間中の脆弱性処理を義務づける規則。CE マーキングの一部として適合性評価が必要になる。製品事業を持つ企業にとって、EU 向け製品ロードマップに最も直接的な影響を与える文書。2024年12月10日発効、脆弱性・インシデント報告義務が2026年9月11日から、全面適用が2027年12月11日から。",
+  scope: "EU 市場へ上市するデジタル要素を含む製品の製造者・輸入者・流通者。FA機器、ビル設備、空調、家電、車載後付機器などがほぼ全て該当する。自動車（型式認証対象）、医療機器など他の規制が適用される製品は除外される。",
+  domains: ["FA", "BLD", "LIFE", "PWR", "RAIL", "IT", "SEMI", "AUTO"],
+  cats: ["LEG", "DEV", "IRS", "SCM", "GOV"],
+  chapters: [
+    { no: "第13条", title: "製造者の義務", cat: ["DEV", "LEG"], note: "サイバーセキュリティリスクアセスメントの実施と技術文書への記載、サポート期間（原則5年以上）の決定、上市後の脆弱性の取扱い、SBOM の作成。" },
+    { no: "第14条", title: "製造者による報告義務", cat: ["IRS", "LEG"], note: "積極的に悪用されている脆弱性および重大なインシデントについて、認知から24時間以内の早期警告、72時間以内の通知、14日／1か月以内の最終報告を ENISA と CSIRT へ。" },
+    { no: "第18-21条", title: "輸入者・流通者の義務", cat: ["SCM", "LEG"] },
+    { no: "第24-27条", title: "適合性評価の手続きと EU 適合宣言・CE マーキング", cat: ["LEG", "ASR"] },
+    { no: "第32条", title: "適合性評価手続の選択", cat: ["LEG"], note: "製品区分により内部管理／第三者関与の要否が分かれる。" },
+    { no: "附属書I 第1部", title: "製品のサイバーセキュリティ要件", cat: ["DEV"], note: "既知の悪用可能な脆弱性のない状態での上市、セキュアなデフォルト設定、脆弱性への対処と自動更新、アクセス制御、機密性・完全性の保護、データ最小化、可用性とDoS耐性、攻撃対象領域の最小化、影響の緩和、セキュリティ関連情報の記録・監視、データの安全な削除。" },
+    { no: "附属書I 第2部", title: "脆弱性処理の要件", cat: ["IRS", "SCM"], note: "コンポーネントの特定と文書化（SBOM）、脆弱性の遅滞ない修正、定期的な検査、公開された脆弱性情報の共有、調整された脆弱性開示方針、報告のための連絡先、セキュアな更新配布の仕組み、更新の無償・遅滞なき提供。" },
+    { no: "附属書II", title: "利用者へ提供すべき情報と指示", cat: ["DEV", "SCM"] },
+    { no: "附属書III", title: "重要な製品（クラスI／クラスII）", cat: ["LEG"], note: "ID管理、ブラウザ、ハイパーバイザ、ファイアウォール、マイクロプロセッサ、産業用オートメーション・制御システム（IACS）、産業用IoT など。" },
+    { no: "附属書IV", title: "重要度の高い製品（Critical products）", cat: ["LEG"], note: "ハードウェアデバイス（セキュアエレメント）、スマートメーターゲートウェイなど。欧州サイバーセキュリティ認証が要求されうる。" },
+    { no: "附属書VII", title: "技術文書の内容", cat: ["DEV", "LEG"] }
+  ],
+  rel: [
+    { to: "iec62443-4-1", kind: "impl", note: "セキュア開発プロセス要件の実装手段" },
+    { to: "iec62443-4-2", kind: "impl", note: "附属書I第1部の技術要件の実装手段" },
+    { to: "iso29147", kind: "impl", note: "調整された脆弱性開示方針の実装手段" },
+    { to: "iso30111", kind: "impl" },
+    { to: "sbom-formats", kind: "impl" },
+    { to: "etsi303645", kind: "align" },
+    { to: "eu-red-da", kind: "supersede", note: "RED 委任規則の対象範囲は CRA 適用に伴い整理される" }
+  ]
+},
+{
+  id: "eu-csa",
+  short: "Cybersecurity Act (EU) 2019/881",
+  title: "ENISA 及び情報通信技術のサイバーセキュリティ認証に関する規則",
+  orig: "Regulation (EU) 2019/881 on ENISA and on information and communications technology cybersecurity certification",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2019/881", year: 2019,
+  binding: "強制（枠組み規則。個別の認証スキームは原則任意）",
+  url: "https://eur-lex.europa.eu/eli/reg/2019/881/oj",
+  summary: "ENISA に恒久的な権限を与えるとともに、EU 共通のサイバーセキュリティ認証枠組みを創設した規則。保証レベル（基本・実質的・高度）を定義し、個別のスキーム（EUCC、EUCS、EU5G など）はこの枠組みに基づいて委任規則として制定される。NIS2 や CRA が「認証された製品の使用」を求める際の参照先。",
+  scope: "ICT 製品・サービス・プロセスの提供者。EU 向け製品の認証戦略に関わる。",
+  domains: ["IT", "FA", "SEMI", "CORP"],
+  cats: ["LEG", "ASR", "GOV"],
+  chapters: [
+    { no: "第I編", title: "ENISA の任務と体制", cat: ["GOV"] },
+    { no: "第III編 第52条", title: "保証レベル（基本／実質的／高度）", cat: ["ASR", "LEG"] },
+    { no: "第III編 第54条", title: "欧州サイバーセキュリティ認証スキームの要素", cat: ["LEG", "ASR"], note: "対象、目的、参照規格、評価手法、有効期間、開示すべき情報。" },
+    { no: "第III編 第56条", title: "サイバーセキュリティ認証", cat: ["LEG"], note: "原則として任意。特定の場合に義務化しうる。" }
+  ],
+  rel: [{ to: "eu-eucc", kind: "detail" }, { to: "eu-nis2", kind: "ref" }, { to: "eu-cra", kind: "ref" }]
+},
+{
+  id: "eu-eucc",
+  short: "EUCC (EU) 2024/482",
+  title: "コモンクライテリアに基づく欧州サイバーセキュリティ認証スキーム",
+  orig: "Commission Implementing Regulation (EU) 2024/482 — European Cybersecurity Certification Scheme on Common Criteria (EUCC)",
+  issuer: "欧州委員会",
+  region: "EU", type: "REG", version: "2024/482", year: 2024,
+  binding: "任意（他の規制が要求する場合に実質的な義務となる）",
+  url: "https://eur-lex.europa.eu/eli/reg_impl/2024/482/oj",
+  summary: "Cybersecurity Act に基づく最初の認証スキーム。ISO/IEC 15408／18045（コモンクライテリア）を基礎に、保証レベル「実質的」「高度」の ICT 製品認証を EU 全域で相互承認可能にする。既存の SOG-IS 相互承認の後継。CRA 附属書IV の重要度の高い製品に対して要求されうる。",
+  scope: "EU 向けに高保証を要する ICT 製品を出荷する事業者。セキュアエレメント、スマートカード、ネットワーク機器など。",
+  domains: ["SEMI", "IT", "FA", "CORP"],
+  cats: ["LEG", "ASR", "DEV"],
+  chapters: [
+    { no: "第II章", title: "認証の対象と保証レベル", cat: ["LEG", "ASR"], note: "AVA_VAN の水準により実質的／高度を区分。" },
+    { no: "第III章", title: "適合性評価機関と認定", cat: ["ASR"] },
+    { no: "第IV章", title: "認証の維持（脆弱性の管理とパッチ）", cat: ["IRS", "DEV"], note: "認証後に発見された脆弱性への対応と再評価。" },
+    { no: "附属書", title: "保護プロファイルと評価活動", cat: ["DEV", "ASR"] }
+  ],
+  rel: [{ to: "eu-csa", kind: "parent" }, { to: "iso15408", kind: "impl" }, { to: "eu-cra", kind: "ref" }]
+},
+{
+  id: "eu-gdpr",
+  short: "GDPR (EU) 2016/679",
+  title: "一般データ保護規則",
+  orig: "Regulation (EU) 2016/679 — General Data Protection Regulation",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2016/679", year: 2016,
+  binding: "強制（EU 域内の個人データを扱う組織。域外適用あり）",
+  url: "https://eur-lex.europa.eu/eli/reg/2016/679/oj",
+  summary: "個人データの保護に関する規則。セキュリティ実務との接点は、第32条（処理のセキュリティ）、第33条（監督機関への72時間以内の侵害通知）、第34条（データ主体への通知）、第25条（データ保護バイデザイン／バイデフォルト）、第35条（データ保護影響評価）にある。インシデント発生時、NIS2・CRA の報告義務と並行して GDPR の通知義務が走るため、報告フローを一体で設計する必要がある。",
+  scope: "EU 域内の個人データを取り扱う組織。域外の日本本社も対象になりうる。",
+  domains: ["CORP", "IT", "LIFE", "AUTO", "BLD"],
+  cats: ["LEG", "IRS", "OPS", "RSK"],
+  chapters: [
+    { no: "第25条", title: "データ保護バイデザイン及びバイデフォルト", cat: ["DEV", "LEG"] },
+    { no: "第28条", title: "処理者（委託先）に関する要件", cat: ["SCM", "LEG"] },
+    { no: "第32条", title: "処理のセキュリティ", cat: ["OPS", "RSK"], note: "仮名化・暗号化、機密性・完全性・可用性・復元力、定期的な有効性テスト。" },
+    { no: "第33条", title: "監督機関への個人データ侵害の通知（72時間）", cat: ["IRS", "LEG"] },
+    { no: "第34条", title: "データ主体への個人データ侵害の連絡", cat: ["IRS", "LEG"] },
+    { no: "第35条", title: "データ保護影響評価（DPIA）", cat: ["RSK", "LEG"] }
+  ],
+  rel: [{ to: "iso27701", kind: "impl" }, { to: "eu-nis2", kind: "ref", note: "報告義務が並走する" }, { to: "jp-appi", kind: "align" }]
+},
+{
+  id: "eu-machinery",
+  short: "機械規則 (EU) 2023/1230",
+  title: "機械類に関する規則",
+  orig: "Regulation (EU) 2023/1230 on machinery",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2023/1230（機械指令 2006/42/EC を置換）", year: 2023,
+  binding: "強制（2027年1月20日から適用）",
+  url: "https://eur-lex.europa.eu/eli/reg/2023/1230/oj",
+  summary: "旧機械指令を置き換える規則。安全性に影響するセキュリティ要件が必須健康安全要求事項（EHSR）に新設された点が新しい。制御システムが意図的な改ざん（corruption）に耐えること、安全機能に関わるソフトウェアとデータの完全性が保たれること、その記録が残ることを求める。産業機械・ロボットの CE マーキングにセキュリティ評価が組み込まれることを意味する。",
+  scope: "EU 市場に上市する機械類とその関連製品。産業用ロボット、工作機械、生産設備。",
+  domains: ["FA", "SEMI"],
+  cats: ["LEG", "DEV", "RSK"],
+  chapters: [
+    { no: "第III章", title: "適合性評価の手続き", cat: ["LEG", "ASR"] },
+    { no: "附属書I", title: "高リスク機械類のカテゴリ", cat: ["LEG"], note: "安全機能を持つソフトウェア、AI を用いた安全関連システムを含む。" },
+    { no: "附属書III 1.1.9", title: "改ざんに対する保護（Protection against corruption）", cat: ["DEV"], note: "制御システムへの意図的・非意図的な接続が危険な状況を生じさせないこと。ソフトウェア・データの改ざん検知と記録。" },
+    { no: "附属書III 1.2.1", title: "制御システムの安全性と信頼性", cat: ["DEV"] },
+    { no: "附属書III 1.2.6", title: "動力供給の途絶", cat: ["DEV", "BCP"] }
+  ],
+  rel: [{ to: "iec63074", kind: "impl" }, { to: "iec62443-4-2", kind: "impl" }, { to: "eu-cra", kind: "ref", note: "同一製品に双方が適用される場合の関係整理が必要" }]
+},
+{
+  id: "eu-red-da",
+  short: "RED 委任規則 (EU) 2022/30",
+  title: "無線機器指令 第3条(3)(d)(e)(f) の適用に関する委任規則",
+  orig: "Commission Delegated Regulation (EU) 2022/30 supplementing Directive 2014/53/EU",
+  issuer: "欧州委員会",
+  region: "EU", type: "REG", version: "2022/30", year: 2022,
+  binding: "強制（2025年8月1日から適用）",
+  url: "https://eur-lex.europa.eu/eli/reg_del/2022/30/oj",
+  summary: "無線機器指令（RED）の基本要求のうち、ネットワークの保護（3(3)(d)）、個人データとプライバシーの保護（3(3)(e)）、不正な課金からの保護（3(3)(f)）を、インターネット接続する無線機器へ適用可能にした委任規則。整合規格 EN 18031-1/-2/-3 により適合を推定できる。Wi-Fi／Bluetooth を搭載する製品はほぼ全て対象となるため、家電・空調・ビル機器の EU 出荷に直接関わる。",
+  scope: "インターネットに接続できる無線機器、個人データ／トラフィックデータ／位置データを処理する無線機器、電子的な金銭のやり取りが可能な無線機器。",
+  domains: ["LIFE", "BLD", "AUTO", "FA"],
+  cats: ["LEG", "DEV"],
+  chapters: [
+    { no: "第3条(3)(d)", title: "ネットワークへの害の防止と機能の悪用防止", cat: ["DEV"], note: "整合規格 EN 18031-1 が対応。" },
+    { no: "第3条(3)(e)", title: "個人データ及び利用者のプライバシーの保護", cat: ["DEV", "LEG"], note: "整合規格 EN 18031-2 が対応。" },
+    { no: "第3条(3)(f)", title: "不正・詐欺からの保護", cat: ["DEV"], note: "整合規格 EN 18031-3 が対応。" }
+  ],
+  rel: [{ to: "etsi303645", kind: "align" }, { to: "eu-cra", kind: "ref", note: "CRA の適用開始に伴い対象範囲が整理される" }]
+},
+{
+  id: "eu-aiact",
+  short: "AI Act (EU) 2024/1689",
+  title: "人工知能に関する調和規則（AI法）",
+  orig: "Regulation (EU) 2024/1689 laying down harmonised rules on artificial intelligence",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2024/1689", year: 2024,
+  binding: "強制（段階適用。高リスクAIの義務は2026年8月以降が中心）",
+  url: "https://eur-lex.europa.eu/eli/reg/2024/1689/oj",
+  summary: "AI システムをリスクに応じて分類し、高リスク AI に対して品質管理・データガバナンス・技術文書・ログ・人間による監督・正確性／堅牢性／サイバーセキュリティの要件を課す規則。附属書I に列挙された製品（機械、無線機器、昇降機、産業機器など）の安全構成要素として AI を用いる場合、その製品は高リスク AI に分類されうる点が製造業にとって重要。",
+  scope: "EU 市場に AI システムを上市・提供する者。製品に組み込む AI（外観検査、予知保全、昇降機の制御など）も対象になりうる。",
+  domains: ["FA", "BLD", "AUTO", "LIFE", "IT", "CORP"],
+  cats: ["LEG", "DEV", "RSK", "GOV"],
+  chapters: [
+    { no: "第6条・附属書I", title: "高リスクAIシステムの分類規則", cat: ["LEG", "RSK"], note: "EU の製品安全法令（機械、無線機器、昇降機、自動車など）の対象製品の安全構成要素であるAIは高リスクとなりうる。" },
+    { no: "第9条", title: "リスク管理システム", cat: ["RSK"] },
+    { no: "第10条", title: "データ及びデータガバナンス", cat: ["DEV", "GOV"] },
+    { no: "第12条", title: "記録の保持（ログ）", cat: ["MON"] },
+    { no: "第14条", title: "人間による監督", cat: ["GOV", "OPS"] },
+    { no: "第15条", title: "正確性、堅牢性及びサイバーセキュリティ", cat: ["DEV", "OPS"], note: "データポイズニング、モデルポイズニング、敵対的サンプル、モデル回避、機密性攻撃への対策を明示的に要求。" },
+    { no: "第17条", title: "品質管理システム", cat: ["GOV", "ASR"] },
+    { no: "第73条", title: "重大なインシデントの報告", cat: ["IRS", "LEG"] }
+  ],
+  rel: [{ to: "iso42001", kind: "impl" }, { to: "eu-machinery", kind: "ref" }, { to: "eu-cra", kind: "ref" }]
+},
+{
+  id: "eu-dora",
+  short: "DORA (EU) 2022/2554",
+  title: "金融セクターのデジタルオペレーショナルレジリエンスに関する規則",
+  orig: "Regulation (EU) 2022/2554 on digital operational resilience for the financial sector",
+  issuer: "欧州議会・理事会",
+  region: "EU", type: "LAW", version: "2022/2554", year: 2022,
+  binding: "強制（2025年1月17日から適用）",
+  url: "https://eur-lex.europa.eu/eli/reg/2022/2554/oj",
+  summary: "金融機関とその重要な ICT サードパーティプロバイダに、ICT リスク管理、インシデント報告、デジタルオペレーショナルレジリエンステスト（脅威主導型ペネトレーションテストを含む）、第三者リスク管理、情報共有を義務づける規則。金融機関に ICT サービスを提供する事業者は、契約要件として DORA の要求を負う。",
+  scope: "EU の金融機関と、それに ICT サービスを提供する事業者（クラウド、データセンタ、ソフトウェアベンダ等）。",
+  domains: ["IT", "CORP"],
+  cats: ["LEG", "RSK", "IRS", "SCM", "ASR", "BCP"],
+  chapters: [
+    { no: "第II章", title: "ICT リスク管理の枠組み", cat: ["RSK", "GOV", "OPS"] },
+    { no: "第III章", title: "ICT 関連インシデントの管理・分類・報告", cat: ["IRS", "LEG"] },
+    { no: "第IV章", title: "デジタルオペレーショナルレジリエンステスト", cat: ["ASR"], note: "脅威主導型ペネトレーションテスト（TLPT）を含む。" },
+    { no: "第V章", title: "ICT サードパーティリスクの管理", cat: ["SCM"], note: "契約に含めるべき事項、重要プロバイダの監督枠組み。" },
+    { no: "第VI章", title: "情報共有の取決め", cat: ["MON"] }
+  ],
+  rel: [{ to: "eu-nis2", kind: "ref", note: "金融分野では DORA が lex specialis として優先する" }, { to: "iso22301", kind: "impl" }]
+},
+{
+  id: "eu-enisa-guidance",
+  short: "ENISA 実装ガイダンス",
+  title: "NIS2 技術的実装ガイダンス／各種 ENISA 刊行物",
+  orig: "ENISA Technical Implementation Guidance on Cybersecurity Risk Management Measures, ENISA Threat Landscape, and sectoral guidance",
+  issuer: "ENISA（欧州連合サイバーセキュリティ機関）",
+  region: "EU", type: "GL", version: "継続発行", year: 2025,
+  binding: "任意（法的拘束力はないが監督当局の期待水準を示す）",
+  url: "https://www.enisa.europa.eu/",
+  summary: "実施規則 (EU) 2024/2690 の各要件について、具体的な実施例、証跡の例、参照規格（ISO/IEC 27001、NIST CSF、IEC 62443 等）へのマッピングを示すガイダンス。年次の ENISA Threat Landscape はセクタ別の脅威動向の基礎資料として広く参照される。NIS2 対応で「どこまでやれば十分か」を判断する実務的な拠り所になる。",
+  scope: "NIS2 の対象事業体、および EU 域内でセキュリティ水準を説明する必要のある事業者。",
+  domains: ["PWR", "RAIL", "IT", "FA", "CORP", "BLD"],
+  cats: ["LEG", "OPS", "RSK", "MON"],
+  chapters: [
+    { no: "TIG", title: "技術的実装ガイダンス（実施規則の要件別）", cat: ["OPS", "LEG"], note: "要件ごとの手引、実施例、証跡、国際規格へのマッピング表。" },
+    { no: "ETL", title: "ENISA Threat Landscape（年次）", cat: ["MON", "RSK"], note: "主要な脅威カテゴリ、セクタ別の被害統計、攻撃者動向。" },
+    { no: "Sectoral", title: "セクタ別の脅威分析（エネルギー、輸送、製造 等）", cat: ["RSK", "MON"] }
+  ],
+  rel: [{ to: "eu-nis2-ir", kind: "parent" }, { to: "eu-nis2", kind: "parent" }, { to: "iso27001", kind: "align" }]
+}
+
+]);
